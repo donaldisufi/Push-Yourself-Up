@@ -8,66 +8,86 @@ import {
   Text,
   TouchableOpacity,
   View,
+  Dimensions
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
+import ButtonHome from '../components/ButtonHome';
+import DataContext from '../components/DataContext';
+import { TextInput } from 'react-native-gesture-handler';
 
-export default function HomeScreen() {
-  return (
-    <View style={styles.container}>
-      <ScrollView
-        style={styles.container}
-        contentContainerStyle={styles.contentContainer}>
-        <View style={styles.welcomeContainer}>
-          <Image
-            source={
-              __DEV__
-                ? require('../assets/images/robot-dev.png')
-                : require('../assets/images/robot-prod.png')
-            }
-            style={styles.welcomeImage}
-          />
-        </View>
+let {height,width} = Dimensions.get('window');
 
-        <View style={styles.getStartedContainer}>
-          <DevelopmentModeNotice />
-
-          <Text style={styles.getStartedText}>Get started by opening</Text>
-
-          <View
-            style={[styles.codeHighlightContainer, styles.homeScreenFilename]}>
-            <MonoText>screens/HomeScreen.js</MonoText>
-          </View>
-
-          <Text style={styles.getStartedText}>
-            Change this text and your app will automatically reload.
+export default class HomeScreen extends React.Component{
+  constructor(props){
+    super(props);
+    this.state={};
+  }
+  render(){
+    return(
+    <DataContext.Consumer>
+      {(data)=>(
+      <View style={style.container}>
+        <View style={style.nalt}>
+          <Text style={{fontSize:30}}>
+            Your Pushup Record :
+          </Text>
+          <Text style={{fontSize:25}}>
+            {data.record}
           </Text>
         </View>
+        <View style={style.posht}>
+          <ButtonHome 
+            style={{width:width*0.83}}
+            onPress={()=>{}}
+            name="md-clock"
+            title="Training"
+            
+            />
+          <View style={{padding:10,marginTop:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+          <ButtonHome 
+            title="Practise"
+            name="md-fitness" 
+            onPress={()=>{this.props.navigation.navigate('Practise')}}
+            style={{marginRight:10}}
+            />
+          <ButtonHome 
+            title="Practise"
+            name="md-fitness" 
+            onPress={()=>{}}
+            />
+          </View>
 
-        <View style={styles.helpContainer}>
-          <TouchableOpacity onPress={handleHelpPress} style={styles.helpLink}>
-            <Text style={styles.helpLinkText}>
-              Help, it didn’t automatically reload!
-            </Text>
-          </TouchableOpacity>
         </View>
-      </ScrollView>
-
-      <View style={styles.tabBarInfoContainer}>
-        <Text style={styles.tabBarInfoText}>
-          This is a tab bar. You can edit it in:
-        </Text>
-
-        <View
-          style={[styles.codeHighlightContainer, styles.navigationFilename]}>
-          <MonoText style={styles.codeHighlightText}>
-            navigation/MainTabNavigator.js
-          </MonoText>
-        </View>
-      </View>
-    </View>
-  );
+     </View>)}
+    </DataContext.Consumer>);
+  }
 }
+
+const style = StyleSheet.create({
+  container:{
+    flex:1,
+    justifyContent:'center',
+    alignItems:'center'
+  },
+  nalt:{
+    height:height*0.60,
+    justifyContent:'center',
+    alignItems:'center',
+    flexDirection:'column'
+  },
+  posht:{
+    height:height*0.4,
+    justifyContent:'center',
+    alignItems:'center'
+  }
+})
+
+
+
+
+
+
 
 HomeScreen.navigationOptions = {
   header: null,

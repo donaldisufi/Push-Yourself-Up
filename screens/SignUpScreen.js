@@ -1,16 +1,27 @@
 import React from 'react';
 import {
     View,
-    Text,
-    StyleSheet
+    AsyncStorage,
+    Dimensions,
+    StyleSheet,
+    Text
 } from 'react-native';
 
-export default class SettingsScreen extends React.Component{
+export default class SignUpScreen extends React.Component{
+    constructor(props){
+        super(props);
+        this.state={
+            name:'',
+            email:'',
+            password:'',
+            confirmPassword:''
+        }
+    }
     render(){
         return(
             <View>
                 <Text>
-                    Link
+                    Sign up
                 </Text>
             </View>
         );

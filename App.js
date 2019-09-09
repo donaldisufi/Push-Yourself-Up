@@ -5,27 +5,43 @@ import React, { useState } from 'react';
 import { Platform, StatusBar, StyleSheet, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
+import DataContext from './components/DataContext';
 import AppNavigator from './navigation/AppNavigator';
+//const [isLoadingComplete, setLoadingComplete] = useState(false);
 
-export default function App(props) {
-  const [isLoadingComplete, setLoadingComplete] = useState(false);
+export default class App extends React.Component{
+  
 
-  if (!isLoadingComplete && !props.skipLoadingScreen) {
-    return (
-      <AppLoading
-        startAsync={loadResourcesAsync}
-        onError={handleLoadingError}
-        onFinish={() => handleFinishLoading(setLoadingComplete)}
-      />
-    );
-  } else {
+
+state ={
+     setRecord:(val)=>{
+       this.setState({
+         record:val
+       })
+     },
+    record:0,
+}
+
+render(){
+  // if (!isLoadingComplete && !props.skipLoadingScreen) {
+  //   return (
+  //     <AppLoading
+  //       startAsync={loadResourcesAsync}
+  //       onError={handleLoadingError}
+  //       onFinish={() => handleFinishLoading(setLoadingComplete)}
+  //     />
+  //   );
+  // } else {
     return (
       <View style={styles.container}>
-        {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-        <AppNavigator />
+        <DataContext.Provider value={this.state}>
+          {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+          <AppNavigator />
+        </DataContext.Provider>
       </View>
     );
-  }
+  
+    }
 }
 
 async function loadResourcesAsync() {
