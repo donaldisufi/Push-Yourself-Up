@@ -52,8 +52,8 @@ export default class HomeScreen extends React.Component{
             style={{marginRight:10}}
             />
           <ButtonHome 
-            title="Practise"
-            name="md-fitness" 
+            title="Advices"
+            name="md-clipboard" 
             onPress={()=>{}}
             />
           </View>

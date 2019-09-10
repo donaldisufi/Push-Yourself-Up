@@ -13,12 +13,12 @@ let {height,width} = Dimensions.get('window');
 export default class ButtonHome extends React.Component{
     render(){
      return( <TouchableOpacity onPress={this.props.onPress} style={[style.container,this.props.style]}>
-        <Ionicons 
+        {this.props.name?<Ionicons 
          name={this.props.name}
          size={35}
          color={Colors.tabIconDefault}
          style={{marginRight:10}}
-        />
+        />:null}
         <Text style={[style.text,this.props.styleText]}>
             {this.props.title}
         </Text>
