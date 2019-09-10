@@ -12,6 +12,8 @@ import {
 import Input from '../components/Input';
 import RadioButton from '../components/RadioButton';
 import ButtonHome from '../components/ButtonHome';
+import axios from 'axios';
+import DataContext from '../components/DataContext';
 
 
 let {height,width}  = Dimensions.get('window');
@@ -28,7 +30,8 @@ export default class SignUpScreen extends React.Component{
             confirmPassword:'',
             checked:'Male',
             errorName:false,
-            errorKg:false
+            errorKg:false,
+            loadPost:false,
         }
     }
     render(){
@@ -72,24 +75,42 @@ export default class SignUpScreen extends React.Component{
                         onPress={()=>{this.setState({checked:'Female'})}}
                     
                     />
-                    <ButtonHome
-                            title="Continue"
-                            onPress={()=>{
+                    <DataContext.Consumer>{(data)=>(
+                        <ButtonHome
+                                title="Continue"
+                                load={this.state.loadPost}
+                                onPress={()=>{
 
-                               if(this.state.name.length>=1 && this.state.kilogram.length >=1){
-                                this.props.navigation.navigate('Main')
-                                } else {
-                                    if(this.state.name.length<1){
-                                        this.setState({errorName:true});
+                                if(this.state.name.length>=1 && this.state.kilogram.length >=1){
+                                    this.setState({loadPost:true})
+                                    axios({
+                                        method:'POST',
+                                        url:'https://pushyourselfup.herokuapp.com/users',
+                                        data:{
+                                            name:this.state.name,
+                                            kg:this.state.kilogram,
+                                            gender:this.state.checked
+                                        }
+                                    }).then( response =>{
+                                        
+                                         this.props.navigation.navigate('Main');
+                                    }).catch(error=>{
+                                        console.log(error);
+                                    });
+                                    } else {
+                                        if(this.state.name.length<1){
+                                            this.setState({errorName:true});
+                                        }
+                                        if(this.state.kilogram.length<1){
+                                            this.setState({errorKg:true})
+                                        }
+                                        
                                     }
-                                    if(this.state.kilogram.length<1){
-                                        this.setState({errorKg:true})
-                                    }
-                                }
-                                
-                               }}
-                            style={{marginBottom:10,width:width*0.8}}
-                    />
+                                    
+                                }}
+                                style={{marginBottom:10,width:width*0.8}}
+                        />
+                      )}</DataContext.Consumer>
                     </View>
                 </KeyboardAvoidingView>
             </View>

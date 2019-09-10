@@ -5,13 +5,16 @@ import {
     Dimensions,
     Text,
     ImageBackground,
-    Modal
+    Modal,
+    
 } from 'react-native';
 
 import CircleBtn from '../components/CircleBtn'
 import FinishedBtn from '../components/FinishedBtn';
 import { TextInput } from 'react-native-gesture-handler';
 import DataContext from '../components/DataContext';
+//import  {Proximity}  from  'react-native-proximity';
+   
 
 let {height,width} = Dimensions.get('window');
 
@@ -27,6 +30,15 @@ export default class PractiseScreen extends React.Component{
            setgoalVisible:true,
        };
    }
+//    componentDidMount=()=>{
+//        Proximity.addListener(this._proximityListener);
+//    }
+//    componentWillUnmount=()=>{
+//      Proximity.removeListener(this._proximityListener);
+//    }
+//    _proximityListener=(data)=>{
+//      console.log(data);
+//    }
     // modal=(modalVisible)=>{
     //   this.setState({modalVisible});
     // }

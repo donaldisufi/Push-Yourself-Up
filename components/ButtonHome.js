@@ -3,7 +3,8 @@ import {
     TouchableOpacity,
     Text,
     StyleSheet,
-    Dimensions
+    Dimensions,
+    ActivityIndicator
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
 import Colors from '../constants/Colors';
@@ -19,9 +20,9 @@ export default class ButtonHome extends React.Component{
          color={Colors.tabIconDefault}
          style={{marginRight:10}}
         />:null}
-        <Text style={[style.text,this.props.styleText]}>
+        {this.props.load?<ActivityIndicator />:<Text style={[style.text,this.props.styleText]}>
             {this.props.title}
-        </Text>
+        </Text>}
     </TouchableOpacity>)
     }
 }
