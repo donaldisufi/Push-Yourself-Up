@@ -83,20 +83,23 @@ export default class SignUpScreen extends React.Component{
 
                                 if(this.state.name.length>=1 && this.state.kilogram.length >=1){
                                     this.setState({loadPost:true})
-                                    axios({
-                                        method:'POST',
-                                        url:'https://pushyourselfup.herokuapp.com/users',
-                                        data:{
-                                            name:this.state.name,
-                                            kg:this.state.kilogram,
-                                            gender:this.state.checked
-                                        }
-                                    }).then( response =>{
-                                        
-                                         this.props.navigation.navigate('Main');
-                                    }).catch(error=>{
-                                        console.log(error);
-                                    });
+                                        axios({
+                                            method:'POST',
+                                            url:'https://pushyourselfup.herokuapp.com/users',
+                                            data:{
+                                                name:this.state.name,
+                                                kg:this.state.kilogram,
+                                                gender:this.state.checked
+                                            }
+                                        }).then( response =>{
+                                            console.log(response.data);
+                                            this.setState({loadPost:false});
+                                            this.props.navigation.navigate('Main');
+                                        }).catch(error=>{
+                                            console.log(error);
+                                            alert(error.message)
+                                            this.setState({loadPost:false});
+                                        });
                                     } else {
                                         if(this.state.name.length<1){
                                             this.setState({errorName:true});

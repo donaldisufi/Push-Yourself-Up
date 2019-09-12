@@ -20,6 +20,61 @@ state ={
        })
      },
     record:0,
+    level1:false,
+    level2:true,
+    level3:true,
+    level4:true,
+    level5:true,
+    level6:true,
+    level7:true,
+    level8:true,
+    level9:true,
+    level10:true,
+    level11:true,
+    level12:true,
+    setLevel:(val,level)=>{
+      switch(level){
+        case 1 :
+         this.setState({level1:val});
+         break;
+       case 2 :
+           this.setState({level2:val});
+           break;
+       case 3 :
+          this.setState({level3:val});
+          break;
+       case 4 :
+           this.setState({level4:val});
+           break;
+       case 5 :
+           this.setState({level5:val});
+          break ;
+       case 6 :
+          this.setState({level6:val});
+          break;
+       case 7 :
+          this.setState({level7:val});
+          break;
+       case 8 :
+          this.setState({level8:val});
+          break; 
+       case 9 :
+          this.setState({level9:val});
+          break; 
+       case 10 :
+          this.setState({level10:val});
+          break;
+       case 11 :
+         this.setState({level11:val});
+         break;
+       default:
+         this.setState({level12:val});}
+    },
+    currentLevel:1,
+    setCurrentLevel:(currentLevel)=>{
+      this.setState({currentLevel});
+    },
+    
 }
 
 render(){

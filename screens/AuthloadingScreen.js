@@ -11,7 +11,7 @@ export default class AuthloadingScreen extends React.Component{
     }
     loadApp=()=>{
         setTimeout(()=>{
-         this.props.navigation.navigate('Register');
+         this.props.navigation.navigate('Main');
         },0);
     }
     render(){

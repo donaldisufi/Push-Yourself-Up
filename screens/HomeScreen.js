@@ -39,7 +39,7 @@ export default class HomeScreen extends React.Component{
         <View style={style.posht}>
           <ButtonHome 
             style={{width:width*0.83}}
-            onPress={()=>{}}
+            onPress={()=>{this.props.navigation.navigate('Train')}}
             name="md-clock"
             title="Training"
             
