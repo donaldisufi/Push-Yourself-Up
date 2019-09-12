@@ -13,9 +13,9 @@ export default class CircleBtn extends React.Component{
     render(){
        return(
            <TouchableOpacity onPress={this.props.onPress} style={[style.container,this.props.style]}>
-               <Text style={style.text}>
+              {this.props.number? <Text style={style.text}>
                 {this.props.number}
-               </Text>
+               </Text>:this.props.children}
            </TouchableOpacity>
        )
     }

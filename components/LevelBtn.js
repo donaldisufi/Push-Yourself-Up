@@ -4,14 +4,25 @@ import {
     Text,
     StyleSheet
 } from 'react-native';
+import {Ionicons} from '@expo/vector-icons';
+import Colors from '../constants/Colors';
+
 
 export default class LevelBtn extends React.Component{
     render(){
         return(
             <TouchableOpacity disabled={this.props.disabled} onPress={this.props.onPress} style={[style.container,{backgroundColor:this.props.disabled?'#847F7F':'#2EA0D1',borderColor:this.props.disabled?'#ACACAC':'#4FB2F4'}]}>
-                <Text style={style.text}>
+                {this.props.disabled?<Ionicons 
+                 name="md-lock"
+                 size={30}
+                 color={Colors.tabIconDefault}
+                 style={{justifyContent:'center',alignItems:'center'}}
+                 >
+                  
+                 </Ionicons>
+                :<Text style={style.text}>
                     {this.props.level}
-                </Text>
+                </Text>}
             </TouchableOpacity>
         )
     }

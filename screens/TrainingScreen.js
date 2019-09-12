@@ -7,6 +7,8 @@ import {
 } from 'react-native';
 import LevelBtn from '../components/LevelBtn';
 import DataContext from '../components/DataContext';
+import {Ionicons} from '@expo/vector-icons';
+
 
 export default class TrainingScreen extends React.Component {
    static navigationOptions={

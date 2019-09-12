@@ -106,10 +106,7 @@ export default class PractiseScreen extends React.Component{
                     <View style={{height:'60%',justifyContent:'center',alignItems:'center'}}>
                         <CircleBtn 
                             onPress={()=>{
-                            
-                            
                                 this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false});
-                            
                             }}
                             number={this.state.number}
                         />
