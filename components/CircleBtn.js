@@ -12,7 +12,7 @@ let {height,width} = Dimensions.get('window');
 export default class CircleBtn extends React.Component{
     render(){
        return(
-           <TouchableOpacity onPress={this.props.onPress} style={[style.container,this.props.style]}>
+           <TouchableOpacity disabled={this.props.disabled} onPress={this.props.onPress} style={[style.container,this.props.style]}>
               {this.props.number? <Text style={style.text}>
                 {this.props.number}
                </Text>:this.props.children}

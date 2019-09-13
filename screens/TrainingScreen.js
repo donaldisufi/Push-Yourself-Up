@@ -32,7 +32,8 @@ export default class TrainingScreen extends React.Component {
                     <LevelBtn 
                      level={1}
                      disabled={data.level1}
-                     key={1}                
+                     key={1}        
+                     onPress={()=>{this.props.navigation.navigate('Current')}}        
                     />
                 </View>
                 <View style={style.levelItem}>
