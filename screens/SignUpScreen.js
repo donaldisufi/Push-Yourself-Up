@@ -6,15 +6,16 @@ import {
     StyleSheet,
     Text,
     Image,
-    KeyboardAvoidingView
-    
+    KeyboardAvoidingView,
+
 } from 'react-native';
 import Input from '../components/Input';
 import RadioButton from '../components/RadioButton';
 import ButtonHome from '../components/ButtonHome';
 import axios from 'axios';
 import DataContext from '../components/DataContext';
-
+import deviceStorage from '../components/service/deviceStorage';
+import configAxios from '../components/service/configAxios';
 
 let {height,width}  = Dimensions.get('window');
 
@@ -83,16 +84,18 @@ export default class SignUpScreen extends React.Component{
 
                                 if(this.state.name.length>=1 && this.state.kilogram.length >=1){
                                     this.setState({loadPost:true})
-                                        axios({
-                                            method:'POST',
-                                            url:'https://pushyourselfup.herokuapp.com/users',
-                                            data:{
-                                                name:this.state.name,
-                                                kg:this.state.kilogram,
-                                                gender:this.state.checked
+                                       axios({
+                                           url:"/signup",
+                                           method:'post',
+                                           data:{
+                                               name:this.state.name,
+                                               gender:this.state.checked,
+                                               kg:this.state.kilogram,       
                                             }
-                                        }).then( response =>{
-                                            console.log(response.data);
+                                       }).then( response =>{
+                                            let token = response.data.token;
+                                            deviceStorage.setItem('@token',token);
+                                            configAxios(token);
                                             this.setState({loadPost:false});
                                             this.props.navigation.navigate('Main');
                                         }).catch(error=>{

@@ -7,12 +7,19 @@ import { Ionicons } from '@expo/vector-icons';
 
 import DataContext from './components/DataContext';
 import AppNavigator from './navigation/AppNavigator';
+import deviceStorage from './components/service/deviceStorage';
+import configAxios from './components/service/configAxios';
 //const [isLoadingComplete, setLoadingComplete] = useState(false);
 
+
+
 export default class App extends React.Component{
-  
 
-
+componentWillMount=()=>{
+  deviceStorage.getJWT().then(res=>{
+    configAxios(res);
+  })
+}
 state ={
      setRecord:(val)=>{
        this.setState({

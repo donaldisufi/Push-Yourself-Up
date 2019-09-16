@@ -3,6 +3,7 @@ import {
     View,
     ActivityIndicator
 } from 'react-native';
+import deviceStorage from '../components/service/deviceStorage';
 
 export default class AuthloadingScreen extends React.Component{
     constructor(props){
@@ -11,12 +12,18 @@ export default class AuthloadingScreen extends React.Component{
     }
     loadApp=()=>{
         setTimeout(()=>{
-         this.props.navigation.navigate('Main');
-        },0);
+          deviceStorage.getJWT().then(res=>{
+              if(res){
+                  this.props.navigation.navigate('Main');
+              }else{
+                  this.props.navigation.navigate('Register');
+              }
+          })
+        },1000);
     }
     render(){
         return(
-            <View>
+            <View style={{justifyContent:'center',alignItems:'center'}}>
                 <ActivityIndicator />
             </View>
         )

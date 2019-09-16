@@ -2,11 +2,14 @@ import React from 'react';
 import {
     View,
     StyleSheet,
-    Text
+    Text,
+    Vibration
  } from 'react-native';
 import DataContext from '../'
 import CircleBtn from '../components/CircleBtn';
 import FinishedBtn from '../components/FinishedBtn';
+import Sound from 'react-native-sound';
+
 
  export default  class CurrentLevel extends React.Component{
     static navigationOptions={
@@ -15,31 +18,46 @@ import FinishedBtn from '../components/FinishedBtn';
     constructor(props){
          super(props);
          this.state={
-           series:[7,8,6,9],
+           series:[7,8,6,9,8],
            currentSerie:0,
            restTime:false,
            timer:59,
            finished:false,
            goal:0,
-           currentPush:0,
            disabledButton:false,
+           
          },
          this.ismounted=false;
-        
+       
      }
      componentWillUnmount=()=>{
         this.ismounted=false;
      }
-     startTimer=()=>{
-       setTimeout(()=>{
+    startTimer=()=>{
+      setTimeout(()=>{
         if(this.state.timer >0){
-         this.ismounted && this.setState({timer:this.state.timer-1})
-         this.ismounted && this.startTimer();
+          this.state.restTime &&  this.ismounted && this.setState({timer:this.state.timer-1})
+          this.state.restTime &&  this.ismounted && this.startTimer();
         } else{
-          this.ismounted && this.setState({restTime:false,goal:this.state.series[this.state.currentSerie],finished:false,currentPush:0,timer:59,disabledButton:false});
+          this.ismounted && this.setState({restTime:false,goal:this.state.series[this.state.currentSerie],finished:false,timer:59,disabledButton:false});
         }
        },1000)
      }
+    //  playSound=()=>{
+    //   let hello = new Sound(require('../assets/sound/PushUpsSound.mp3') , Sound.MAIN_BUNDLE, (error) => {
+    //     if (error) {
+    //       console.log(error)
+    //     }
+    //   })
+      
+    //   hello.play((success) => {
+    //     if (!success) {
+    //       console.log('Sound did not play')
+    //     }
+    //   });
+
+    //  }
+
      
      componentDidMount=()=>{
        this.ismounted=true;
@@ -64,25 +82,40 @@ import FinishedBtn from '../components/FinishedBtn';
                     {this.renderButtons(this.state.series)}
                   </View>
                   <View style={style.posht} >
-                    <View style={{height:60,width:'100%',justifyContent:'center',alignItems:'center'}}>
-                          <Text> Goal : {this.state.goal}</Text>
-                    </View>
+                   <View style={{height:60,justifyContent:'center',alignItems:'center'}}>
+                         {this.state.restTime?<Text style={{fontSize:22,color:'#2EA0D1'}}>
+                           Rest Time 
+                         </Text>:null}
+                   </View>
                     <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
-                      this.setState({goal:this.state.goal<=0?0:this.state.goal-1,currentPush:this.state.currentPush+1,finished:this.state.goal<=0?true:false})
-                
+                        // this.playSound();
+                        this.setState({goal:this.state.goal<=0?0:this.state.goal-1,finished:this.state.goal<=0?true:false},function(){
+                          if(this.state.goal<=0){
+                            this.startTimer();
+                           this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true})
+                          }
+                        });
+                     
                     }}>
-                       {this.state.restTime?<Text style={{fontSize:25,color:'white',fontWeight:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:25,color:'white',fontWeight:'bold'}}>{this.state.currentPush}</Text>}
+                       {this.state.restTime?<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{this.state.goal}</Text>}
                     </CircleBtn>
                   </View> 
                   <View style={{height:'12%',justifyContent:'center',alignItems:'center',width:'100%'}}>
-                      {this.state.finished?<FinishedBtn
-                        style={{width:'100%'}}
-                        title="finish"
-                        onPress={()=>{
+                    {this.state.restTime?
+                     <FinishedBtn 
+                       title="Continue"
+                       style={{width:'100%'}}
+                       onPress={()=>{
+                        this.setState({restTime:false,goal:this.state.series[this.state.currentSerie],finished:false,timer:59,disabledButton:false});
+                       }}
+                     />: <FinishedBtn
+                          style={{width:'100%'}}
+                          title="Finish"
+                          onPress={()=>{
                           this.startTimer();
                           this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true})
                         }}
-                      />:null}
+                      />}
                   </View>
            </View>
          );
@@ -99,14 +132,12 @@ import FinishedBtn from '../components/FinishedBtn';
        justifyContent:'center',
        alignItems:'center',
        flexDirection:'row',
-       padding:5
-     
-
+       padding:5,
      },
      posht:{
       height:'73%',
        justifyContent:'center',
-       alignItems:'center'
+       alignItems:'center',
      },
      renderButton:{
        height:'100%',
@@ -114,7 +145,5 @@ import FinishedBtn from '../components/FinishedBtn';
        justifyContent:'center',
        alignItems:'center',
        borderRadius:20,
-
-
      }
  })
