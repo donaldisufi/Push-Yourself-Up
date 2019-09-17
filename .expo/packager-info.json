@@ -5,6 +5,6 @@
   "expoServerPort": 19000,
   "webpackServerPort": 19003,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 13892
+  "packagerPort": null,
+  "packagerPid": null
 }
