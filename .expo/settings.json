@@ -1,0 +1,7 @@
+{
+  "urlRandomness": "s5-mwe",
+  "hostType": "lan",
+  "lanType": "ip",
+  "dev": true,
+  "minify": false
+}
