@@ -60,9 +60,7 @@ export default class PractiseScreen extends React.Component{
         return(
             <DataContext.Consumer>
                 {(data)=>(
-            <View style={style.container}>
-
-                
+            <View style={style.container}>               
                 <Modal 
                     visible={this.state.modalVisible}
                     transparent={true}
@@ -79,7 +77,7 @@ export default class PractiseScreen extends React.Component{
                 </Modal>
 
                <View style={style.nalt}>
-                    <View style={{height:'15%',width:'100%',flexDirection:'row',top:0}}>
+                    <View style={{height:'15%',width:'100%',flexDirection:'row',top:0,borderColor:'red',borderWidth:1}}>
                         <View style={{width:'60%'}}>
 
                         </View>
@@ -89,7 +87,7 @@ export default class PractiseScreen extends React.Component{
                            </Text>
                         </View>
                     </View> 
-                    <View  style={{height:'25%',width:'100%',justifyContent:'center',alignItems:'center',marginBottom:50,flexDirection:'row'}}> 
+                    <View  style={{height:'25%',width:'100%',justifyContent:'center',alignItems:'center',marginBottom:50,flexDirection:'row',borderColor:'red',borderWidth:1}}> 
                         {this.state.setgoalVisible? 
                         <FinishedBtn 
                                 title="-"
@@ -103,13 +101,18 @@ export default class PractiseScreen extends React.Component{
                                     onPress={()=>{this.setState({default:this.state.default+1})}}
                             />:<Fragment />}
                     </View>
-                    <View style={{height:'60%',justifyContent:'center',alignItems:'center'}}>
+                    <View style={{height:'60%',justifyContent:'center',alignItems:'center',borderColor:'red',borderWidth:1,width:'100%'}}>
                         <CircleBtn 
                             onPress={()=>{
                                 this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false});
                             }}
-                            number={this.state.number}
-                        />
+                            
+                        >
+                            <Text style={{fontSize:22,color:'white',fontWeight:'bold'}}>
+                                {this.state.number}
+
+                            </Text>
+                        </CircleBtn>
                     </View>
                
                </View>

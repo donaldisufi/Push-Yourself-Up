@@ -3,12 +3,13 @@ import {
     View,
     StyleSheet,
     Text,
-    Vibration
+  
  } from 'react-native';
-import DataContext from '../'
+
 import CircleBtn from '../components/CircleBtn';
 import FinishedBtn from '../components/FinishedBtn';
-import Sound from 'react-native-sound';
+import { Audio } from 'expo-av';
+import SoundBtn from '../components/SoundBtn';
 
 
  export default  class CurrentLevel extends React.Component{
@@ -25,6 +26,7 @@ import Sound from 'react-native-sound';
            finished:false,
            goal:0,
            disabledButton:false,
+           shouldPlay:true,
            
          },
          this.ismounted=false;
@@ -33,6 +35,12 @@ import Sound from 'react-native-sound';
      componentWillUnmount=()=>{
         this.ismounted=false;
      }
+     componentDidMount=()=>{
+      this.ismounted=true;
+      this.ismounted && this.setState({goal:this.state.series[this.state.currentSerie]})
+    }
+
+
     startTimer=()=>{
       setTimeout(()=>{
         if(this.state.timer >0){
@@ -43,27 +51,20 @@ import Sound from 'react-native-sound';
         }
        },1000)
      }
-    //  playSound=()=>{
-    //   let hello = new Sound(require('../assets/sound/PushUpsSound.mp3') , Sound.MAIN_BUNDLE, (error) => {
-    //     if (error) {
-    //       console.log(error)
-    //     }
-    //   })
-      
-    //   hello.play((success) => {
-    //     if (!success) {
-    //       console.log('Sound did not play')
-    //     }
-    //   });
 
-    //  }
+     playSound = async ()=>{
+     
+      const sound = new Audio.Sound();
+      try {
+        await sound.loadAsync(require('../assets/sound/PushUpsSound.mp3'),{shouldPlay:this.state.shouldPlay});
+        
+      }catch(error) {
+       console.log(error);
+      }
+     }
 
      
-     componentDidMount=()=>{
-       this.ismounted=true;
-       this.ismounted && this.setState({goal:this.state.series[this.state.currentSerie]})
-     }
- 
+   
     renderButtons=(data)=>{
       return data.map((value,index)=>(
           <View  style={[style.renderButton]} key={index}>
@@ -82,13 +83,24 @@ import Sound from 'react-native-sound';
                     {this.renderButtons(this.state.series)}
                   </View>
                   <View style={style.posht} >
-                   <View style={{height:60,justifyContent:'center',alignItems:'center'}}>
-                         {this.state.restTime?<Text style={{fontSize:22,color:'#2EA0D1'}}>
-                           Rest Time 
-                         </Text>:null}
-                   </View>
+                   <View style={{flexDirection:'row'}}>
+                      <View style={{height:70,width:'25%'}}>
+                        
+                    </View>
+                    <View style={{height:70,justifyContent:'center',alignItems:'center',width:'50%'}}>
+                          {this.state.restTime?<Text style={{fontSize:22,color:'#2EA0D1'}}>
+                            Rest Time 
+                          </Text>:null}
+                    </View>
+                    <View style={{height:70,width:'25%',justifyContent:'center',alignItems:'center'}} >
+                        <SoundBtn 
+                         name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
+                         onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
+                        />
+                      </View>
+                      </View>
                     <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
-                        // this.playSound();
+                        this.playSound();
                         this.setState({goal:this.state.goal<=0?0:this.state.goal-1,finished:this.state.goal<=0?true:false},function(){
                           if(this.state.goal<=0){
                             this.startTimer();
