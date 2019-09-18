@@ -16,9 +16,9 @@ export default class RadioButton extends React.Component{
                 </Text>
                </View>
                <View style={style.viewRight}>
-                    <View style={{height:34,width:34,borderRadius:17,borderColor:'#AFAEAE',borderWidth:1,justifyContent:'center',alignItems:'center'}}>
-                      {this.props.checked?<View style={{height:30,width:30,borderColor:'#FEFEFE',borderWidth:2,borderRadius:15,backgroundColor:"#2EA0D1"}} />
-                      :<View style={{height:30,width:30,borderRadius:15,borderWidth:2,borderColor:'white'}} />}
+                    <View style={{height:30,width:30,borderRadius:15,borderColor:'#AFAEAE',borderWidth:1,justifyContent:'center',alignItems:'center'}}>
+                      {this.props.checked?<View style={{height:26,width:26,borderColor:'#FEFEFE',borderWidth:2,borderRadius:13,backgroundColor:"#2EA0D1"}} />
+                      :<View style={{height:26,width:26,borderRadius:13,borderWidth:2,borderColor:'white'}} />}
                     </View>
                </View>
               </TouchableOpacity>
@@ -27,7 +27,7 @@ export default class RadioButton extends React.Component{
 }
 const style  = StyleSheet.create({
     container:{
-     height:60,
+     height:40,
      flexDirection:'row',
      justifyContent:'center',
      alignItems:'center',

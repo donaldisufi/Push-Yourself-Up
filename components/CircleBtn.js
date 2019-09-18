@@ -23,9 +23,9 @@ export default class CircleBtn extends React.Component{
 
 const style = StyleSheet.create({
     container:{
-        width:width*0.5,
-        height:180,
-        borderRadius:90,
+        width:width*0.55,
+        height:200,
+        borderRadius:100,
         backgroundColor:'#2EA0D1',
         borderColor:'#2A7697',
         borderWidth:10,

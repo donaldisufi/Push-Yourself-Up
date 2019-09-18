@@ -12,7 +12,8 @@ import CurrentLevel from '../screens/CurrentLevel';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
-  default: {},
+  default: {
+  },
 });
 
 const HomeStack = createStackNavigator(
@@ -59,11 +60,25 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-
   SettingsStack,
+// },{
+//   defaultNavigationOptions:{
+//     header:null
+//   }
 });
+
+// const mainStack = createStackNavigator({
+//   tabNavigator,
+
+// },{
+//   defaultNavigationOptions:{
+//     header:null
+//   }
+// });
+
 
 tabNavigator.path = '';
 

@@ -13,6 +13,9 @@ import CircleBtn from '../components/CircleBtn'
 import FinishedBtn from '../components/FinishedBtn';
 import { TextInput } from 'react-native-gesture-handler';
 import DataContext from '../components/DataContext';
+import SoundBtn from '../components/SoundBtn';
+import { Audio } from 'expo-av';
+
 //import  {Proximity}  from  'react-native-proximity';
    
 
@@ -28,14 +31,19 @@ export default class PractiseScreen extends React.Component{
            default:0,
            buttonVisible:false,
            setgoalVisible:true,
+           shouldPlay:true,
+           disabled:false,
        };
+       this.ismounted=false;
    }
-//    componentDidMount=()=>{
+   componentDidMount=()=>{
+          this.ismounted=true;
 //        Proximity.addListener(this._proximityListener);
-//    }
-//    componentWillUnmount=()=>{
+    }
+   componentWillUnmount=()=>{
+       this.ismounted=false;
 //      Proximity.removeListener(this._proximityListener);
-//    }
+     }
 //    _proximityListener=(data)=>{
 //      console.log(data);
 //    }
@@ -56,6 +64,16 @@ export default class PractiseScreen extends React.Component{
           data.setRecord(this.state.number);
       }
     }
+    playSound=async ()=>{
+     
+        const sound = new Audio.Sound();
+        try {
+         this.ismounted && await sound.loadAsync(require('../assets/sound/PushUpsSound.mp3'),{shouldPlay:this.state.shouldPlay});
+          
+        }catch(error) {
+         console.log(error);
+        }
+     }
     render(){
         return(
             <DataContext.Consumer>
@@ -77,38 +95,55 @@ export default class PractiseScreen extends React.Component{
                 </Modal>
 
                <View style={style.nalt}>
-                    <View style={{height:'15%',width:'100%',flexDirection:'row',top:0,borderColor:'red',borderWidth:1}}>
-                        <View style={{width:'60%'}}>
+                   {/* Pjesa nalt  */}
+                   <View style={style.gjysaNalt}>
+                        <View style={style.record}>
+                            <View style={{width:'60%'}}>
 
+                            </View>
+                            <View style={{width:'40%',height:'100%',justifyContent:'center',alignItems:'center'}}>
+                            <Text style={{fontSize:18,justifyContent:'center',alignItems:'center'}}>
+                                Your Record :{data.record}
+                            </Text>
+                            </View>
+                        </View> 
+                        <View style={style.goal} > 
+                            {this.state.setgoalVisible? 
+                            <FinishedBtn 
+                                    title="-"
+                                    style={{width:60,borderRadius:5,marginRight:50}}
+                                    onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1})}}
+                                />:<Fragment />}
+                            <Text style={{fontSize:20}}>Goal : </Text><TextInput keyboardType={'numeric'} style={{height:60,width:60,textAlign:'center',fontSize:22}} onChangeText={(e)=>{this.setState({default:e})}} value={this.state.default.toString()} /> 
+                            {this.state.setgoalVisible?  <FinishedBtn 
+                                        title="+"
+                                        style={{width:60,borderRadius:5,marginLeft:50}}
+                                        onPress={()=>{this.setState({default:this.state.default+1})}}
+                                />:<Fragment />}
                         </View>
-                        <View style={{width:'40%',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                           <Text style={{fontSize:18,justifyContent:'center',alignItems:'center'}}>
-                             Your Record :{data.record}
-                           </Text>
+                        <View style={style.audio}>
+                            <View style={{width:'70%'}}></View>
+                            <View style={{width:'30%',justifyContent:'center',alignItems:'center'}}>
+                                <SoundBtn 
+                                name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
+                                onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
+                                />
+                            </View>
                         </View>
-                    </View> 
-                    <View  style={{height:'25%',width:'100%',justifyContent:'center',alignItems:'center',marginBottom:50,flexDirection:'row',borderColor:'red',borderWidth:1}}> 
-                        {this.state.setgoalVisible? 
-                        <FinishedBtn 
-                                title="-"
-                                style={{width:60,borderRadius:5,marginRight:50}}
-                                onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1})}}
-                            />:<Fragment />}
-                        <Text style={{fontSize:20}}>Goal : </Text><TextInput keyboardType={'numeric'} style={{height:60,width:60,textAlign:'center',fontSize:22}} onChangeText={(e)=>{this.setState({default:e})}} value={this.state.default.toString()} /> 
-                        {this.state.setgoalVisible?  <FinishedBtn 
-                                    title="+"
-                                    style={{width:60,borderRadius:5,marginLeft:50}}
-                                    onPress={()=>{this.setState({default:this.state.default+1})}}
-                            />:<Fragment />}
-                    </View>
-                    <View style={{height:'60%',justifyContent:'center',alignItems:'center',borderColor:'red',borderWidth:1,width:'100%'}}>
-                        <CircleBtn 
-                            onPress={()=>{
-                                this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false});
-                            }}
-                            
-                        >
-                            <Text style={{fontSize:22,color:'white',fontWeight:'bold'}}>
+                   </View>
+                    {/* Pjesa posht   */}
+                    <View style={style.gjysaPosht} >
+                        
+                           <CircleBtn disabled={this.state.disabled}
+                                onPress={()=>{
+                                    
+                                    this.playSound();
+                                    this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false,disabled:true});
+                                    setTimeout(()=>{
+                                       this.setState({disabled:false})
+                                    },1000)
+                            }}>
+                            <Text style={{fontSize:35,color:'white',fontWeight:'bold'}}>
                                 {this.state.number}
 
                             </Text>
@@ -127,7 +162,7 @@ export default class PractiseScreen extends React.Component{
                             data.setLevel(false,2);
                            
                         }}
-                    />:null}
+                    />:<Fragment />}
                </View>
             </View>)}
             </DataContext.Consumer>
@@ -137,19 +172,46 @@ export default class PractiseScreen extends React.Component{
 const style = StyleSheet.create({
     container:{
         flex:1,
-  
+       
     },
     nalt:{
         height:'90%',
-        justifyContent:'center',
-        alignItems:'center',
-          
+    
+      
     },
     posht:{
         height:'10%',
         justifyContent:'center',
         alignItems:'center',
+       
+
             
+    },
+    gjysaNalt:{
+     height:'45%',
+
+    },
+    gjysaPosht:{
+        height:'55%',
+        justifyContent:'center',
+        alignItems:'center',
+       
+
+    },
+    record:{
+      height:'30%',
+      flexDirection:'row'
+    },
+    goal:{
+       height:'40%',
+       flexDirection:'row',
+       justifyContent:'center',
+       alignItems:'center'
+    },
+    audio:{
+     height:'30%',
+     flexDirection:'row',
+     width:'100%'
     }
 
 })
