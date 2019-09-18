@@ -54,7 +54,7 @@ export default class HomeScreen extends React.Component{
           <ButtonHome 
             title="Advices"
             name="md-clipboard" 
-            onPress={()=>{}}
+            onPress={()=>{this.props.navigation.navigate('Advices')}}
             />
           </View>
 

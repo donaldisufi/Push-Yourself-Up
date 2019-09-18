@@ -9,6 +9,8 @@ import SettingsScreen from '../screens/SettingsScreen';
 import PractiseScreen from '../screens/PractiseScreen';
 import TrainingScreen from '../screens/TrainingScreen';
 import CurrentLevel from '../screens/CurrentLevel';
+ import AdviceScreen from '../screens/AdviceScreen';
+import Advices from '../screens/AdviceScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -20,7 +22,8 @@ const HomeStack = createStackNavigator(
     Home: HomeScreen,
     Practise:PractiseScreen,
     Train:TrainingScreen,
-    Current:CurrentLevel
+    Current:CurrentLevel,
+    Advices:AdviceScreen,
   },
   config
 );
