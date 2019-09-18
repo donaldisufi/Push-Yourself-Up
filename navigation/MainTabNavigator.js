@@ -9,6 +9,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import PractiseScreen from '../screens/PractiseScreen';
 import TrainingScreen from '../screens/TrainingScreen';
 import CurrentLevel from '../screens/CurrentLevel';
+import CaloriesScreen from '../screens/CaloriesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -64,22 +65,20 @@ SettingsStack.path = '';
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
   SettingsStack,
-// },{
-//   defaultNavigationOptions:{
-//     header:null
-//   }
+
 });
 
-// const mainStack = createStackNavigator({
-//   tabNavigator,
+const mainStack = createStackNavigator({
+  tabNavigator,
+  Calories:CaloriesScreen
 
-// },{
-//   defaultNavigationOptions:{
-//     header:null
-//   }
-// });
+},{
+  defaultNavigationOptions:{
+    header:null
+  }
+});
 
 
 tabNavigator.path = '';
 
-export default tabNavigator;
+export default mainStack;

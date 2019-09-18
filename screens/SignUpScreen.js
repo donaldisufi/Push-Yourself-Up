@@ -104,7 +104,7 @@ export default class SignUpScreen extends React.Component{
                                                 }
                                         }).then( response =>{
                                                 let token = response.data.token;
-                                                console.log(token);
+                                                console.log( "tokeni "+ token);
                                                 deviceStorage.setItem('@token',token);
                                                 configAxios(token);
                                                 this.setState({loadPost:false});
