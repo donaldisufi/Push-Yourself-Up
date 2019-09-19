@@ -20,7 +20,7 @@ export default class Input extends React.Component{
 }
 const style = StyleSheet.create({
     conatiner:{
-        height:60,
+        height:50,
         justifyContent:'center',
         borderBottomColor:'#2EA0D1',
         borderBottomWidth:2,

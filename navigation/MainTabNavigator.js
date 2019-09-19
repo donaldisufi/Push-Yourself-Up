@@ -12,10 +12,12 @@ import CurrentLevel from '../screens/CurrentLevel';
  import AdviceScreen from '../screens/AdviceScreen';
 import Advices from '../screens/AdviceScreen';
 import RecordScreen from '../screens/RecordScreen'
+import CaloriesScreen from '../screens/CaloriesScreen';
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
-  default: {},
+  default: {
+  },
 });
 
 const HomeStack = createStackNavigator(
@@ -64,12 +66,24 @@ SettingsStack.navigationOptions = {
 
 SettingsStack.path = '';
 
+
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
-
   SettingsStack,
+
 });
+
+const mainStack = createStackNavigator({
+  tabNavigator,
+  Calories:CaloriesScreen
+
+},{
+  defaultNavigationOptions:{
+    header:null
+  }
+});
+
 
 tabNavigator.path = '';
 
-export default tabNavigator;
+export default mainStack;

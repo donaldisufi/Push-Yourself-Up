@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "expoServerPort": null,
   "packagerPort": null,
   "packagerPid": null,
@@ -6,4 +7,11 @@
   "packagerNgrokUrl": null,
   "ngrokPid": null,
   "devToolsPort": 19002
+=======
+  "expoServerNgrokUrl": "https://s5-mwe.donald-isufi.push-ups.exp.direct",
+  "packagerNgrokUrl": "https://packager.s5-mwe.donald-isufi.push-ups.exp.direct",
+  "ngrokPid": 4688,
+  "packagerPort": null,
+  "packagerPid": null
+>>>>>>> 548d22428ffd4a2d597ee73de59d65879d4b0f82
 }

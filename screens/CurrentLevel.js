@@ -10,6 +10,7 @@ import CircleBtn from '../components/CircleBtn';
 import FinishedBtn from '../components/FinishedBtn';
 import { Audio } from 'expo-av';
 import SoundBtn from '../components/SoundBtn';
+import DataContext from '../components/DataContext';
 
 
  export default  class CurrentLevel extends React.Component{
@@ -19,7 +20,6 @@ import SoundBtn from '../components/SoundBtn';
     constructor(props){
          super(props);
          this.state={
-           series:[7,8,6,9,8],
            currentSerie:0,
            restTime:false,
            timer:59,
@@ -27,17 +27,28 @@ import SoundBtn from '../components/SoundBtn';
            goal:0,
            disabledButton:false,
            shouldPlay:true,
-           
+           lastIndex:0,
+           series:[],
          },
          this.ismounted=false;
-       
+         this.series  = props.navigation.state.params.data.series[props.navigation.state.params.data.currentLevel-1];
+         console.log(this.series);
+      
      }
+   
      componentWillUnmount=()=>{
         this.ismounted=false;
      }
+
      componentDidMount=()=>{
       this.ismounted=true;
-      this.ismounted && this.setState({goal:this.state.series[this.state.currentSerie]})
+     
+      this.ismounted && this.setState({series:this.series},function(){
+        console.log(this.state.series);
+        this.setState({goal:this.state.series[this.state.currentSerie],lastIndex:this.state.series.length})
+      })
+      
+          
     }
 
 
@@ -56,7 +67,7 @@ import SoundBtn from '../components/SoundBtn';
      
       const sound = new Audio.Sound();
       try {
-        await sound.loadAsync(require('../assets/sound/PushUpsSound.mp3'),{shouldPlay:this.state.shouldPlay});
+        this.ismounted && await sound.loadAsync(require('../assets/sound/PushUpsSound.mp3'),{shouldPlay:this.state.shouldPlay});
         
       }catch(error) {
        console.log(error);
@@ -65,8 +76,9 @@ import SoundBtn from '../components/SoundBtn';
 
      
    
-    renderButtons=(data)=>{
-      return data.map((value,index)=>(
+    renderButtons=(array)=>{
+      
+      return array.map((value,index)=>(
           <View  style={[style.renderButton]} key={index}>
             <View style={{height:40,width:40,borderRadius:20,backgroundColor:this.state.currentSerie===index?'#2EA0D1':'white',justifyContent:'center',alignItems:'center'}}>
               <Text style={{color:this.state.currentSerie===index?'white':'black',fontWeight:'bold',fontSize:20}}>
@@ -78,6 +90,7 @@ import SoundBtn from '../components/SoundBtn';
      }
      render(){
        return(
+        <DataContext.Consumer>{(data)=>(
            <View style={style.container}>
                   <View style={style.nalt}>
                     {this.renderButtons(this.state.series)}
@@ -100,16 +113,24 @@ import SoundBtn from '../components/SoundBtn';
                       </View>
                       </View>
                     <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
+                        
                         this.playSound();
                         this.setState({goal:this.state.goal<=0?0:this.state.goal-1,finished:this.state.goal<=0?true:false},function(){
                           if(this.state.goal<=0){
                             this.startTimer();
-                           this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true})
+                            this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true},function(){
+                              if(this.state.currentSerie===this.state.lastIndex){
+                                alert("You finished");
+
+                              }
+                            })
                           }
                         });
+
+                        
                      
                     }}>
-                       {this.state.restTime?<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{this.state.goal}</Text>}
+                    {this.state.lastIndex===this.state.currentSerie? <Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>0</Text>:this.state.restTime?<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{this.state.goal}</Text>}
                     </CircleBtn>
                   </View> 
                   <View style={{height:'12%',justifyContent:'center',alignItems:'center',width:'100%'}}>
@@ -129,7 +150,7 @@ import SoundBtn from '../components/SoundBtn';
                         }}
                       />}
                   </View>
-           </View>
+           </View> )}</DataContext.Consumer>
          );
      }
  }

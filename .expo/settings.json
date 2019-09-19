@@ -1,6 +1,11 @@
 {
+<<<<<<< HEAD
   "urlRandomness": "ik-bcu",
   "hostType": "lan",
+=======
+  "urlRandomness": "s5-mwe",
+  "hostType": "tunnel",
+>>>>>>> 548d22428ffd4a2d597ee73de59d65879d4b0f82
   "lanType": "ip",
   "dev": true,
   "minify": false
