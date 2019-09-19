@@ -11,6 +11,7 @@ import TrainingScreen from '../screens/TrainingScreen';
 import CurrentLevel from '../screens/CurrentLevel';
  import AdviceScreen from '../screens/AdviceScreen';
 import Advices from '../screens/AdviceScreen';
+import RecordScreen from '../screens/RecordScreen'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
@@ -24,6 +25,7 @@ const HomeStack = createStackNavigator(
     Train:TrainingScreen,
     Current:CurrentLevel,
     Advices:AdviceScreen,
+    Record:RecordScreen,
   },
   config
 );

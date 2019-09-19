@@ -25,8 +25,7 @@ export default class HomeScreen extends React.Component{
   }
   render(){
     return(
-    <DataContext.Consumer>
-      {(data)=>(
+    <DataContext.Consumer>{(data)=>(
       <View style={style.container}>
         <View style={style.nalt}>
           <Text style={{fontSize:30}}>
@@ -56,11 +55,17 @@ export default class HomeScreen extends React.Component{
             name="md-clipboard" 
             onPress={()=>{this.props.navigation.navigate('Advices')}}
             />
+             <ButtonHome 
+            title="Record"
+            
+            onPress={()=>{this.props.navigation.navigate('Record')}}
+            />
+           
           </View>
 
         </View>
-     </View>)}
-    </DataContext.Consumer>);
+     </View>)}</DataContext.Consumer>
+    );
   }
 }
 

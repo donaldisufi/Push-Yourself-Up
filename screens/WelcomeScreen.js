@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, StyleSheet,Text,Button } from 'react-native';
+import { View, StyleSheet,Text } from 'react-native';
 import ButtonHome from '../components/ButtonHome';
 
 export default class LinksScreen extends React.Component{
@@ -18,6 +18,7 @@ render(){
       title="Home"
       onPress={()=>{this.props.navigation.navigate('Main')}}
     />
+     
    
 
   </View>
