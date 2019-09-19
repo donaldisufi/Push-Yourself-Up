@@ -42,6 +42,14 @@ export default class PractiseScreen extends React.Component{
     }
    componentWillUnmount=()=>{
        this.ismounted=false;
+       this.setState({   number:0,
+        modalVisible:false,
+        visible:false,
+        default:0,
+        buttonVisible:false,
+        setgoalVisible:true,
+        shouldPlay:true,
+        disabled:false,})
 //      Proximity.removeListener(this._proximityListener);
      }
 //    _proximityListener=(data)=>{
@@ -62,7 +70,9 @@ export default class PractiseScreen extends React.Component{
     setRecord=(data)=>{
       if(this.state.number>data.record){
           data.setRecord(this.state.number);
+          this.modalVisible();
       }
+      data.setRecord(data.record);
     }
     playSound=async ()=>{
      
@@ -88,7 +98,7 @@ export default class PractiseScreen extends React.Component{
                     <View style={{justifyContent:'center',alignItems:'center',height:'100%',width:'100%'}}>
                         <ImageBackground style={{height:200,width:300,justifyContent:'center',alignItems:'center',borderRadius:5}} source={require('../assets/images/youdidit.jpg')}>
                                 <Text style={{fontSize:20}}>
-                                    Yes. You Did it , Go ahead.
+                                   Congrat's. You broke the Record.
                                 </Text>
                         </ImageBackground>
                     </View>
@@ -158,8 +168,8 @@ export default class PractiseScreen extends React.Component{
                         title="Complete"
                         onPress={()=>{
                             this.setRecord(data);
-                            this.modalVisible();
-                            this.props.navigation.navigate('Calories');
+                            data.setPushUps(this.state.number);
+                            this.props.navigation.navigate('Calories',this.state);
                            
                         }}
                     />:<Fragment />}

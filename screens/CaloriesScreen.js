@@ -6,16 +6,26 @@ import {
     Image,
      
  } from 'react-native';
+import DataContext from '../components/DataContext';
 
  export default class CaloriesScreen extends React.Component{
      constructor(props){
          super(props);
          this.state={
-
+          calories:0,
+          pushUps:0
          }
+      }
+      componentDidMount=()=>{
+        console.log(this.props);
+        const pushUps=this.props.navigation.state.params.number;
+        let calories = pushUps*0.18;
+        calories = calories.toFixed(2);
+        this.setState({pushUps,calories});
       }
      render(){
          return(
+           <DataContext.Consumer>{(data)=>(
              <View style={style.container}>
                <View style={style.nalt}>
 
@@ -26,7 +36,7 @@ import {
                    </Text>
                   <View style={style.rrethi}>
                       <Text style={style.number}>
-                          800
+                          {this.state.calories}
                       </Text>
                       <Text style={style.Text}>
                         kcal
@@ -40,7 +50,7 @@ import {
                         PUSH UPS 
                       </Text>
                       <Text style={style.Text}>
-                          20
+                          {this.state.pushUps}
                       </Text>
                       
                   </View>
@@ -50,6 +60,7 @@ import {
                   
                </View>
              </View>
+             )}</DataContext.Consumer>
          );
      }
  }

@@ -110,7 +110,7 @@ export default class SignUpScreen extends React.Component{
                                                 this.setState({loadPost:false});
                                                 this.props.navigation.navigate('Main');
 
-                                            }).catch(error=>{
+                                            }).catch( error=>{
                                                
                                                 console.log(JSON.stringify(error.response.data))
                                                 alert(JSON.stringify(error.response.data.error));

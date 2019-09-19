@@ -26,6 +26,10 @@ state ={
          record:val
        })
      },
+    PractisePushUps:0,
+    setPushUps:(val)=>{
+     this.setState({PractisePushUps:val});
+    },
     record:0,
     level1:false,
     level2:true,

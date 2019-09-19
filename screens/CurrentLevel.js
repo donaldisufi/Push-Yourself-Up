@@ -11,7 +11,6 @@ import FinishedBtn from '../components/FinishedBtn';
 import { Audio } from 'expo-av';
 import SoundBtn from '../components/SoundBtn';
 import DataContext from '../components/DataContext';
-import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
 
 
  export default  class CurrentLevel extends React.Component{
@@ -122,6 +121,7 @@ import { throwIfAudioIsDisabled } from 'expo-av/build/Audio/AudioAvailability';
                             this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true},function(){
                               if(this.state.currentSerie===this.state.lastIndex){
                                 alert("You finished");
+
                               }
                             })
                           }
