@@ -11,6 +11,7 @@ import FinishedBtn from '../components/FinishedBtn';
 import { Audio } from 'expo-av';
 import SoundBtn from '../components/SoundBtn';
 import DataContext from '../components/DataContext';
+import axios from 'axios';
 
 
  export default  class CurrentLevel extends React.Component{
@@ -38,6 +39,8 @@ import DataContext from '../components/DataContext';
    
      componentWillUnmount=()=>{
         this.ismounted=false;
+    
+      
      }
 
      componentDidMount=()=>{

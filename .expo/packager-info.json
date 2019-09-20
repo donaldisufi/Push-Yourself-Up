@@ -1,7 +1,10 @@
 {
   "expoServerNgrokUrl": "https://s5-mwe.donald-isufi.push-ups.exp.direct",
   "packagerNgrokUrl": "https://packager.s5-mwe.donald-isufi.push-ups.exp.direct",
-  "ngrokPid": 4688,
-  "packagerPort": null,
-  "packagerPid": null
+  "ngrokPid": 13868,
+  "packagerPort": 19001,
+  "packagerPid": 19840,
+  "expoServerPort": 19000,
+  "webpackServerPort": 19003,
+  "devToolsPort": 19002
 }
