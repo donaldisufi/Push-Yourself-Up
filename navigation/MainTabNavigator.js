@@ -9,6 +9,9 @@ import SettingsScreen from '../screens/SettingsScreen';
 import PractiseScreen from '../screens/PractiseScreen';
 import TrainingScreen from '../screens/TrainingScreen';
 import CurrentLevel from '../screens/CurrentLevel';
+ import AdviceScreen from '../screens/AdviceScreen';
+import Advices from '../screens/AdviceScreen';
+import RecordScreen from '../screens/RecordScreen'
 import CaloriesScreen from '../screens/CaloriesScreen';
 
 const config = Platform.select({
@@ -22,7 +25,9 @@ const HomeStack = createStackNavigator(
     Home: HomeScreen,
     Practise:PractiseScreen,
     Train:TrainingScreen,
-    Current:CurrentLevel
+    Current:CurrentLevel,
+    Advices:AdviceScreen,
+    Record:RecordScreen,
   },
   config
 );

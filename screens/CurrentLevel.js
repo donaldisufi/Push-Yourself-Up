@@ -21,6 +21,7 @@ import axios from 'axios';
     constructor(props){
          super(props);
          this.state={
+           number:0,
            currentSerie:0,
            restTime:false,
            timer:59,
@@ -30,6 +31,7 @@ import axios from 'axios';
            shouldPlay:true,
            lastIndex:0,
            series:[],
+         
          },
          this.ismounted=false;
          this.series  = props.navigation.state.params.data.series[props.navigation.state.params.data.currentLevel-1];
@@ -96,7 +98,7 @@ import axios from 'axios';
         <DataContext.Consumer>{(data)=>(
            <View style={style.container}>
                   <View style={style.nalt}>
-                    {this.renderButtons(this.state.series)}
+                    {this.renderButtons(data.series[data.currentLevel-1])}
                   </View>
                   <View style={style.posht} >
                    <View style={{flexDirection:'row'}}>
@@ -118,12 +120,13 @@ import axios from 'axios';
                     <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
                         
                         this.playSound();
-                        this.setState({goal:this.state.goal<=0?0:this.state.goal-1,finished:this.state.goal<=0?true:false},function(){
+                        this.setState({goal:this.state.goal<=0?0:this.state.goal-1,finished:this.state.goal<=0?true:false,number:this.state.number++},function(){
                           if(this.state.goal<=0){
                             this.startTimer();
                             this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true},function(){
                               if(this.state.currentSerie===this.state.lastIndex){
-                                alert("You finished");
+                                  this.props.navigation.navigate('Calories',this.state);
+                                  data.setSeries(data.series);
 
                               }
                             })
@@ -142,14 +145,22 @@ import axios from 'axios';
                        title="Continue"
                        style={{width:'100%'}}
                        onPress={()=>{
-                        this.setState({restTime:false,goal:this.state.series[this.state.currentSerie],finished:false,timer:59,disabledButton:false});
+                        this.setState({restTime:false,finished:false,timer:59,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
+                          this.setState({goal:this.state.series[this.state.currentSerie]})
+                        });
                        }}
                      />: <FinishedBtn
                           style={{width:'100%'}}
                           title="Finish"
                           onPress={()=>{
-                          this.startTimer();
-                          this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true})
+                            if(this.state.currentSerie===this.state.lastIndex){
+                              this.props.navigation.navigate('Calories',this.state);
+                              data.setSeries(data.series);
+
+                          }else{
+                            this.startTimer();
+                            this.setState({restTime:true,finished:false,disabledButton:true})
+                          }
                         }}
                       />}
                   </View>

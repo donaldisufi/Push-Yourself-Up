@@ -18,15 +18,7 @@ export default class TrainingScreen extends React.Component {
     super(props);
    }
    componentWillMount=()=>{
-    axios.get('https://pushexercise.herokuapp.com/records').then(val=>{
-        console.log(JSON.stringify(val));
-        alert(val);
-      }).catch(err=>{
-        console.log('Error');
-        console.log(err.response.data);
-        alert(JSON.stringify(error.response.data.error));
-
-      })
+  
 
    }
    render(){
