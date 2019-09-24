@@ -82,7 +82,8 @@ export default class LoginScreen extends React.Component{
                         }
 
                       }).then(response=>{
-                        
+                        console.log("TE DHENAT : ");
+                        console.log(response)
                              let token = response.data.token;
                              configAxios(token);
                              deviceStorage.setItem('@token',token);
@@ -91,12 +92,13 @@ export default class LoginScreen extends React.Component{
                              deviceStorage.setItem("")
                              this.setState({loadPost:false});
                              this.props.navigation.navigate('Main');
+                             console.log("QYKY O TOKENI : "+token);
                       }).catch(error =>{
                              let message = error.response.data;
                              
                         console.log(JSON.stringify(error.response.data));
                         alert(JSON.stringify(error.response.data));
-                        this.setState({loadPost:false});
+                        this.setState({loadPost:false});ss
                       })
                     }else{
                       this.setState({errorPassword:this.state.password.length<1?true:false,errorName:this.state.name.length<1?true:false,loadPost:false});
