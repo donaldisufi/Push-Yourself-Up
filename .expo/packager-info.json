@@ -1,1 +1,10 @@
-{}
+{
+  "devToolsPort": 19002,
+  "expoServerPort": 19000,
+  "packagerPort": 19001,
+  "packagerPid": 2336,
+  "webpackServerPort": 19003,
+  "expoServerNgrokUrl": "https://2i-f48.donald-isufi.push-ups.exp.direct",
+  "packagerNgrokUrl": "https://packager.qq-nhc.donald-isufi.push-ups.exp.direct",
+  "ngrokPid": 1584
+}
