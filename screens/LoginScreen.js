@@ -86,6 +86,9 @@ export default class LoginScreen extends React.Component{
                              let token = response.data.token;
                              configAxios(token);
                              deviceStorage.setItem('@token',token);
+                             deviceStorage.setItem("id",response.data.useri.id);
+                             deviceStorage.setItem("username",response.data.useri.username);
+                             deviceStorage.setItem("")
                              this.setState({loadPost:false});
                              this.props.navigation.navigate('Main');
                       }).catch(error =>{

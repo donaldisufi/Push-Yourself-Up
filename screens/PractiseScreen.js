@@ -169,7 +169,7 @@ export default class PractiseScreen extends React.Component{
                         onPress={()=>{
                             this.setRecord(data);
                             data.setPushUps(this.state.number);
-                            this.props.navigation.navigate('Calories',this.state);
+                            this.props.navigation.navigate('Calories');
                            
                         }}
                     />:<Fragment />}

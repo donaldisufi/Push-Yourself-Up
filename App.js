@@ -21,14 +21,20 @@ componentWillMount=()=>{
   })
 }
 state ={
+      caloriesRender:'',
+      setCaloriesRender:(value)=>{
+        this.setState({
+          caloriesRender:value,
+        });
+      },
      setRecord:(val)=>{
        this.setState({
          record:val
        })
      },
-    PractisePushUps:0,
+    PushUpsCalories:0,
     setPushUps:(val)=>{
-     this.setState({PractisePushUps:val});
+     this.setState({PushUpsCalories:val});
     },
     record:0,
     level1:false,

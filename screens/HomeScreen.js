@@ -15,14 +15,105 @@ import { MonoText } from '../components/StyledText';
 import ButtonHome from '../components/ButtonHome';
 import DataContext from '../components/DataContext';
 import { TextInput } from 'react-native-gesture-handler';
+import axios from 'axios';
+import deviceStorage from '../components/service/deviceStorage';
 
 let {height,width} = Dimensions.get('window');
 
 export default class HomeScreen extends React.Component{
+  mounted=false;
   constructor(props){
     super(props);
-    this.state={};
+    this.state={
+      data:null
+    };
+    this.data = null;
+    
   }
+  componentWillMount= async ()=>{
+      let id;
+      
+    // deviceStorage.getItem("id").then(res=>{
+      deviceStorage.getItem("id").then(res=>{
+        id=res;
+        console.log(" ID : "+id);
+
+        axios.get(`/users/${id}`).then(value=>{
+          this.setState({data:value.data.user});
+        
+
+           // level2 = value.data.user.level1.completed?false:true;
+           // level3 = value.data.user.level2.completed?false:true;
+           // level4 = value.data.user.level3.completed?false:true;
+           // level5 = value.data.user.level5.completed?false:true;
+           // level6 = value.data.user.level6.completed?false:true;
+ 
+           //DataContext._currentValue.setLevel(level2,2);
+           
+           
+        
+         
+       }).then(()=>{
+         console.log("Kontexttttt");
+         console.log(DataContext);
+       })
+       .catch(error=>{
+         console.log(error);
+       })
+
+      }).catch((err)=>{
+           console.log("Error geting id from async storage");
+           
+
+      });
+     
+  console.log("Tdhanate ");
+  console.log(this.data);
+     
+    // }).catch(error=>{
+    //   console.log("Erro getting token " + error.message);
+    // });
+    // // DataContext._currentValue.setLevel(level3,3);
+    // // DataContext._currentValue.setLevel(level4,4);
+    // // DataContext._currentValue.setLevel(level5,5);
+    // // DataContext._currentValue.setLevel(level6,6);
+    // // DataContext._currentValue.setLevel(level7,7);
+    
+    
+       
+  }
+  
+  componentDidMount=()=>{
+    console.log(DataContext);
+  //   
+       
+  //     axios.get(`/users/${res}`).then(value=>{
+  //       this.setState({data:value});
+  //        // level2 = value.data.user.level1.completed?false:true;
+  //        // level3 = value.data.user.level2.completed?false:true;
+  //        // level4 = value.data.user.level3.completed?false:true;
+  //        // level5 = value.data.user.level5.completed?false:true;
+  //        // level6 = value.data.user.level6.completed?false:true;
+
+  //        //DataContext._currentValue.setLevel(level2,2);
+  //        console.log("Contexti : ")
+         
+      
+  //       console.log(this.data);
+  //       return value;
+  //    })
+  //    .catch(error=>{
+  //      console.log(error);
+  //    })
+  //  
+  //  // DataContext._currentValue.setLevel(level3,3);
+  //  // DataContext._currentValue.setLevel(level4,4);
+  //  // DataContext._currentValue.setLevel(level5,5);
+  //  // DataContext._currentValue.setLevel(level6,6);
+  //  // DataContext._currentValue.setLevel(level7,7);
+   }
+ 
+ 
   render(){
     return(
     <DataContext.Consumer>{(data)=>(
@@ -35,10 +126,19 @@ export default class HomeScreen extends React.Component{
             {data.record}
           </Text>
         </View>
+        <ButtonHome 
+            title="Record"
+            
+            onPress={()=>{this.props.navigation.navigate('Record')}}
+            />
         <View style={style.posht}>
           <ButtonHome 
             style={{width:width*0.83}}
-            onPress={()=>{this.props.navigation.navigate('Train')}}
+            onPress={()=>{
+              this.props.navigation.navigate('Train',this.state.data);
+              data.setCaloriesRender("Train");
+
+            }}
             name="md-clock"
             title="Training"
             
@@ -47,7 +147,10 @@ export default class HomeScreen extends React.Component{
           <ButtonHome 
             title="Practise"
             name="md-fitness" 
-            onPress={()=>{this.props.navigation.navigate('Practise')}}
+            onPress={()=>{
+              this.props.navigation.navigate('Practise');
+              data.setCaloriesRender("Practise");
+            }}
             style={{marginRight:10}}
             />
           <ButtonHome 
@@ -55,11 +158,7 @@ export default class HomeScreen extends React.Component{
             name="md-clipboard" 
             onPress={()=>{this.props.navigation.navigate('Advices')}}
             />
-             <ButtonHome 
-            title="Record"
-            
-            onPress={()=>{this.props.navigation.navigate('Record')}}
-            />
+           
            
           </View>
 
