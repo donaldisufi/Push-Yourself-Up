@@ -5,6 +5,7 @@ import {
     StyleSheet
 } from 'react-native';
 import ButtonHome from '../components/ButtonHome';
+import deviceStorage from '../components/service/deviceStorage';
 
 export default class SettingsScreen extends React.Component{
     render(){
@@ -12,7 +13,12 @@ export default class SettingsScreen extends React.Component{
             <View style={style.container}>
                <ButtonHome 
                  title="Log out"
-                 onPress={()=>{this.props.navigation.navigate('Register')}}
+                
+                 onPress={()=>{
+                     deviceStorage.removeItem('@token').then(res=>{
+                     this.props.navigation.navigate('Register');
+                     });
+                    }}
                />
             </View>
         );

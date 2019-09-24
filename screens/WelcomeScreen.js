@@ -14,9 +14,9 @@ render(){
       title="Sign Up"    
       style={{marginBottom:10}}
     />
-    <ButtonHome 
-      title="Home"
-      onPress={()=>{this.props.navigation.navigate('Main')}}
+    <ButtonHome   
+      title="Login"
+      onPress={()=>{this.props.navigation.navigate('Login')}}
     />
      
    

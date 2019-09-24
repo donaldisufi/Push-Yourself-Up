@@ -7,6 +7,8 @@ import {
     Text,
     Image,
     KeyboardAvoidingView,
+    Keyboard,
+    TouchableWithoutFeedback   
 
 } from 'react-native';
 import Input from '../components/Input';
@@ -39,14 +41,16 @@ export default class SignUpScreen extends React.Component{
     render(){
         const {checked} = this.state;
         return(
-            <View style={style.container}>
-                <KeyboardAvoidingView behavior="padding" enabled>
+            <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}}>
+             <View style={style.container}>
+                
                     <View style={style.nalt}>
                         <Image 
                         source={require('../assets/images/pushupMan.jpg')}
                         style={{height:'80%',width:'80%'}}
                         />
                     </View>
+                    <KeyboardAvoidingView behavior="padding" enabled>
                     <View style={style.posht}>
                         <Input
                             style={{width:width*0.83,marginBottom:10}}
@@ -90,7 +94,7 @@ export default class SignUpScreen extends React.Component{
                                     title="Continue"
                                     load={this.state.loadPost}
                                     onPress={()=>{
-
+                                        Keyboard.dismiss();
                                     if(this.state.name.length>=1 && this.state.kilogram.length >=1 && this.state.password.length >=1){
                                         this.setState({loadPost:true})
                                         axios({
@@ -111,9 +115,11 @@ export default class SignUpScreen extends React.Component{
                                                 this.props.navigation.navigate('Main');
 
                                             }).catch( error=>{
-                                               
+                                               console.log(this.state.password);
                                                 console.log(JSON.stringify(error.response.data))
-                                                alert(JSON.stringify(error.response.data.error));
+                                                console.log(JSON.stringify(error.response.data.error))
+
+                                                alert(JSON.stringify(error.response.data));
                                                 this.setState({loadPost:false});
 
                                             });
@@ -135,7 +141,8 @@ export default class SignUpScreen extends React.Component{
                         )}</DataContext.Consumer>
                     </View>
                 </KeyboardAvoidingView>
-            </View>
+             </View>
+          </TouchableWithoutFeedback>
         );
     }
 }

@@ -8,7 +8,7 @@ import {
 import LevelBtn from '../components/LevelBtn';
 import DataContext from '../components/DataContext';
 import {Ionicons} from '@expo/vector-icons';
-
+import axios from 'axios';
 
 export default class TrainingScreen extends React.Component {
    static navigationOptions={
@@ -16,6 +16,10 @@ export default class TrainingScreen extends React.Component {
    }
     constructor(props){
     super(props);
+   }
+   componentWillMount=()=>{
+  
+
    }
    render(){
        return(

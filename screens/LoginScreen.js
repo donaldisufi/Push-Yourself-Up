@@ -4,7 +4,11 @@ import {
   Text,
   Dimensions,
   AsyncStorage,
-  StyleSheet
+  StyleSheet,
+  Image,
+  KeyboardAvoidingView,
+  Keyboard,
+  TouchableWithoutFeedback
 } from 'react-native';
 import axios from 'axios';
 
@@ -31,6 +35,7 @@ export default class LoginScreen extends React.Component{
   }
   render(){
     return(
+      <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}}>
       <View style={style.container}>
          <View style={style.top}>
 
@@ -41,6 +46,8 @@ export default class LoginScreen extends React.Component{
                     style={{height:'80%',width:'80%'}}
                  />
          </View>
+      <KeyboardAvoidingView behavior="padding" enabled>
+
          <View style={style.posht}>
          <Input
              style={{width:width*0.83,marginBottom:10}}
@@ -53,7 +60,7 @@ export default class LoginScreen extends React.Component{
              style={{width:width*0.83,marginBottom:10}}
              placeholder="Password"
              value={this.state.password}
-             onChangeText={(password)=>{this.setState({password})}}
+             onChangeText={(password)=>{this.setState({password,errorPassword:false})}}
              secure={true}
              
            />
@@ -63,6 +70,8 @@ export default class LoginScreen extends React.Component{
                   title="Login"
                   load={this.state.loadPost}
                   onPress={()=>{
+                    Keyboard.dismiss();
+                    this.setState({loadPost:true});
                     if(this.state.name.length>=1 && this.state.password.length >=1){
                       axios({
                         url:'/login',
@@ -73,6 +82,7 @@ export default class LoginScreen extends React.Component{
                         }
 
                       }).then(response=>{
+                        
                              let token = response.data.token;
                              configAxios(token);
                              deviceStorage.setItem('@token',token);
@@ -82,16 +92,19 @@ export default class LoginScreen extends React.Component{
                              let message = error.response.data;
                              
                         console.log(JSON.stringify(error.response.data));
-                        alert(JSON.stringify(error.response.data.error));
+                        alert(JSON.stringify(error.response.data));
                         this.setState({loadPost:false});
                       })
                     }else{
-                      this.setState({errorPassword:this.state.password.length<1?true:false,errorName:this.state.name.length<1?true:false});
+                      this.setState({errorPassword:this.state.password.length<1?true:false,errorName:this.state.name.length<1?true:false,loadPost:false});
                     }
                   }}
            />
          </View>
+      </KeyboardAvoidingView>
+
       </View>
+      </TouchableWithoutFeedback>
     );
   }
 }
@@ -105,6 +118,7 @@ const style = StyleSheet.create({
    height:height*0.35,
    justifyContent:'center',
    alignItems:'center',
+   width:width
   },
   posht:{
     height:height*0.55,

@@ -25,9 +25,9 @@ const deviceStorage = {
             console.log("Async Storage Error" + error.message)
         }
     },
-    async removeItem (key,value){
+    async removeItem (key){
           try {
-            await AsyncStorage.removeItem(key,value);
+            await AsyncStorage.removeItem(key);
           }catch(error){
             console.log("Async Storage Error" + error.message)
             
