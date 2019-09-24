@@ -6,13 +6,13 @@ export default class RecordScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          records:'',
+          records:[],
         }
       }
       componentDidMount() {
         axios.get('/records')
         .then(response=>{
-          this.setState({record:response.data.message});
+          this.setState({record:response});
             console.log(response)
         })
         .catch(error => {

@@ -82,8 +82,10 @@ export default class LoginScreen extends React.Component{
                         }
 
                       }).then(response=>{
-                        
-                             let token = response.data.token;
+                             console.log("Tdhaanat Sukssess");
+                             console.log(response);
+
+                             let token = response.data.useri.token;
                              configAxios(token);
                              deviceStorage.setItem('@token',token);
                              deviceStorage.setItem("id",response.data.useri.id);
@@ -91,12 +93,14 @@ export default class LoginScreen extends React.Component{
                              deviceStorage.setItem("")
                              this.setState({loadPost:false});
                              this.props.navigation.navigate('Main');
-                      }).catch(error =>{
-                             let message = error.response.data;
+                             console.log(token);
                              
-                        console.log(JSON.stringify(error.response.data));
-                        alert(JSON.stringify(error.response.data));
-                        this.setState({loadPost:false});
+                      }).catch(error =>{
+                            
+                            console.log("Error "); 
+                            console.log(JSON.stringify(error.response.data));
+                            alert(JSON.stringify(error.response.data));
+                            this.setState({loadPost:false});
                       })
                     }else{
                       this.setState({errorPassword:this.state.password.length<1?true:false,errorName:this.state.name.length<1?true:false,loadPost:false});

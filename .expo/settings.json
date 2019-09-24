@@ -1,7 +1,7 @@
 {
-  "urlRandomness": "qq-nhc",
   "hostType": "lan",
   "lanType": "ip",
   "dev": true,
-  "minify": false
+  "minify": false,
+  "urlRandomness": "nd-h85"
 }
