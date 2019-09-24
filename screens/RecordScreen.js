@@ -6,13 +6,13 @@ export default class RecordScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          name: '',
-          record:'',
+          records:'',
         }
       }
       componentDidMount() {
         axios.get('/records')
         .then(response=>{
+          this.setState({record:response.data.message});
             console.log(response)
         })
         .catch(error => {
@@ -24,8 +24,8 @@ export default class RecordScreen extends React.Component {
 
     return(
       <View style={styles.container}>
-       <Text >{this.props.name}</Text>
-       <Text>{this.props.record}</Text>
+       <Text >{this.props.records}</Text>
+       <Text>{this.props.records}</Text>
 
       </View>
     );
@@ -38,6 +38,8 @@ export default class RecordScreen extends React.Component {
       backgroundColor: '#fff',
       justifyContent:'center',
       alignItems:'center',
+  
     },
+    
   });
   

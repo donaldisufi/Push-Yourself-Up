@@ -1,17 +1,9 @@
 {
-<<<<<<< HEAD
-  "expoServerPort": null,
+  "devToolsPort": 19003,
+  "expoServerPort": 19000,
   "packagerPort": null,
   "packagerPid": null,
-  "expoServerNgrokUrl": null,
-  "packagerNgrokUrl": null,
-  "ngrokPid": null,
-  "devToolsPort": 19002
-=======
-  "expoServerNgrokUrl": "https://s5-mwe.donald-isufi.push-ups.exp.direct",
-  "packagerNgrokUrl": "https://packager.s5-mwe.donald-isufi.push-ups.exp.direct",
-  "ngrokPid": 4688,
-  "packagerPort": null,
-  "packagerPid": null
->>>>>>> 548d22428ffd4a2d597ee73de59d65879d4b0f82
+  "expoServerNgrokUrl": "https://wd-m2j.altin.push-ups.exp.direct",
+  "packagerNgrokUrl": "https://packager.wd-m2j.altin.push-ups.exp.direct",
+  "ngrokPid": 1168
 }
