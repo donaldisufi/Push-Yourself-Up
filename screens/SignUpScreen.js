@@ -38,6 +38,7 @@ export default class SignUpScreen extends React.Component{
             loadPost:false,
         }
     }
+   
     render(){
         const {checked} = this.state;
         return(
@@ -101,16 +102,16 @@ export default class SignUpScreen extends React.Component{
                                             url:"/signup",
                                             method:'post',
                                             data:{
-                                                name:this.state.name,
-                                                gender:this.state.checked,
-                                                kg:this.state.kilogram,    
-                                                password:this.state.password   
+                                                    name:this.state.name,
+                                                    gender:this.state.checked,
+                                                    kg:this.state.kilogram,    
+                                                    password:this.state.password   
                                                 }
                                         }).then( response =>{
                                                 let token = response.data.token;
-                                                console.log( "tokeni "+ token);
-                                                deviceStorage.setItem('@token',token);
                                                 configAxios(token);
+                                                deviceStorage.setItem('@token',token);
+                                                deviceStorage.setItem("id",response.data.createdUser._id);  
                                                 this.setState({loadPost:false});
                                                 this.props.navigation.navigate('Main');
 

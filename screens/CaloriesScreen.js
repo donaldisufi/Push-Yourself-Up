@@ -7,6 +7,7 @@ import {
      
  } from 'react-native';
 import DataContext from '../components/DataContext';
+import ButtonHome from '../components/ButtonHome';
 
  export default class CaloriesScreen extends React.Component{
      constructor(props){
@@ -16,17 +17,16 @@ import DataContext from '../components/DataContext';
           pushUps:0
          }
       }
-      componentDidMount=()=>{
-        console.log(this.props);
-        const pushUps=this.props.navigation.state.params.number;
-        let calories = pushUps*0.18;
-        calories = calories.toFixed(2);
-        this.setState({pushUps,calories});
-      }
+  
      render(){
          return(
-           <DataContext.Consumer>{(data)=>(
-             <View style={style.container}>
+           <DataContext.Consumer>{(data)=>{
+              const pushUps = data.PushUpsCalories;
+              let calories = pushUps *0.18;
+              calories = calories.toFixed(2);
+
+
+            return <View style={style.container}>
                <View style={style.nalt}>
 
                </View>
@@ -36,7 +36,7 @@ import DataContext from '../components/DataContext';
                    </Text>
                   <View style={style.rrethi}>
                       <Text style={style.number}>
-                          {this.state.calories}
+                          {calories}
                       </Text>
                       <Text style={style.Text}>
                         kcal
@@ -50,17 +50,17 @@ import DataContext from '../components/DataContext';
                         PUSH UPS 
                       </Text>
                       <Text style={style.Text}>
-                          {this.state.pushUps}
+                          {pushUps}
                       </Text>
                       
                   </View>
                   <View style={style.viewPushBottom}>
+                   
 
                   </View>
-                  
                </View>
              </View>
-             )}</DataContext.Consumer>
+           }}</DataContext.Consumer>
          );
      }
  }
@@ -119,6 +119,8 @@ import DataContext from '../components/DataContext';
    },
 
    viewPushBottom:{
-       height:'75%'
+       height:'75%',
+       width:'100%',
+       flexDirection:'row',
    }
  });

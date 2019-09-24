@@ -1,10 +1,10 @@
 {
-  "webpackServerPort": 19003,
-  "expoServerNgrokUrl": "https://kx-jfq.donald-isufi.push-ups.exp.direct",
-  "packagerNgrokUrl": "https://packager.kx-jfq.donald-isufi.push-ups.exp.direct",
-  "ngrokPid": 13452,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "expoServerPort": null,
+  "webpackServerPort": null,
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
-  "packagerPort": 19001,
-  "packagerPid": 1588
+  "packagerPort": null,
+  "packagerPid": null
 }

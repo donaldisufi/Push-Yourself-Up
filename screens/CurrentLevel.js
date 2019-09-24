@@ -12,36 +12,44 @@ import { Audio } from 'expo-av';
 import SoundBtn from '../components/SoundBtn';
 import DataContext from '../components/DataContext';
 import axios from 'axios';
+import deviceStorage from '../components/service/deviceStorage';
 
 
  export default  class CurrentLevel extends React.Component{
     static navigationOptions={
-        title:'Level'
+        title:'Level',
+        headerTitleStyle: {
+          fontWeight: "bold",
+          fontSize: 25
+        }
     }
     constructor(props){
          super(props);
          this.state={
-           number:0,
+          
            currentSerie:0,
            restTime:false,
-           timer:59,
+           timer:10,
            finished:false,
            goal:0,
            disabledButton:false,
            shouldPlay:true,
            lastIndex:0,
            series:[],
+           pompa:0,
+
          
          },
          this.ismounted=false;
-         this.series  = props.navigation.state.params.data.series[props.navigation.state.params.data.currentLevel-1];
-         console.log(this.series);
+        this.series  = props.navigation.state.params.series[props.navigation.state.params.currentLevel-1];
+         console.log(props);
+        
+         
       
      }
    
      componentWillUnmount=()=>{
         this.ismounted=false;
-    
       
      }
 
@@ -50,20 +58,48 @@ import axios from 'axios';
      
       this.ismounted && this.setState({series:this.series},function(){
         console.log(this.state.series);
-        this.setState({goal:this.state.series[this.state.currentSerie],lastIndex:this.state.series.length})
+        this.setState({goal:this.state.series[this.state.currentSerie],lastIndex:this.state.series.length-1});
       })
+     
       
           
     }
-
-
+ 
+    finishedLevel=(data)=>{
+      
+      data.setSeries(data.series);
+      data.setPushUps(this.state.pompa);
+      data.setLevel(false,data.currentLevel+1);
+      // deviceStorage.getJWT().then(id=>{
+      //   var level = 1;
+      //   axios({
+      //     url:`/users/${id}`,
+      //     method:'patch',
+      //     data:{
+              
+      //     }
+      //   }).then((response)=>{
+      //     console.log("Successfully updatet level");
+      //     console.log(response);
+      //   })
+      //   .catch((error)=>{
+      //       console.log("Error update");
+      //       console.log(JSON.stringify(error));
+      //   })
+      // }).catch((error)=>{
+      //   console.log("Error getting token");
+      // })
+     
+    }
     startTimer=()=>{
       setTimeout(()=>{
         if(this.state.timer >0){
           this.state.restTime &&  this.ismounted && this.setState({timer:this.state.timer-1})
           this.state.restTime &&  this.ismounted && this.startTimer();
         } else{
-          this.ismounted && this.setState({restTime:false,goal:this.state.series[this.state.currentSerie],finished:false,timer:59,disabledButton:false});
+          this.ismounted && this.setState({restTime:false,currentSerie:this.state.currentSerie+1,finished:false,timer:10,disabledButton:false},function(){
+             this.setState({goal:this.state.series[this.state.currentSerie]});
+          });
         }
        },1000)
      }
@@ -119,24 +155,43 @@ import axios from 'axios';
                       </View>
                     <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
                         
-                        this.playSound();
-                        this.setState({goal:this.state.goal<=0?0:this.state.goal-1,finished:this.state.goal<=0?true:false,number:this.state.number++},function(){
+                        this.state.shouldPlay && this.playSound();
+                        this.setState({
+                          goal:this.state.goal<=0?0:this.state.goal-1,
+                          finished:this.state.goal<=0?true:false,
+                          pompa:this.state.pompa+1
+                        },function(){
                           if(this.state.goal<=0){
-                            this.startTimer();
-                            this.setState({restTime:true,finished:false,currentSerie:this.state.currentSerie+1,disabledButton:true},function(){
-                              if(this.state.currentSerie===this.state.lastIndex){
-                                  this.props.navigation.navigate('Calories',this.state);
-                                  data.setSeries(data.series);
+                             if(this.state.currentSerie===this.state.lastIndex){
+                                  
+                                  this.setState({ 
+                                    currentSerie:0,
+                                    restTime:false,
+                                    timer:10,
+                                    finished:false,
+                                    goal:0,
+                                    disabledButton:false,
+                                    shouldPlay:true,
+                                    lastIndex:0,
+                                    lastIndex:this.state.series.length-1,
+                                  },function(){
+                                     
+                                    this.finishedLevel(data);
+                                    this.setState({ goal:this.state.series[this.state.currentSerie],});
+                                    this.props.navigation.navigate('Calories');
+                                   });
+                                 
+                             }else {
+                              this.startTimer();
+                              this.setState({restTime:true,finished:false,disabledButton:true})
+                             }
 
-                              }
-                            })
-                          }
-                        });
+                          }});
 
                         
                      
                     }}>
-                    {this.state.lastIndex===this.state.currentSerie? <Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>0</Text>:this.state.restTime?<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{this.state.goal}</Text>}
+                    {this.state.lastIndex===this.state.currentSerie && this.state.goal<=0? <Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>0</Text>:this.state.restTime?<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{this.state.goal}</Text>}
                     </CircleBtn>
                   </View> 
                   <View style={{height:'12%',justifyContent:'center',alignItems:'center',width:'100%'}}>
@@ -145,8 +200,12 @@ import axios from 'axios';
                        title="Continue"
                        style={{width:'100%'}}
                        onPress={()=>{
-                        this.setState({restTime:false,finished:false,timer:59,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
-                          this.setState({goal:this.state.series[this.state.currentSerie]})
+                        this.setState({restTime:false,finished:false,timer:10,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
+                          this.setState({goal:this.state.series[this.state.currentSerie]},function(){
+                            console.log(this.state.currentSerie);
+                            console.log(this.state.goal);
+                          });
+                           
                         });
                        }}
                      />: <FinishedBtn
@@ -154,9 +213,23 @@ import axios from 'axios';
                           title="Finish"
                           onPress={()=>{
                             if(this.state.currentSerie===this.state.lastIndex){
-                              this.props.navigation.navigate('Calories',this.state);
-                              data.setSeries(data.series);
-
+                            
+                              this.setState({ 
+                                currentSerie:0,
+                                restTime:false,
+                                timer:10,
+                                finished:false,
+                                goal:0,
+                                disabledButton:false,
+                                shouldPlay:true,
+                                lastIndex:0,
+                                lastIndex:this.state.series.length-1},function(){
+                                  
+                                  this.finishedLevel(data);
+                                  this.setState({goal:this.state.series[this.state.currentSerie],})
+                                  this.props.navigation.navigate('Calories');
+                                });
+                             
                           }else{
                             this.startTimer();
                             this.setState({restTime:true,finished:false,disabledButton:true})
@@ -192,5 +265,6 @@ import axios from 'axios';
        justifyContent:'center',
        alignItems:'center',
        borderRadius:20,
+      
      }
  })
