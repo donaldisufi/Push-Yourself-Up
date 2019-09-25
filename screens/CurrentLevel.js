@@ -70,25 +70,28 @@ import deviceStorage from '../components/service/deviceStorage';
       data.setSeries(data.series);
       data.setPushUps(this.state.pompa);
       data.setLevel(false,data.currentLevel+1);
-      // deviceStorage.getJWT().then(id=>{
-      //   var level = 1;
-      //   axios({
-      //     url:`/users/${id}`,
-      //     method:'patch',
-      //     data:{
+      let password = deviceStorage.getItem("password");
+      let username = deviceStorage.getItem("username");
+      let id = deviceStorage.getItem("id");
+      var level = `level${data.currentLevel}`;
+        
+        axios.patch(`/users/${id}`,
+          {
+              name:username,
+              password:password,
+              record:50,
+             [level]:true,
               
-      //     }
-      //   }).then((response)=>{
-      //     console.log("Successfully updatet level");
-      //     console.log(response);
-      //   })
-      //   .catch((error)=>{
-      //       console.log("Error update");
-      //       console.log(JSON.stringify(error));
-      //   })
-      // }).catch((error)=>{
-      //   console.log("Error getting token");
-      // })
+          }
+        ).then((response)=>{
+          console.log("Successfully updatet level");
+          console.log(response);
+        })
+        .catch((error)=>{
+            console.log("Error update");
+            console.log(error.message);
+        })
+      
      
     }
     startTimer=()=>{

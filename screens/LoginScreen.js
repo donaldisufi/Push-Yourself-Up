@@ -90,7 +90,7 @@ export default class LoginScreen extends React.Component{
                              deviceStorage.setItem('@token',token);
                              deviceStorage.setItem("id",response.data.useri.id);
                              deviceStorage.setItem("username",response.data.useri.username);
-                             deviceStorage.setItem("")
+                             deviceStorage.setItem("password",this.state.password);
                              this.setState({loadPost:false});
                              this.props.navigation.navigate('Main');
                              console.log(token);

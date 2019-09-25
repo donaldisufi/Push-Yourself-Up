@@ -8,6 +8,7 @@ import {
  } from 'react-native';
 import DataContext from '../components/DataContext';
 import ButtonHome from '../components/ButtonHome';
+import CaloriesBtn from '../components/CaloriesBtn';
 
  export default class CaloriesScreen extends React.Component{
      constructor(props){
@@ -55,9 +56,27 @@ import ButtonHome from '../components/ButtonHome';
                       
                   </View>
                   <View style={style.viewPushBottom}>
-                   
+                    <CaloriesBtn 
+                        title="Home"
+                        onPress={()=>{
+                          this.props.navigation.navigate('Home');
+                        }}
+                        style={{marginRight:10}}
+                      />
+                      
+                      <CaloriesBtn 
+                       title="Save"
+                       onPress={()=>{
+                         alert("Your Calories are saved");
+                        this.props.navigation.navigate(data.caloriesRender==='Train'?'Train':'Practise');
+                       }}
+                       style={{marginLeft:10}}
 
-                  </View>
+                      />
+                        
+
+                    </View>
+                  
                </View>
              </View>
            }}</DataContext.Consumer>
@@ -79,7 +98,8 @@ import ButtonHome from '../components/ButtonHome';
      alignItems:'center',
    },
    posht:{
-     height:'40%'
+     height:'40%',
+     width:'100%',
    },
    rrethi : {
         height:200,
@@ -122,5 +142,7 @@ import ButtonHome from '../components/ButtonHome';
        height:'75%',
        width:'100%',
        flexDirection:'row',
+       justifyContent:'center',
+       alignItems:'center',
    }
  });

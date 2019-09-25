@@ -71,8 +71,9 @@ export default class PractiseScreen extends React.Component{
       if(this.state.number>data.record){
           data.setRecord(this.state.number);
           this.modalVisible();
-      }
+      }else{
       data.setRecord(data.record);
+      }
     }
     playSound=async ()=>{
      
