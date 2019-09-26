@@ -1,32 +1,41 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, View ,StyleSheet } from 'react-native';
+import { Text, View ,StyleSheet } from 'react-native';
 import axios from 'axios';
 
 export default class RecordScreen extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          records:[],
+          record:[],
+          users:[],
         }
       }
+   
+      
       componentDidMount() {
-        axios.get('/records')
+
+        axios.get(`/users/record/id`)
         .then(response=>{
-          this.setState({record:response});
+          this.setState({record:response.users.response});
             console.log(response)
         })
         .catch(error => {
           console.log(error);
         });
-     
+console.log(this.state.record.users)
     }
+
+
+
+
   render(){
 
     return(
       <View style={styles.container}>
-       <Text >{this.props.records}</Text>
-       <Text>{this.props.records}</Text>
-
+        <Text style={{fontSize:25}}>
+            {this.props.record}
+            {this.props.users}
+          </Text>       
       </View>
     );
   }
