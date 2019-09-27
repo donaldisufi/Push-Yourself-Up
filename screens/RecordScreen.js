@@ -1,45 +1,65 @@
 import React from 'react';
-import { FlatList, ActivityIndicator, Text, View ,StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import axios from 'axios';
+import RecordeItem from '../components/RecordeItem';
 
 export default class RecordScreen extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-          records:[],
-        }
-      }
-      componentDidMount() {
-        axios.get('/records')
-        .then(response=>{
-          this.setState({record:response});
-            console.log(response)
-        })
-        .catch(error => {
-          console.log(error);
-        });
-     
+  static navigationOptions = {
+
+    title: 'Top Record'
+
+  }
+  constructor(props) {
+    super(props);
+    this.state = {
+      records: [],
+      users: ""
     }
-  render(){
+  }
 
-    return(
-      <View style={styles.container}>
-       <Text >{this.props.records}</Text>
-       <Text>{this.props.records}</Text>
+  componentDidMount() {
 
-      </View>
+    axios.get(`/records/`)
+      .then(response => {
+        const user = response.data;
+        alert(JSON.stringify(user))
+
+        this.setState({ records: user })
+
+
+      })
+      .catch(error =>
+        console.log(error)
+      );
+
+  }
+
+  render() {
+
+    return (
+      <ScrollView>
+        <View style={styles.container}>
+          {
+            this.state.records.length !== 0 ?
+              this.state.records.map((record, index) => (
+                <RecordeItem key={index} rank={record.rank} name={record.name} record={record.record} > </RecordeItem>
+              )
+              ) : null
+          }
+
+        </View>
+      </ScrollView>
     );
   }
 }
 
-  const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      justifyContent:'center',
-      alignItems:'center',
-  
-    },
-    
-  });
-  
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#fff',
+    justifyContent: 'center',
+    alignItems: 'center',
+
+  },
+
+});
