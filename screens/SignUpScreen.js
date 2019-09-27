@@ -108,21 +108,41 @@ export default class SignUpScreen extends React.Component{
                                                     password:this.state.password   
                                                 }
                                         }).then( response =>{
+                                                console.log("Tdhanat Suksese Signup");
+                                                console.log(response);
                                                 let token = response.data.token;
-                                                configAxios(token);
                                                 deviceStorage.setItem('@token',token);
                                                 deviceStorage.setItem("id",response.data.createdUser._id);  
-                                                deviceStorage.setItem("username",this.state.username);
-                                                deviceStorage.setItem("password",this.state.password);
+                                                deviceStorage.setItem("username",response.config.data.name);
+                                                deviceStorage.setItem("password",response.config.data.password);
+                                                deviceStorage.setItem("kg",response.config.data.kg);
+                                                deviceStorage.setItem("gender",response.config.data.gender);
+                                                configAxios(token);
                                                 this.setState({loadPost:false});
+
+                                                data.setLevel(false,1);
+                                                data.setLevel(true,2);
+                                                data.setLevel(true,3);
+                                                data.setLevel(true,4);
+                                                data.setLevel(true,5);
+                                                data.setLevel(true,6);
+                                                data.setLevel(true,7);
+                                                data.setLevel(true,8);
+                                                data.setLevel(true,9);
+                                                data.setLevel(true,10);
+                                                data.setLevel(true,11);
+                                                data.setLevel(true,12);
+                                                data.setRecord(0);
+
+
                                                 this.props.navigation.navigate('Main');
 
                                             }).catch( error=>{
-                                               console.log(this.state.password);
-                                                console.log(JSON.stringify(error.response.data))
+
+                                                console.log(JSON.stringify(error))
                                                 console.log(JSON.stringify(error.response.data.error))
 
-                                                alert(JSON.stringify(error.response.data));
+                                                alert(JSON.stringify(error.response));
                                                 this.setState({loadPost:false});
 
                                             });

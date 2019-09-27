@@ -3,7 +3,7 @@ import {
     View,
     StyleSheet,
     Text,
-  
+    DeviceEventEmitter
  } from 'react-native';
 
 import CircleBtn from '../components/CircleBtn';
@@ -13,6 +13,7 @@ import SoundBtn from '../components/SoundBtn';
 import DataContext from '../components/DataContext';
 import axios from 'axios';
 import deviceStorage from '../components/service/deviceStorage';
+import configAxios from '../components/service/configAxios';
 
 
  export default  class CurrentLevel extends React.Component{
@@ -26,7 +27,6 @@ import deviceStorage from '../components/service/deviceStorage';
     constructor(props){
          super(props);
          this.state={
-          
            currentSerie:0,
            restTime:false,
            timer:10,
@@ -37,61 +37,98 @@ import deviceStorage from '../components/service/deviceStorage';
            lastIndex:0,
            series:[],
            pompa:0,
-
-         
+           level1:false,
+           level2:false,
+           level3:false,
+           level4:false,
+           level5:false,
+           level6:false,
+           level7:false,
+           level8:false,
+           level9:false,
+           level10:false,
+           level11:false,
+           level12:false,
+           record:0,
+          
          },
          this.ismounted=false;
-        this.series  = props.navigation.state.params.series[props.navigation.state.params.currentLevel-1];
-         console.log(props);
-        
-         
-      
+         this.series  = props.navigation.state.params.series[props.navigation.state.params.currentLevel-1];
+       
      }
-   
+     componentWillMount =async ()=>{
+       let id = await deviceStorage.getItem('id');
+       axios.get(`/users/${id}`).then((value)=>{
+         console.log(value);
+         this.setState({
+           level1: value.data.user.level1,
+           level2: value.data.user.level2,
+           level3: value.data.user.level3,
+           level4: value.data.user.level4,
+           level5: value.data.user.level5,
+           level6: value.data.user.level6,
+           level7: value.data.user.level7,
+           level8: value.data.user.level8,
+           level9: value.data.user.level9,
+           level10: value.data.user.level10,
+           level11: value.data.user.level11,
+           level12: value.data.user.level12,
+           record:value.data.user.record
+         });  
+        
+       })
+       .catch((error)=>{
+         console.log("Error getting levels");
+       })
+     }
      componentWillUnmount=()=>{
         this.ismounted=false;
-      
      }
 
      componentDidMount=()=>{
       this.ismounted=true;
-     
       this.ismounted && this.setState({series:this.series},function(){
         console.log(this.state.series);
         this.setState({goal:this.state.series[this.state.currentSerie],lastIndex:this.state.series.length-1});
       })
      
-      
-          
     }
  
-    finishedLevel=(data)=>{
+    finishedLevel= async (data)=>{
       
       data.setSeries(data.series);
       data.setPushUps(this.state.pompa);
       data.setLevel(false,data.currentLevel+1);
-      let password = deviceStorage.getItem("password");
-      let username = deviceStorage.getItem("username");
-      let id = deviceStorage.getItem("id");
-      var level = `level${data.currentLevel}`;
+    
+       let id = await deviceStorage.getItem("id");
+       let level = data.currentLevel;
+      // var level = `level${data.currentLevel}`;
+        axios.put(`/users/level/${id}`,{
+          
+            level1:1===level?true:this.state.level1,
+            level2:2===level?true:this.state.level2,
+            level3:3===level?true:this.state.level3,
+            level4:4===level?true:this.state.level4,
+            level5:5===level?true:this.state.level5,
+            level6:6===level?true:this.state.level6,
+            level7:7===level?true:this.state.level7,
+            level8:8===level?true:this.state.level8,
+            level9:9===level?true:this.state.level9,
+            level10:10===level?true:this.state.level10,
+            level11:11===level?true:this.state.level11,
+            level12:12===level?true:this.state.level12,
+
+        })
+         .then((response)=>{
+            console.log("Successfully updatet level");
+            console.log(response);
+          })
+          .catch((error)=>{
+              console.log("Error update");
+              console.log(JSON.stringify(error));
+          })
+    
         
-        axios.patch(`/users/${id}`,
-          {
-              name:username,
-              password:password,
-              record:50,
-             [level]:true,
-              
-          }
-        ).then((response)=>{
-          console.log("Successfully updatet level");
-          console.log(response);
-        })
-        .catch((error)=>{
-            console.log("Error update");
-            console.log(error.message);
-        })
-      
      
     }
     startTimer=()=>{
