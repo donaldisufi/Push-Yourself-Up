@@ -5,6 +5,7 @@ import {
 } from 'react-native';
 import deviceStorage from '../components/service/deviceStorage';
 
+
 export default class AuthloadingScreen extends React.Component{
     constructor(props){
         super(props);
@@ -15,6 +16,7 @@ export default class AuthloadingScreen extends React.Component{
           deviceStorage.getJWT().then(res=>{
               if(res){
                   this.props.navigation.navigate('Main');
+                  
               }else{
                   this.props.navigation.navigate('Register');
               }

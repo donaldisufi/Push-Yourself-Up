@@ -15,9 +15,9 @@ import { TextInput } from 'react-native-gesture-handler';
 import DataContext from '../components/DataContext';
 import SoundBtn from '../components/SoundBtn';
 import { Audio } from 'expo-av';
+import axios from 'axios';
+import deviceStorage from '../components/service/deviceStorage';
 
-//import  {Proximity}  from  'react-native-proximity';
-   
 
 let {height,width} = Dimensions.get('window');
 
@@ -38,7 +38,11 @@ export default class PractiseScreen extends React.Component{
    }
    componentDidMount=()=>{
           this.ismounted=true;
-//        Proximity.addListener(this._proximityListener);
+
+    }
+    componentWillMount =()=>{
+      
+
     }
    componentWillUnmount=()=>{
        this.ismounted=false;
@@ -50,15 +54,8 @@ export default class PractiseScreen extends React.Component{
         setgoalVisible:true,
         shouldPlay:true,
         disabled:false,})
-//      Proximity.removeListener(this._proximityListener);
-     }
-//    _proximityListener=(data)=>{
-//      console.log(data);
-//    }
-    // modal=(modalVisible)=>{
-    //   this.setState({modalVisible});
-    // }
-    
+         
+       }
     modalVisible=()=>{
         this.setState({modalVisible:!this.state.modalVisible});
         setTimeout(()=>{
@@ -67,10 +64,22 @@ export default class PractiseScreen extends React.Component{
         },1500)
         
     }
-    setRecord=(data)=>{
+    setRecord= async (data)=>{
       if(this.state.number>data.record){
           data.setRecord(this.state.number);
+           let id = await deviceStorage.getItem('id');
+          axios.put(`/users/record/${id}`,{
+              record:this.state.number
+          }).then((response)=>{
+             console.log("Successfully updated REcord");
+             console.log("Tdhanat e recordit");
+             console.log(response);
+          }).catch((error)=>{
+             console.log("error Updating record " ,error );
+          })
+
           this.modalVisible();
+
       }else{
       data.setRecord(data.record);
       }
@@ -148,7 +157,7 @@ export default class PractiseScreen extends React.Component{
                            <CircleBtn disabled={this.state.disabled}
                                 onPress={()=>{
                                     
-                                    this.playSound();
+                                   this.state.shouldPlay && this.playSound();
                                     this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false,disabled:true});
                                     setTimeout(()=>{
                                        this.setState({disabled:false})

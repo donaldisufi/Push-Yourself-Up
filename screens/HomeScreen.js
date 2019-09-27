@@ -8,15 +8,17 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Dimensions
+  Dimensions,
+  StatusBar
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
 import ButtonHome from '../components/ButtonHome';
 import DataContext from '../components/DataContext';
-import { TextInput } from 'react-native-gesture-handler';
+
 import axios from 'axios';
 import deviceStorage from '../components/service/deviceStorage';
+import configAxios from '../components/service/configAxios';
 
 let {height,width} = Dimensions.get('window');
 
@@ -34,25 +36,20 @@ export default class HomeScreen extends React.Component{
       let id;
       
     // deviceStorage.getItem("id").then(res=>{
-      deviceStorage.getItem("id").then(res=>{
+        deviceStorage.getItem("id").then(res=>{
         id=res;
         console.log(" ID : "+id);
-
         axios.get(`/users/${id}`).then(value=>{
+          console.log("Tdhanat nga home screen ");
+          console.log(value);
           this.setState({data:value.data.user});
-        
-
            // level2 = value.data.user.level1.completed?false:true;
            // level3 = value.data.user.level2.completed?false:true;
            // level4 = value.data.user.level3.completed?false:true;
            // level5 = value.data.user.level5.completed?false:true;
            // level6 = value.data.user.level6.completed?false:true;
- 
            //DataContext._currentValue.setLevel(level2,2);
            
-           
-        
-         
        }).then(()=>{
          console.log("Kontexttttt");
          console.log(DataContext);
@@ -67,8 +64,7 @@ export default class HomeScreen extends React.Component{
 
       });
      
-  console.log("Tdhanate ");
-  console.log(this.data);
+
      
     // }).catch(error=>{
     //   console.log("Erro getting token " + error.message);
@@ -83,8 +79,8 @@ export default class HomeScreen extends React.Component{
        
   }
   
-  componentDidMount=()=>{
-    console.log(DataContext);
+  // componentDidMount=()=>{
+  //   console.log(DataContext);
   //   
        
   //     axios.get(`/users/${res}`).then(value=>{
@@ -111,13 +107,14 @@ export default class HomeScreen extends React.Component{
   //  // DataContext._currentValue.setLevel(level5,5);
   //  // DataContext._currentValue.setLevel(level6,6);
   //  // DataContext._currentValue.setLevel(level7,7);
-   }
+  //  }
  
  
   render(){
     return(
     <DataContext.Consumer>{(data)=>(
       <View style={style.container}>
+        <StatusBar backgroundColor="white" barStyle="dark-content"/>
         <View style={style.nalt}>
           <Text style={{fontSize:30}}>
             Your Pushup Record :

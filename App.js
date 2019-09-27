@@ -9,6 +9,7 @@ import DataContext from './components/DataContext';
 import AppNavigator from './navigation/AppNavigator';
 import deviceStorage from './components/service/deviceStorage';
 import configAxios from './components/service/configAxios';
+import axios from 'axios';
 //const [isLoadingComplete, setLoadingComplete] = useState(false);
 
 
@@ -18,7 +19,49 @@ export default class App extends React.Component{
 componentWillMount=()=>{
   deviceStorage.getJWT().then(res=>{
     configAxios(res);
+    if(res){
+      deviceStorage.getItem('id').then(id=>{
+        axios.get(`users/${id}`).then((value)=>{
+
+          console.log("Tdhanat prej Component Willl mout ==================================");
+          console.log(value);
+        })
+      })
+    }
   })
+
+}
+componentDidMount= async ()=>{
+  let token = await deviceStorage.getJWT();
+  if(token){
+      configAxios(token);
+    let id = await deviceStorage.getItem("id");
+
+    axios.get(`/users/${id}`).then(value=>{
+          console.log("Tdhanat e userit");  
+         console.log(value);
+          this.setState({
+          
+            level2:value.data.user.level1?false:true,
+            level3:value.data.user.level2?false:true,
+            level4:value.data.user.level3?false:true,
+            level5:value.data.user.level4?false:true,
+            level6:value.data.user.level5?false:true,
+            level7:value.data.user.level6?false:true,
+            level8:value.data.user.level7?false:true,
+            level9:value.data.user.level8?false:true,
+            level10:value.data.user.level9?false:true,
+            level11:value.data.user.level10?false:true,
+            level12:value.data.user.level11?false:true,
+            record:value.data.user.record,
+          });
+          
+           
+       })
+       .catch((error)=>{
+        console.log("Error geting levels in app.js" + error);
+       })
+  }
 }
 state ={
       caloriesRender:'',
