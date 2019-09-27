@@ -112,6 +112,8 @@ export default class SignUpScreen extends React.Component{
                                                 configAxios(token);
                                                 deviceStorage.setItem('@token',token);
                                                 deviceStorage.setItem("id",response.data.createdUser._id);  
+                                                deviceStorage.setItem("username",this.state.username);
+                                                deviceStorage.setItem("password",this.state.password);
                                                 this.setState({loadPost:false});
                                                 this.props.navigation.navigate('Main');
 
