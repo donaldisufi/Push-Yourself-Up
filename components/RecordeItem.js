@@ -7,7 +7,7 @@ export default class RecordeItem extends Component {
         return (
             <View style={styles.container}>
 
-                <View style={{ height: 'auto', paddingRight: 330 }}>
+                <View style={{ height: 'auto', paddingRight: 330, backgroundColor: '#2EA0D1', marginLeft: 10, marginTop: 30 }}>
                     <Text style={{ fontSize: 17, marginTop: -35 }}   > {this.props.rank} </Text>
                 </View>
                 <View style={{ paddingLeft: 40, paddingRight: 40 }}>
