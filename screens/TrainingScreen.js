@@ -3,8 +3,9 @@ import {
     View,
     StyleSheet,
     Text,
-    StatusBar
-
+    StatusBar,
+    ImageBackground,
+    Platform
 } from 'react-native';
 import LevelBtn from '../components/LevelBtn';
 import DataContext from '../components/DataContext';
@@ -13,14 +14,24 @@ import axios from 'axios';
 
 export default class TrainingScreen extends React.Component {
    static navigationOptions={
+    headerTransparent: true,
        title:"Training",
+       headerTintColor:'white',
        headerTitleStyle:{
         fontSize:30,
-
+        fontFamily:'bold',
+        color:'white',
+        
        },
        headerStyle: {
         elevation: 0,
-        shadowOpacity: 0
+        shadowOpacity: 0,
+        backgroundColor: 'transparent',
+        zIndex: 100,
+        elevation: 0,
+        shadowOpacity: 0,
+        borderBottomWidth: 0
+
       }
    }
     constructor(props){
@@ -63,11 +74,12 @@ export default class TrainingScreen extends React.Component {
   
    render(){
        return(
+        <ImageBackground source={require('../assets/images/HomeBack.png')} style={{flex:1, paddingTop: Platform.OS === 'ios' ? 60 : 80,}}>
            <DataContext.Consumer>{(data)=>(
             <View style={style.container}>
                 <StatusBar barStyle={"dark-content"} backgroundColor={"white"}  />
              <View style={style.first}>
-                  <Text>
+                  <Text style={{fontSize:30,fontFamily:'bold',color:'white'}}>
                       Select a level to Train
                   </Text>
              </View>
@@ -219,6 +231,7 @@ export default class TrainingScreen extends React.Component {
              </View>
            </View>
            )}</DataContext.Consumer>
+           </ImageBackground>
 
        );
    }
@@ -228,7 +241,8 @@ const style = StyleSheet.create({
     container:{
         justifyContent:'center',
         alignItems:'center',
-        flex:1
+        flex:1,
+     
     },
     first:{
         height:'10%',

@@ -15,9 +15,42 @@ import axios from 'axios';
 
 
 export default class App extends React.Component{
+  loadResourcesAsync  = async()=> {
+    await Promise.all([
+      Asset.loadAsync([
+        require('./assets/images/robot-dev.png'),
+        require('./assets/images/robot-prod.png'),
+        require('./assets/images/calories.jpg'),
+        require('./assets/images/HomeBack.png'),
+        require('./assets/images/icon.png'),
+        require('./assets/images/Pushup.jpg'),
+        require('./assets/images/pushupMan.jpg'),
+        require('./assets/images/pushupMan.jpg'),
+        require('./assets/images/TrainBack.png'),
+        require('./assets/images/SettingsBack.png'),
+        
+  
+  
+  
+      ]),
+      Font.loadAsync({
+        // This is the font that we are using for our tab bar
+        ...Ionicons.font,
+        // We include SpaceMono because we use it in HomeScreen.js. Feel free to
+        // remove this if you are not using it in your app
+        // 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+        'regular': require('./assets/fonts/Roboto-Regular.ttf'),
+        'thin':require('./assets/fonts/Roboto-Thin.ttf'),
+        'bold':require('./assets/fonts/Roboto-Bold.ttf'),
+        'bold-italic':require('./assets/fonts/Roboto-BoldItalic.ttf')
+
+      }),
+    ]);
+  }
 
 componentWillMount=()=>{
-  deviceStorage.getJWT().then(res=>{
+  this.loadResourcesAsync();
+    deviceStorage.getJWT().then(res=>{
     configAxios(res);
     if(res){
       deviceStorage.getItem('id').then(id=>{
@@ -40,8 +73,9 @@ componentDidMount= async ()=>{
     axios.get(`/users/${id}`).then(value=>{
           console.log("Tdhanat e userit");  
          console.log(value);
+           
           this.setState({
-          
+             userName:value.data.user.name,
             level2:value.data.user.level1?false:true,
             level3:value.data.user.level2?false:true,
             level4:value.data.user.level3?false:true,
@@ -64,6 +98,10 @@ componentDidMount= async ()=>{
   }
 }
 state ={
+      userName:"",
+      setUsername:(value)=>{
+        this.setState({userName:value});
+      },
       caloriesRender:'',
       setCaloriesRender:(value)=>{
         this.setState({
@@ -155,6 +193,8 @@ render(){
       <View style={styles.container}>
         <DataContext.Provider value={this.state}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
+       
+
           <AppNavigator />
         </DataContext.Provider>
       </View>
@@ -168,6 +208,15 @@ async function loadResourcesAsync() {
     Asset.loadAsync([
       require('./assets/images/robot-dev.png'),
       require('./assets/images/robot-prod.png'),
+      require('./assets/images/calories.jpg'),
+      require('./assets/images/HomeBack.png'),
+      require('./assets/images/icon.png'),
+      require('./assets/images/Pushup.jpg'),
+      require('./assets/images/pushupMan.jpg'),
+      require('./assets/images/pushupMan.jpg'),
+
+
+
     ]),
     Font.loadAsync({
       // This is the font that we are using for our tab bar
@@ -175,6 +224,7 @@ async function loadResourcesAsync() {
       // We include SpaceMono because we use it in HomeScreen.js. Feel free to
       // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+      'regular': require('./assets/fonts/Roboto-Regular.ttf')
     }),
   ]);
 }

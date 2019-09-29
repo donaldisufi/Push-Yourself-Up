@@ -6,7 +6,7 @@ import {
     Text,
     ImageBackground,
     Modal,
-    
+    Platform
 } from 'react-native';
 
 import CircleBtn from '../components/CircleBtn'
@@ -22,7 +22,28 @@ import deviceStorage from '../components/service/deviceStorage';
 let {height,width} = Dimensions.get('window');
 
 export default class PractiseScreen extends React.Component{
-   constructor(props){
+   static navigationOptions ={
+    headerTransparent: true,
+     title:"Train",
+     headerTintColor:'white',
+     headerTitleStyle:{
+     fontSize:30,
+     fontFamily:'bold',
+     color:'white',
+     
+    },
+    headerStyle: {
+     elevation: 0,
+     shadowOpacity: 0,
+     backgroundColor: 'transparent',
+     zIndex: 100,
+     elevation: 0,
+     shadowOpacity: 0,
+     borderBottomWidth: 0
+
+   }
+   }
+    constructor(props){
        super(props);
        this.state ={
            number:0,
@@ -96,96 +117,113 @@ export default class PractiseScreen extends React.Component{
      }
     render(){
         return(
-            <DataContext.Consumer>
-                {(data)=>(
-            <View style={style.container}>               
-                <Modal 
-                    visible={this.state.modalVisible}
-                    transparent={true}
-                    animated={true}
-                    animationType="fade"    
-                >
-                    <View style={{justifyContent:'center',alignItems:'center',height:'100%',width:'100%'}}>
-                        <ImageBackground style={{height:200,width:300,justifyContent:'center',alignItems:'center',borderRadius:5}} source={require('../assets/images/youdidit.jpg')}>
-                                <Text style={{fontSize:20}}>
-                                   Congrat's. You broke the Record.
+            <ImageBackground source={require('../assets/images/TrainBack.png')} style={{flex:1, paddingTop: Platform.OS === 'ios' ? 60 : 80,}} >
+                <DataContext.Consumer>
+                    {(data)=>(
+                <View style={style.container}>               
+                    <Modal 
+                        visible={this.state.modalVisible}
+                        transparent={true}
+                        animated={true}
+                        animationType="fade"    
+                    >
+                        <View style={{justifyContent:'center',alignItems:'center',height:'100%',width:'100%'}}>
+                            <ImageBackground style={{height:200,width:300,justifyContent:'center',alignItems:'center',borderRadius:5}} source={require('../assets/images/youdidit.jpg')}>
+                                    <Text style={{fontSize:20}}>
+                                    Congrat's. You broke the Record.
+                                    </Text>
+                            </ImageBackground>
+                        </View>
+                    </Modal>
+
+                <View style={style.nalt}>
+                    {/* Pjesa nalt  */}
+                    <View style={style.gjysaNalt}>
+                            <View style={style.record}>
+                                <View style={{width:'40%'}} />
+                                <View style={{width:'60%',height:'100%',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+                                    <Text style={{fontSize:25,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'thin',marginRight:5}}>
+                                        MY SCORE 
+                                    </Text>
+                                    <Text style={{fontSize:25,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'bold'}}>
+                                       :  {data.record}
+                                    </Text>
+                                </View>
+                            </View> 
+                            <View style={style.goal} > 
+                                {this.state.setgoalVisible? 
+                                <View style={{width:'25%',justifyContent:'center',alignItems:'center'}}>
+                                 <FinishedBtn 
+                                        title="-"
+                                        style={{width:60,borderRadius:5}}
+                                        onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1}) }}/>
+                                    </View>:<Fragment />}<View style={{justifyContent:'center',alignItems:'center',flexDirection:'row',width:'50%'}}>
+                                   <Text style={{fontSize:30,fontFamily:'thin',color:'white'}}>Goal : </Text><TextInput keyboardType={'numeric'} style={{height:60,width:60,textAlign:'center',fontSize:35,color:'white',fontFamily:'bold',}} onChangeText={(e)=>{this.setState({default:e})}} value={this.state.default.toString()} /> 
+                                 </View>
+                                {this.state.setgoalVisible?<View style={{justifyContent:'center',alignItems:'center',width:'25%'}} >
+                                    <FinishedBtn 
+                                            title="+"
+                                            style={{width:60,borderRadius:5}}
+                                            onPress={()=>{this.setState({default:this.state.default+1})}}
+                                    />
+                                    </View>:<Fragment />}
+                            </View>
+                            <View style={style.audio}>
+                                <View style={{width:'70%'}}></View>
+                                <View style={{width:'30%',justifyContent:'center',alignItems:'center'}}>
+                                    <SoundBtn 
+                                    name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
+                                    onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
+                                    />
+                                </View>
+                            </View>
+                    </View>
+                        {/* Pjesa posht   */}
+                        <View style={style.gjysaPosht} >
+                            
+                            <CircleBtn disabled={this.state.disabled}
+                                    onPress={()=>{
+                                        
+                                    this.state.shouldPlay && this.playSound();
+                                        this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false,disabled:true});
+                                        setTimeout(()=>{
+                                        this.setState({disabled:false})
+                                        },1000)
+                                }}>
+                                <Text style={{fontSize:35,color:'white',fontWeight:'bold'}}>
+                                    {this.state.number}
+
                                 </Text>
-                        </ImageBackground>
-                    </View>
-                </Modal>
-
-               <View style={style.nalt}>
-                   {/* Pjesa nalt  */}
-                   <View style={style.gjysaNalt}>
-                        <View style={style.record}>
-                            <View style={{width:'60%'}}>
-
-                            </View>
-                            <View style={{width:'40%',height:'100%',justifyContent:'center',alignItems:'center'}}>
-                            <Text style={{fontSize:18,justifyContent:'center',alignItems:'center'}}>
-                                Your Record :{data.record}
-                            </Text>
-                            </View>
-                        </View> 
-                        <View style={style.goal} > 
-                            {this.state.setgoalVisible? 
-                            <FinishedBtn 
-                                    title="-"
-                                    style={{width:60,borderRadius:5,marginRight:50}}
-                                    onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1})}}
-                                />:<Fragment />}
-                            <Text style={{fontSize:20}}>Goal : </Text><TextInput keyboardType={'numeric'} style={{height:60,width:60,textAlign:'center',fontSize:22}} onChangeText={(e)=>{this.setState({default:e})}} value={this.state.default.toString()} /> 
-                            {this.state.setgoalVisible?  <FinishedBtn 
-                                        title="+"
-                                        style={{width:60,borderRadius:5,marginLeft:50}}
-                                        onPress={()=>{this.setState({default:this.state.default+1})}}
-                                />:<Fragment />}
+                            </CircleBtn>
                         </View>
-                        <View style={style.audio}>
-                            <View style={{width:'70%'}}></View>
-                            <View style={{width:'30%',justifyContent:'center',alignItems:'center'}}>
-                                <SoundBtn 
-                                name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
-                                onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
-                                />
-                            </View>
-                        </View>
-                   </View>
-                    {/* Pjesa posht   */}
-                    <View style={style.gjysaPosht} >
-                        
-                           <CircleBtn disabled={this.state.disabled}
-                                onPress={()=>{
-                                    
-                                   this.state.shouldPlay && this.playSound();
-                                    this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false,disabled:true});
-                                    setTimeout(()=>{
-                                       this.setState({disabled:false})
-                                    },1000)
-                            }}>
-                            <Text style={{fontSize:35,color:'white',fontWeight:'bold'}}>
-                                {this.state.number}
-
-                            </Text>
-                        </CircleBtn>
-                    </View>
-               
-               </View>
-               <View style={style.posht}>
-                 {this.state.visible?
-                    <FinishedBtn 
-                        style={{width:width}}
-                        title="Complete"
-                        onPress={()=>{
-                            this.setRecord(data);
-                            data.setPushUps(this.state.number);
-                            this.props.navigation.navigate('Calories');
-                           
-                        }}
-                    />:<Fragment />}
-               </View>
-            </View>)}
-            </DataContext.Consumer>
+                
+                </View>
+                <View style={style.posht}>
+                    {this.state.visible?
+                        <FinishedBtn 
+                            style={{width:width}}
+                            title="Complete"
+                            onPress={()=>{
+                                this.setRecord(data);
+                                this.setState({
+                                    number:0,
+                                    modalVisible:false,
+                                    visible:false,
+                                    default:0,
+                                    buttonVisible:false,
+                                    setgoalVisible:true,
+                                    shouldPlay:true,
+                                    disabled:false,
+                                })
+                                data.setPushUps(this.state.number);
+                                this.props.navigation.navigate('Calories');
+                            
+                            }}
+                        />:<Fragment />}
+                </View>
+                </View>)}
+                </DataContext.Consumer>
+            </ImageBackground>
         );
     }
 }
@@ -226,7 +264,8 @@ const style = StyleSheet.create({
        height:'40%',
        flexDirection:'row',
        justifyContent:'center',
-       alignItems:'center'
+       alignItems:'center',
+       width:'100%'
     },
     audio:{
      height:'30%',

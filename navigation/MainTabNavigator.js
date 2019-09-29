@@ -1,6 +1,6 @@
 import React from 'react';
 import {
-  Platform
+  Platform  
 } from 'react-native';
 import {
   createStackNavigator,
@@ -18,6 +18,7 @@ import AdviceScreen from '../screens/AdviceScreen';
 import Advices from '../screens/AdviceScreen';
 import RecordScreen from '../screens/RecordScreen'
 import CaloriesScreen from '../screens/CaloriesScreen';
+import SettingsContainer from '../screens/SettingsContainer';
 
 const config = Platform.select({
   web: {
@@ -26,6 +27,27 @@ const config = Platform.select({
   default: {},
 });
 
+const TopStack = createStackNavigator({
+   TOPrECORD:RecordScreen,
+});
+
+TopStack.navigationOptions={
+  tabBarLabel:"TOP HUSTLERS",
+  tabBarIcon: ({
+    focused
+  }) => ( <
+    TabBarIcon focused = {
+      focused
+    }
+    name = {
+      Platform.OS === 'ios' ?
+      `ios-medal` :
+        'md-medal'
+    }
+    />
+  ),
+
+}
 const HomeStack = createStackNavigator({
     Home: HomeScreen,
     Practise: PractiseScreen,
@@ -53,6 +75,7 @@ HomeStack.navigationOptions = {
   tabBarIcon: ({
     focused
   }) => ( <
+   
     TabBarIcon focused = {
       focused
     }
@@ -61,6 +84,7 @@ HomeStack.navigationOptions = {
       `ios-home` :
         'md-home'
     }
+  
     />
   ),
 };
@@ -70,7 +94,8 @@ HomeStack.path = '';
 
 
 const SettingsStack = createStackNavigator({
-    Settings: SettingsScreen,
+    Settings: SettingsContainer,
+
   },
   config
 );
@@ -95,13 +120,33 @@ SettingsStack.path = '';
 
 const tabNavigator = createBottomTabNavigator({
   HomeStack,
+  TopStack,
   SettingsStack,
+
+},{
+
+  tabBarOptions:{
+    tabStyle:{
+      backgroundColor:'#000000',
+      borderColor:'#000000',
+      borderWidth:1,
+      
+      
+    
+    },
+    labelStyle:{
+      fontFamily:'bold'
+    }
+    
+  },
 
 });
 
+
+
 const mainStack = createStackNavigator({
   tabNavigator,
-  Calories: CaloriesScreen
+  Calories: CaloriesScreen,
 
 }, {
   defaultNavigationOptions: {

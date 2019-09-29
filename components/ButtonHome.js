@@ -34,7 +34,9 @@ const style = StyleSheet.create({
         height:55,
         width:width*0.40,
         borderRadius:4,
-        backgroundColor:'#2EA0D1'
+        backgroundColor:'#2EA0D1',
+        borderColor:'white',
+        borderWidth:1
     },
     text:{
      fontSize:20,

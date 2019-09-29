@@ -25,7 +25,7 @@ export default class AuthloadingScreen extends React.Component{
     }
     render(){
         return(
-            <View style={{justifyContent:'center',alignItems:'center'}}>
+            <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
                 <ActivityIndicator />
             </View>
         )

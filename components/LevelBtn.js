@@ -11,11 +11,11 @@ import Colors from '../constants/Colors';
 export default class LevelBtn extends React.Component{
     render(){
         return(
-            <TouchableOpacity disabled={this.props.disabled} onPress={this.props.onPress} style={[style.container,{backgroundColor:this.props.disabled?'#847F7F':'#2EA0D1',borderColor:this.props.disabled?'#ACACAC':'#4FB2F4'}]}>
+            <TouchableOpacity disabled={this.props.disabled} onPress={this.props.onPress} style={[style.container,{backgroundColor:this.props.disabled?'#D3D3D3':'transparent',borderColor:this.props.disabled?'#D3D3D3':'white'}]}>
                 {this.props.disabled?<Ionicons 
                  name="md-lock"
                  size={30}
-                 color={Colors.tabIconDefault}
+                 color={Colors.black}
                  style={{justifyContent:'center',alignItems:'center'}}
                  >
                   
@@ -40,6 +40,8 @@ const style = StyleSheet.create({
     text:{
      color:'white',
      fontWeight:'bold',
-     fontSize:19
+     fontSize:25,
+     fontFamily:'regular'
+
     }
 })

@@ -9,7 +9,8 @@ import {
   TouchableOpacity,
   View,
   Dimensions,
-  StatusBar
+  StatusBar,
+  ImageBackground
 } from 'react-native';
 
 import { MonoText } from '../components/StyledText';
@@ -112,55 +113,59 @@ export default class HomeScreen extends React.Component{
  
   render(){
     return(
-    <DataContext.Consumer>{(data)=>(
-      <View style={style.container}>
-        <StatusBar backgroundColor="white" barStyle="dark-content"/>
-        <View style={style.nalt}>
-          <Text style={{fontSize:30}}>
-            Your Pushup Record :
-          </Text>
-          <Text style={{fontSize:25}}>
-            {data.record}
-          </Text>
-        </View>
-        <ButtonHome 
-            title="Record"
-            
-            onPress={()=>{this.props.navigation.navigate('Record')}}
-            />
-        <View style={style.posht}>
-          <ButtonHome 
-            style={{width:width*0.83}}
-            onPress={()=>{
-              this.props.navigation.navigate('Train',this.state.data);
-              data.setCaloriesRender("Train");
+      <ImageBackground source={require('../assets/images/HomeBack.png')} style={{height:'100%',width:'100%',borderWidth:0,}}>
+        <DataContext.Consumer>{(data)=>(
 
-            }}
-            name="md-clock"
-            title="Training"
-            
-            />
-          <View style={{padding:10,marginTop:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
-          <ButtonHome 
-            title="Practise"
-            name="md-fitness" 
-            onPress={()=>{
-              this.props.navigation.navigate('Practise');
-              data.setCaloriesRender("Practise");
-            }}
-            style={{marginRight:10}}
-            />
-          <ButtonHome 
-            title="Advices"
-            name="md-clipboard" 
-            onPress={()=>{this.props.navigation.navigate('Advices')}}
-            />
-           
-           
-          </View>
+          <View style={style.container}>
+          
+            <View style={style.nalt}>
+              <Text style={{fontSize:40,color:'white', fontFamily:'thin'}}>
+                  MY SCORE
+              </Text>
+              <Text style={{fontSize:95,color:'white',fontFamily:'bold'}}>
+                {data.record}
+              </Text>
+            </View>
+            {/* <ButtonHome 
+                title="Record"
+                style={{backgroundColor:'tranparent'}}
+                onPress={()=>{this.props.navigation.navigate('Record')}}
+                /> */}
+            <View style={style.posht}>
+              <ButtonHome 
+                style={{width:width*0.83,backgroundColor:'tranparent'}}
+                onPress={()=>{
+                  this.props.navigation.navigate('Train',this.state.data);
+                  data.setCaloriesRender("Train");
 
-        </View>
-     </View>)}</DataContext.Consumer>
+                }}
+                name="md-clock"
+                title="BECOME A BEAST"
+                
+                />
+              <View style={{padding:10,marginTop:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
+              <ButtonHome 
+                title="TRAIN"
+                name="md-fitness" 
+                onPress={()=>{
+                  this.props.navigation.navigate('Practise');
+                  data.setCaloriesRender("Practise");
+                }}
+                style={{marginRight:10,backgroundColor:'tranparent'}}
+                />
+              <ButtonHome 
+                title="TIPS"
+                name="md-clipboard" 
+                onPress={()=>{this.props.navigation.navigate('Advices')}}
+                style={{backgroundColor:'tranparent'}}
+                />
+              
+              
+              </View>
+
+            </View>
+        </View>)}</DataContext.Consumer>
+        </ImageBackground>
     );
   }
 }
@@ -169,13 +174,14 @@ const style = StyleSheet.create({
   container:{
     flex:1,
     justifyContent:'center',
-    alignItems:'center'
+    alignItems:'center',
   },
   nalt:{
     height:height*0.60,
     justifyContent:'center',
     alignItems:'center',
-    flexDirection:'column'
+    flexDirection:'column',
+    paddingTop:20
   },
   posht:{
     height:height*0.4,

@@ -14,6 +14,7 @@ import DataContext from '../components/DataContext';
 import axios from 'axios';
 import deviceStorage from '../components/service/deviceStorage';
 import configAxios from '../components/service/configAxios';
+import * as RNEP from '@estimote/react-native-proximity';
 
 
  export default  class CurrentLevel extends React.Component{
@@ -56,6 +57,16 @@ import configAxios from '../components/service/configAxios';
          this.series  = props.navigation.state.params.series[props.navigation.state.params.currentLevel-1];
        
      }
+     startDetection=()=>{
+       const zone1 = new RNEP.ProximityZone(10,'Sample1');
+       zone1.onEnterAction = context =>{
+           console.log("U afru ", context);
+
+       };
+       zone1.onExitAction = context => {
+        console.log("zone1 onExit", context);
+       };
+      }
      componentWillMount =async ()=>{
        let id = await deviceStorage.getItem('id');
        axios.get(`/users/${id}`).then((value)=>{
@@ -86,6 +97,7 @@ import configAxios from '../components/service/configAxios';
      }
 
      componentDidMount=()=>{
+       this.startDetection();
       this.ismounted=true;
       this.ismounted && this.setState({series:this.series},function(){
         console.log(this.state.series);
@@ -170,6 +182,7 @@ import configAxios from '../components/service/configAxios';
         ));
      }
      render(){
+       this.startDetection();
        return(
         <DataContext.Consumer>{(data)=>(
            <View style={style.container}>
