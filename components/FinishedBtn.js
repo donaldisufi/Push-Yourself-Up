@@ -9,7 +9,7 @@ import {
 export default class FinishedBtn extends React.Component{
     render(){
         return(<TouchableOpacity style={[style.container,this.props.style]} onPress={this.props.onPress}>
-            <Text style={{color:'white',fontSize:20}}>
+            <Text style={[{color:'white',fontSize:20},this.props.styleText]}>
                 {this.props.title}
             </Text>
         </TouchableOpacity>)

@@ -75,7 +75,7 @@ componentDidMount= async ()=>{
          console.log(value);
            
           this.setState({
-             userName:value.data.user.name,
+            userName:value.data.user.name,
             level2:value.data.user.level1?false:true,
             level3:value.data.user.level2?false:true,
             level4:value.data.user.level3?false:true,

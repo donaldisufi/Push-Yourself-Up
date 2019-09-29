@@ -61,9 +61,11 @@ export default class SettingsContainer extends React.Component{
                                 <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
                                 
                             </ContainerSett>
-                            <ContainerSett style={{marginTop:20}}>
+                            <ContainerSett style={{marginTop:20,marginBottom:100}}>
                                 <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
-                                <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
+                                <SettinsLine onPress={()=>{
+                                        deviceStorage.removeItem('@token').then(res=>{
+                                        this.props.navigation.navigate('Register');});}} name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="LOG OUT"/>
                                 
                             </ContainerSett>
                        </ScrollView>
@@ -82,7 +84,7 @@ const style = StyleSheet.create({
       height:'30%',
       alignItems:'center',
       width:'100%',
-      paddingTop:40
+      paddingTop:50
       
     
     

@@ -95,6 +95,16 @@ export default class PractiseScreen extends React.Component{
              console.log("Successfully updated REcord");
              console.log("Tdhanat e recordit");
              console.log(response);
+             this.setState({
+                number:0,
+                modalVisible:false,
+                visible:false,
+                default:0,
+                buttonVisible:false,
+                setgoalVisible:true,
+                shouldPlay:true,
+                disabled:false,
+            })
           }).catch((error)=>{
              console.log("error Updating record " ,error );
           })
@@ -103,6 +113,16 @@ export default class PractiseScreen extends React.Component{
 
       }else{
       data.setRecord(data.record);
+      this.setState({
+        number:0,
+        modalVisible:false,
+        visible:false,
+        default:0,
+        buttonVisible:false,
+        setgoalVisible:true,
+        shouldPlay:true,
+        disabled:false,
+    })
       }
     }
     playSound=async ()=>{
@@ -154,8 +174,9 @@ export default class PractiseScreen extends React.Component{
                                 {this.state.setgoalVisible? 
                                 <View style={{width:'25%',justifyContent:'center',alignItems:'center'}}>
                                  <FinishedBtn 
+                                        styleText={{fontFamily:'bold',fontSize:30}}
                                         title="-"
-                                        style={{width:60,borderRadius:5}}
+                                        style={{width:60,borderRadius:5,backgroundColor:'transparent',borderColor:'white',borderWidth:1}}
                                         onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1}) }}/>
                                     </View>:<Fragment />}<View style={{justifyContent:'center',alignItems:'center',flexDirection:'row',width:'50%'}}>
                                    <Text style={{fontSize:30,fontFamily:'thin',color:'white'}}>Goal : </Text><TextInput keyboardType={'numeric'} style={{height:60,width:60,textAlign:'center',fontSize:35,color:'white',fontFamily:'bold',}} onChangeText={(e)=>{this.setState({default:e})}} value={this.state.default.toString()} /> 
@@ -163,7 +184,7 @@ export default class PractiseScreen extends React.Component{
                                 {this.state.setgoalVisible?<View style={{justifyContent:'center',alignItems:'center',width:'25%'}} >
                                     <FinishedBtn 
                                             title="+"
-                                            style={{width:60,borderRadius:5}}
+                                            style={{width:60,borderRadius:5,backgroundColor:'transparent',borderColor:'white',borderWidth:1}}
                                             onPress={()=>{this.setState({default:this.state.default+1})}}
                                     />
                                     </View>:<Fragment />}
@@ -181,7 +202,7 @@ export default class PractiseScreen extends React.Component{
                         {/* Pjesa posht   */}
                         <View style={style.gjysaPosht} >
                             
-                            <CircleBtn disabled={this.state.disabled}
+                            <CircleBtn disabled={this.state.disabled} style={{backgroundColor:'transparent',borderColor:'white'}}
                                     onPress={()=>{
                                         
                                     this.state.shouldPlay && this.playSound();
@@ -205,16 +226,7 @@ export default class PractiseScreen extends React.Component{
                             title="Complete"
                             onPress={()=>{
                                 this.setRecord(data);
-                                this.setState({
-                                    number:0,
-                                    modalVisible:false,
-                                    visible:false,
-                                    default:0,
-                                    buttonVisible:false,
-                                    setgoalVisible:true,
-                                    shouldPlay:true,
-                                    disabled:false,
-                                })
+                                
                                 data.setPushUps(this.state.number);
                                 this.props.navigation.navigate('Calories');
                             

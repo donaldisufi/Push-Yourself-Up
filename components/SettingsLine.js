@@ -3,7 +3,8 @@ import {
  View,
  StyleSheet,
  Text,
- Platform
+ Platform,
+ TouchableOpacity
 
 } from 'react-native';
 import {Ionicons} from '@expo/vector-icons';
@@ -12,7 +13,7 @@ import Colors from '../constants/Colors';
 export default class SettinsLine extends React.Component {
     render(){
         return(
-            <View style={[style.container,this.props.style]}>
+            <TouchableOpacity onPress={this.props.onPress} style={[style.container,this.props.style]}>
               <View style={style.left}>
                 <Ionicons 
                         name={this.props.name}
@@ -33,7 +34,7 @@ export default class SettinsLine extends React.Component {
                   />
               </View>
               
-            </View>
+            </TouchableOpacity>
         );
     }
 
