@@ -9,7 +9,7 @@ import {
     Platform
 } from 'react-native';
 
-import CircleBtn from '../components/CircleBtn'
+import CircleBtn from '../components/CircleBtn';
 import FinishedBtn from '../components/FinishedBtn';
 import { TextInput } from 'react-native-gesture-handler';
 import DataContext from '../components/DataContext';
@@ -160,24 +160,14 @@ export default class PractiseScreen extends React.Component{
                 <View style={style.nalt}>
                     {/* Pjesa nalt  */}
                     <View style={style.gjysaNalt}>
-                            <View style={style.record}>
-                                <View style={{width:'0%'}} />
-                                <View style={{width:'100%',height:'100%',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                                    <Text style={{fontSize:33,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'regular',marginRight:5}}>
-                                        MY SCORE 
-                                    </Text>
-                                    <Text style={{fontSize:33,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'bold'}}>
-                                       :  {data.record}
-                                    </Text>
-                                </View>
-                            </View> 
+                            
                             <View style={style.goal} > 
                                 {this.state.setgoalVisible? 
                                 <View style={{width:'25%',justifyContent:'center',alignItems:'center'}}>
                                  <FinishedBtn 
-                                        styleText={{fontFamily:'bold',fontSize:30,color:'black'}}
+                                        
                                         title="-"
-                                        style={{width:60,borderRadius:5,backgroundColor:'white',borderColor:Colors.tabIconDefault,borderWidth:2}}
+                                        style={{width:60,borderRadius:5,}}
                                         onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1}) }}/>
                                     </View>:<Fragment />}<View style={{justifyContent:'center',alignItems:'center',flexDirection:'row',width:'50%'}}>
                                    <Text style={{fontSize:30,fontFamily:'thin',color:'white'}}>Goal : </Text><TextInput keyboardType={'numeric'} style={{height:60,width:60,textAlign:'center',fontSize:35,color:'white',fontFamily:'bold',}} onChangeText={(e)=>{this.setState({default:e})}} value={this.state.default.toString()} /> 
@@ -185,21 +175,16 @@ export default class PractiseScreen extends React.Component{
                                 {this.state.setgoalVisible?<View style={{justifyContent:'center',alignItems:'center',width:'25%'}} >
                                     <FinishedBtn 
                                             title="+"
-                                            styleText={{fontFamily:'bold',fontSize:30,color:'black'}}
-                                            style={{width:60,borderRadius:5,backgroundColor:'white',borderColor:Colors.tabIconDefault,borderWidth:1}}
+                                            style={{width:60,borderRadius:5}}
                                             onPress={()=>{this.setState({default:this.state.default+1})}}
                                     />
                                     </View>:<Fragment />}
                             </View>
-                            <View style={style.audio}>
-                                <View style={{width:'70%'}}></View>
-                                <View style={{width:'30%',justifyContent:'center',alignItems:'center'}}>
-                                    <SoundBtn 
-                                    name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
-                                    onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
-                                    />
-                                </View>
-                            </View>
+                            <View style={style.record}>
+                            
+                                        
+                            </View> 
+                            
                     </View>
                         {/* Pjesa posht   */}
                         <View style={style.gjysaPosht} >
@@ -222,22 +207,35 @@ export default class PractiseScreen extends React.Component{
                 
                 </View>
                 <View style={style.posht}>
+                    <View style={{width:'100%',height:'55%',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
                     {this.state.visible?
-                        <FinishedBtn 
-                            style={{width:width,marginBottom:5}}
-                            title="Complete"
-                            onPress={()=>{
-                                this.setRecord(data);
-                                
-                                data.setPushUps(this.state.number);
-                                this.props.navigation.navigate('Calories');
-                            
-                            }}
-                        />:<Fragment />}
+                                <FinishedBtn 
+                                    style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
+                                    styleText={{color:'white'}}
+                                    title="Complete"
+                                    onPress={()=>{
+                                        this.setRecord(data);
+                                        
+                                        data.setPushUps(this.state.number);
+                                        this.props.navigation.navigate('Calories');
+                                    
+                                    }}
+                                />:<Fragment />}                                 
+                    </View>
+                    <View style={style.audio}>
+                                <View style={{width:'30%',justifyContent:'center',alignItems:'center'}}>
+                                    <SoundBtn 
+                                    name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
+                                    onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
+                                    />
+                                </View>
+                                <View style={{width:'70%'}}></View>
+
+                            </View>
                 </View>
-                </View>)}
-                </DataContext.Consumer>
-            </ImageBackground>
+            </View>)}
+        </DataContext.Consumer>
+       </ImageBackground>
         );
     }
 }
@@ -247,46 +245,35 @@ const style = StyleSheet.create({
        
     },
     nalt:{
-        height:'90%',
+        height:'65%',
     
-      
     },
     posht:{
-        height:'12%',
+        height:'35%',
         justifyContent:'center',
         alignItems:'center',
        
-
-            
     },
     gjysaNalt:{
-     height:'48%',
-     borderWidth:1,
-     borderColor:'red'
-
+     height:'30%',
+     
     },
     gjysaPosht:{
-        height:'52%',
+        height:'70%',
         justifyContent:'center',
         alignItems:'center',
-        borderWidth:1,
-        borderColor:'blue'
-       
-
+        
     },
-    record:{
-      height:'30%',
-      flexDirection:'row'
-    },
+   
     goal:{
-       height:'40%',
+       height:'100%',
        flexDirection:'row',
        justifyContent:'center',
        alignItems:'center',
        width:'100%'
     },
     audio:{
-     height:'30%',
+     height:'45%',
      flexDirection:'row',
      width:'100%'
     }
