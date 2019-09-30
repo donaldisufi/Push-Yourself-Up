@@ -13,7 +13,7 @@ export default class SoundBtn extends React.Component{
               <Ionicons 
                  name={this.props.name}
                  size={30}
-                 color={Colors.tabIconDefault}
+                 color={Colors.black}
               />
             </TouchableOpacity>
         );
@@ -28,6 +28,6 @@ const style = StyleSheet.create({
       borderColor:Colors.tabIconDefault,
       borderWidth:2,
       borderRadius:25,
-      backgroundColor:'#2EA0D1'
+      backgroundColor:'white'
     }
 })

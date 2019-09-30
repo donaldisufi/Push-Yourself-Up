@@ -28,6 +28,13 @@ export default class App extends React.Component{
         require('./assets/images/pushupMan.jpg'),
         require('./assets/images/TrainBack.png'),
         require('./assets/images/SettingsBack.png'),
+        require('./assets/images/FittnesBack.png'),
+        require('./assets/images/SettGirl.png'),
+        require('./assets/images/SettGirl2.png'),
+        require('./assets/images/TrainBack2.png'),
+
+
+
         
   
   
@@ -75,6 +82,7 @@ componentDidMount= async ()=>{
          console.log(value);
            
           this.setState({
+            gender:value.data.user.gender,
             userName:value.data.user.name,
             level2:value.data.user.level1?false:true,
             level3:value.data.user.level2?false:true,
@@ -98,25 +106,8 @@ componentDidMount= async ()=>{
   }
 }
 state ={
-      userName:"",
-      setUsername:(value)=>{
-        this.setState({userName:value});
-      },
-      caloriesRender:'',
-      setCaloriesRender:(value)=>{
-        this.setState({
-          caloriesRender:value,
-        });
-      },
-     setRecord:(val)=>{
-       this.setState({
-         record:val
-       })
-     },
-    PushUpsCalories:0,
-    setPushUps:(val)=>{
-     this.setState({PushUpsCalories:val});
-    },
+    gender:'',
+    userName:"",
     record:0,
     level1:false,
     level2:true,
@@ -130,6 +121,28 @@ state ={
     level10:true,
     level11:true,
     level12:true,
+    caloriesRender:'',
+    PushUpsCalories:0,
+    series:[[5,5,6,6],[7,7,8,8],[10,10,11,11,],[13,13,14,14],[16,16,17,17],[19,19,20,20],[22,22,23,23],[24,24,25,25],[25,25,26,26],[28,28,29,29],[30,30,31,31],[32,32,33,33],[34,34,35,35]],
+    setGender:(gender)=>{
+       this.setState({gender});
+    },
+    setUsername:(value)=>{
+      this.setState({userName:value});
+    },
+    setCaloriesRender:(value)=>{
+      this.setState({
+        caloriesRender:value,
+      });
+    },
+    setRecord:(val)=>{
+      this.setState({
+        record:val
+      })
+    },
+    setPushUps:(val)=>{
+      this.setState({PushUpsCalories:val});
+    },
     setLevel:(val,level)=>{
       switch(level){
         case 1 :
@@ -167,15 +180,14 @@ state ={
          break;
        default:
          this.setState({level12:val});}
-    },
-    currentLevel:1,
-    setCurrentLevel:(currentLevel)=>{
-      this.setState({currentLevel});
-    },
-    series:[[5,5,6,6],[7,7,8,8],[10,10,11,11,],[13,13,14,14],[16,16,17,17],[19,19,20,20],[22,22,23,23],[24,24,25,25],[25,25,26,26],[28,28,29,29],[30,30,31,31],[32,32,33,33],[34,34,35,35]],
-    setSeries:(series)=>{
-     this.setState({series});
-    }
+      },
+      currentLevel:1,
+      setCurrentLevel:(currentLevel)=>{
+        this.setState({currentLevel});
+      },
+      setSeries:(series)=>{
+      this.setState({series});
+      }
     
 }
 

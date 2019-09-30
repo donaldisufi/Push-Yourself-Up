@@ -92,6 +92,10 @@ export default class TrainingScreen extends React.Component {
                      key={1}        
                      onPress={()=>{
                         data.setCurrentLevel(1);
+                        this.props.navigation.actions.setParams({
+                            LevelTitle:"Level 1"
+                        })
+                       
                          this.props.navigation.navigate('Current',{currentLevel:1,series:data.series})
                         }}        
                     />
@@ -103,6 +107,9 @@ export default class TrainingScreen extends React.Component {
                      key={2}  
                      onPress={ ()=>{
                          data.setCurrentLevel(2);
+                         this.props.navigation.setParams({
+                            LevelTitle:"Level 2"
+                        })
                          this.props.navigation.navigate('Current',{currentLevel:2,series:data.series})
                          
                      }}              
@@ -115,6 +122,9 @@ export default class TrainingScreen extends React.Component {
                      key={3}                
                      onPress={()=>{
                         data.setCurrentLevel(3);
+                        this.props.navigation.setParams({
+                            LevelTitle:"Level 3"
+                        })
                         this.props.navigation.navigate('Current',{currentLevel:3,series:data.series})
                     }} 
                     />
@@ -128,6 +138,9 @@ export default class TrainingScreen extends React.Component {
                         key={4}    
                         onPress={()=>{
                             data.setCurrentLevel(4);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 4"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:4,series:data.series})
                         }}                 
                     />
@@ -139,6 +152,9 @@ export default class TrainingScreen extends React.Component {
                       level={5}
                       onPress={()=>{
                         data.setCurrentLevel(5);
+                        this.props.navigation.setParams({
+                            LevelTitle:"Level 5"
+                        })
                         this.props.navigation.navigate('Current',{currentLevel:5,series:data.series})
                     }} 
                     />
@@ -150,6 +166,9 @@ export default class TrainingScreen extends React.Component {
                         level={6}
                         onPress={()=>{
                             data.setCurrentLevel(6);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 6"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:6,series:data.series})
                         }} 
                     />
@@ -165,6 +184,9 @@ export default class TrainingScreen extends React.Component {
                         level={7}
                         onPress={()=>{
                             data.setCurrentLevel(7);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 7"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:7,series:data.series})
                         }} 
 
@@ -177,6 +199,9 @@ export default class TrainingScreen extends React.Component {
                         level={8}
                         onPress={()=>{
                             data.setCurrentLevel(8);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 8"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:8,series:data.series})
                         }} 
 
@@ -189,6 +214,9 @@ export default class TrainingScreen extends React.Component {
                         level={9}
                         onPress={()=>{
                             data.setCurrentLevel(9);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 9"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:9,series:data.series})
                         }} 
                     />
@@ -203,6 +231,9 @@ export default class TrainingScreen extends React.Component {
                         level={10}
                         onPress={()=>{
                             data.setCurrentLevel(10);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 10"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:10,series:data.series})
                         }} 
                     />
@@ -214,6 +245,9 @@ export default class TrainingScreen extends React.Component {
                          level={11}
                          onPress={()=>{
                             data.setCurrentLevel(11);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 11"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:11,series:data.series})
                         }} 
                      />
@@ -225,6 +259,9 @@ export default class TrainingScreen extends React.Component {
                         key={12}
                         onPress={()=>{
                             data.setCurrentLevel(12);
+                            this.props.navigation.setParams({
+                                LevelTitle:"Level 12"
+                            })
                             this.props.navigation.navigate('Current',{currentLevel:12,series:data.series})
                         }} />
                   </View>

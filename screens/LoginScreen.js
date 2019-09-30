@@ -94,6 +94,7 @@ export default class LoginScreen extends React.Component{
                               deviceStorage.setItem("username",response.config.data.name);
                               deviceStorage.setItem("password",response.config.data.name);
                               data.setUsername(response.config.data.name);
+                              data.setGender(response.config.data.gender);
                               axios.get(`/users/${response.data.useri.id}`).then((value)=>{
                                   
                                console.log("Successfully Updated DataContext");

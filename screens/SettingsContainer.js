@@ -41,7 +41,7 @@ export default class SettingsContainer extends React.Component{
         return(
             <DataContext.Consumer>{(data)=>(
                 <View style={style.container}>
-                     <ImageBackground source={require('../assets/images/SettingsBack.png')} style={{ paddingTop: Platform.OS === 'ios' ? 60 : 80,}}>
+                     <ImageBackground source={data.gender==="Female"?require('../assets/images/SettGirl.png'):require('../assets/images/FittnesBack.png')} style={{ paddingTop: Platform.OS === 'ios' ? 60 : 80,}}>
                         <View style={style.nalt}>
                             <Text style={{fontSize:40,fontFamily:'bold',color:'white'}}>
                                {data.userName}

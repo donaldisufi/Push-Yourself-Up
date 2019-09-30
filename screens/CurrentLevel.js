@@ -3,7 +3,9 @@ import {
     View,
     StyleSheet,
     Text,
-    DeviceEventEmitter
+    DeviceEventEmitter,
+    ImageBackground,
+    Platform
  } from 'react-native';
 
 import CircleBtn from '../components/CircleBtn';
@@ -14,16 +16,23 @@ import DataContext from '../components/DataContext';
 import axios from 'axios';
 import deviceStorage from '../components/service/deviceStorage';
 import configAxios from '../components/service/configAxios';
-import * as RNEP from '@estimote/react-native-proximity';
+//import * as RNEP from '@estimote/react-native-proximity';
 
 
  export default  class CurrentLevel extends React.Component{
     static navigationOptions={
-        title:'Level',
-        headerTitleStyle: {
-          fontWeight: "bold",
-          fontSize: 25
-        }
+      
+    headerTransparent: true,
+          
+         title:"Current Level",
+         headerTintColor:'white',
+         headerTitleStyle:{
+         fontSize:30,
+         fontFamily:'bold',
+         color:'white',
+         
+        },
+      
     }
     constructor(props){
          super(props);
@@ -57,16 +66,16 @@ import * as RNEP from '@estimote/react-native-proximity';
          this.series  = props.navigation.state.params.series[props.navigation.state.params.currentLevel-1];
        
      }
-     startDetection=()=>{
-       const zone1 = new RNEP.ProximityZone(10,'Sample1');
-       zone1.onEnterAction = context =>{
-           console.log("U afru ", context);
+    //  startDetection=()=>{
+    //    const zone1 = new RNEP.ProximityZone(10,'Sample1');
+    //    zone1.onEnterAction = context =>{
+    //        console.log("U afru ", context);
 
-       };
-       zone1.onExitAction = context => {
-        console.log("zone1 onExit", context);
-       };
-      }
+    //    };
+    //    zone1.onExitAction = context => {
+    //     console.log("zone1 onExit", context);
+    //    };
+    //   }
      componentWillMount =async ()=>{
        let id = await deviceStorage.getItem('id');
        axios.get(`/users/${id}`).then((value)=>{
@@ -97,7 +106,7 @@ import * as RNEP from '@estimote/react-native-proximity';
      }
 
      componentDidMount=()=>{
-       this.startDetection();
+      // this.startDetection();
       this.ismounted=true;
       this.ismounted && this.setState({series:this.series},function(){
         console.log(this.state.series);
@@ -173,8 +182,8 @@ import * as RNEP from '@estimote/react-native-proximity';
       
       return array.map((value,index)=>(
           <View  style={[style.renderButton]} key={index}>
-            <View style={{height:40,width:40,borderRadius:20,backgroundColor:this.state.currentSerie===index?'#2EA0D1':'white',justifyContent:'center',alignItems:'center'}}>
-              <Text style={{color:this.state.currentSerie===index?'white':'black',fontWeight:'bold',fontSize:20}}>
+            <View style={{height:50,width:50,borderRadius:25,backgroundColor:this.state.currentSerie===index?'white':'transparent',justifyContent:'center',alignItems:'center',borderColor:'white',borderWidth:1}}>
+              <Text style={{color:this.state.currentSerie===index?'black':'white',fontWeight:'bold',fontSize:25}}>
                 {value}
               </Text>
             </View>
@@ -182,8 +191,9 @@ import * as RNEP from '@estimote/react-native-proximity';
         ));
      }
      render(){
-       this.startDetection();
+   
        return(
+        <ImageBackground source={require('../assets/images/TrainBack2.png')} style={{flex:1, paddingTop: Platform.OS === 'ios' ? 60 : 80,}} >
         <DataContext.Consumer>{(data)=>(
            <View style={style.container}>
                   <View style={style.nalt}>
@@ -191,21 +201,21 @@ import * as RNEP from '@estimote/react-native-proximity';
                   </View>
                   <View style={style.posht} >
                    <View style={{flexDirection:'row'}}>
-                      <View style={{height:70,width:'25%'}}>
+                      <View style={{height:80,width:'25%'}}>
                         
                     </View>
-                    <View style={{height:70,justifyContent:'center',alignItems:'center',width:'50%'}}>
-                          {this.state.restTime?<Text style={{fontSize:22,color:'#2EA0D1'}}>
-                            Rest Time 
+                    <View style={{height:80,justifyContent:'center',alignItems:'center',width:'50%'}}>
+                          {this.state.restTime?<Text style={{fontSize:30,color:'white',fontFamily:'bold'}}>
+                          REST TIME 
                           </Text>:null}
                     </View>
-                    <View style={{height:70,width:'25%',justifyContent:'center',alignItems:'center'}} >
+                    <View style={{height:80,width:'25%',justifyContent:'center',alignItems:'center'}} >
                         <SoundBtn 
                          name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
                          onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
                         />
                       </View>
-                      </View>
+                    </View>
                     <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
                         
                         this.state.shouldPlay && this.playSound();
@@ -244,7 +254,7 @@ import * as RNEP from '@estimote/react-native-proximity';
                         
                      
                     }}>
-                    {this.state.lastIndex===this.state.currentSerie && this.state.goal<=0? <Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>0</Text>:this.state.restTime?<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:30,color:'white',fontWeight:'bold'}}>{this.state.goal}</Text>}
+                    {this.state.lastIndex===this.state.currentSerie && this.state.goal<=0? <Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>0</Text>:this.state.restTime?<Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>{this.state.goal}</Text>}
                     </CircleBtn>
                   </View> 
                   <View style={{height:'12%',justifyContent:'center',alignItems:'center',width:'100%'}}>
@@ -291,6 +301,7 @@ import * as RNEP from '@estimote/react-native-proximity';
                       />}
                   </View>
            </View> )}</DataContext.Consumer>
+           </ImageBackground>
          );
      }
  }

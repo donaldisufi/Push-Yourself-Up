@@ -119,6 +119,7 @@ export default class SignUpScreen extends React.Component{
                                                 deviceStorage.setItem("gender",response.config.data.gender);
                                                 configAxios(token);
                                                 this.setState({loadPost:false});
+                                                data.setGender(response.config.data.gender);
                                                 data.setUsername(response.data.createdUser.name);
                                                 data.setLevel(false,1);
                                                 data.setLevel(true,2);

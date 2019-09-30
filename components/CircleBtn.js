@@ -6,6 +6,7 @@ import {
     Dimensions
 } from 'react-native';
 import { whileStatement } from '@babel/types';
+import Colors from '../constants/Colors';
 
 let {height,width} = Dimensions.get('window');
 
@@ -26,15 +27,16 @@ const style = StyleSheet.create({
         width:width*0.55,
         height:200,
         borderRadius:100,
-        backgroundColor:'#2EA0D1',
-        borderColor:'#2A7697',
-        borderWidth:10,
+        backgroundColor:'white',
+        borderColor:Colors.tabIconDefault,
+        borderWidth:6,
         justifyContent:'center',
         alignItems:'center'
     },
     text:{
-        color:'white',
+        color:Colors.black,
         fontSize:50,
+        fontFamily:'bold'
 
     }
 })

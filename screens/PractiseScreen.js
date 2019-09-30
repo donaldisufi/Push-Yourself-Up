@@ -17,6 +17,7 @@ import SoundBtn from '../components/SoundBtn';
 import { Audio } from 'expo-av';
 import axios from 'axios';
 import deviceStorage from '../components/service/deviceStorage';
+import Colors from '../constants/Colors';
 
 
 let {height,width} = Dimensions.get('window');
@@ -78,11 +79,11 @@ export default class PractiseScreen extends React.Component{
          
        }
     modalVisible=()=>{
-        this.setState({modalVisible:!this.state.modalVisible});
+        this.setState({modalVisible:true});
         setTimeout(()=>{
-          this.setState({modalVisible:!this.state.modalVisible,visible:false,default:0,setgoalVisible:true,number:0});
+          this.setState({modalVisible:false,visible:false,default:0,setgoalVisible:true,number:0});
 
-        },1500)
+        },2500)
         
     }
     setRecord= async (data)=>{
@@ -160,12 +161,12 @@ export default class PractiseScreen extends React.Component{
                     {/* Pjesa nalt  */}
                     <View style={style.gjysaNalt}>
                             <View style={style.record}>
-                                <View style={{width:'40%'}} />
-                                <View style={{width:'60%',height:'100%',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
-                                    <Text style={{fontSize:25,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'thin',marginRight:5}}>
+                                <View style={{width:'0%'}} />
+                                <View style={{width:'100%',height:'100%',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
+                                    <Text style={{fontSize:33,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'regular',marginRight:5}}>
                                         MY SCORE 
                                     </Text>
-                                    <Text style={{fontSize:25,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'bold'}}>
+                                    <Text style={{fontSize:33,justifyContent:'center',alignItems:'center',color:'white',fontFamily:'bold'}}>
                                        :  {data.record}
                                     </Text>
                                 </View>
@@ -174,9 +175,9 @@ export default class PractiseScreen extends React.Component{
                                 {this.state.setgoalVisible? 
                                 <View style={{width:'25%',justifyContent:'center',alignItems:'center'}}>
                                  <FinishedBtn 
-                                        styleText={{fontFamily:'bold',fontSize:30}}
+                                        styleText={{fontFamily:'bold',fontSize:30,color:'black'}}
                                         title="-"
-                                        style={{width:60,borderRadius:5,backgroundColor:'transparent',borderColor:'white',borderWidth:1}}
+                                        style={{width:60,borderRadius:5,backgroundColor:'white',borderColor:Colors.tabIconDefault,borderWidth:2}}
                                         onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1}) }}/>
                                     </View>:<Fragment />}<View style={{justifyContent:'center',alignItems:'center',flexDirection:'row',width:'50%'}}>
                                    <Text style={{fontSize:30,fontFamily:'thin',color:'white'}}>Goal : </Text><TextInput keyboardType={'numeric'} style={{height:60,width:60,textAlign:'center',fontSize:35,color:'white',fontFamily:'bold',}} onChangeText={(e)=>{this.setState({default:e})}} value={this.state.default.toString()} /> 
@@ -184,7 +185,8 @@ export default class PractiseScreen extends React.Component{
                                 {this.state.setgoalVisible?<View style={{justifyContent:'center',alignItems:'center',width:'25%'}} >
                                     <FinishedBtn 
                                             title="+"
-                                            style={{width:60,borderRadius:5,backgroundColor:'transparent',borderColor:'white',borderWidth:1}}
+                                            styleText={{fontFamily:'bold',fontSize:30,color:'black'}}
+                                            style={{width:60,borderRadius:5,backgroundColor:'white',borderColor:Colors.tabIconDefault,borderWidth:1}}
                                             onPress={()=>{this.setState({default:this.state.default+1})}}
                                     />
                                     </View>:<Fragment />}
@@ -202,7 +204,7 @@ export default class PractiseScreen extends React.Component{
                         {/* Pjesa posht   */}
                         <View style={style.gjysaPosht} >
                             
-                            <CircleBtn disabled={this.state.disabled} style={{backgroundColor:'transparent',borderColor:'white'}}
+                            <CircleBtn disabled={this.state.disabled} style={{}}
                                     onPress={()=>{
                                         
                                     this.state.shouldPlay && this.playSound();
@@ -211,7 +213,7 @@ export default class PractiseScreen extends React.Component{
                                         this.setState({disabled:false})
                                         },1000)
                                 }}>
-                                <Text style={{fontSize:35,color:'white',fontWeight:'bold'}}>
+                                <Text style={{fontSize:35,color:'black',fontWeight:'bold'}}>
                                     {this.state.number}
 
                                 </Text>
@@ -222,7 +224,7 @@ export default class PractiseScreen extends React.Component{
                 <View style={style.posht}>
                     {this.state.visible?
                         <FinishedBtn 
-                            style={{width:width}}
+                            style={{width:width,marginBottom:5}}
                             title="Complete"
                             onPress={()=>{
                                 this.setRecord(data);
@@ -250,7 +252,7 @@ const style = StyleSheet.create({
       
     },
     posht:{
-        height:'10%',
+        height:'12%',
         justifyContent:'center',
         alignItems:'center',
        
@@ -258,13 +260,17 @@ const style = StyleSheet.create({
             
     },
     gjysaNalt:{
-     height:'45%',
+     height:'48%',
+     borderWidth:1,
+     borderColor:'red'
 
     },
     gjysaPosht:{
-        height:'55%',
+        height:'52%',
         justifyContent:'center',
         alignItems:'center',
+        borderWidth:1,
+        borderColor:'blue'
        
 
     },
