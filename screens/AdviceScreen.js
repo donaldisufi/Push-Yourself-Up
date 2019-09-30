@@ -48,9 +48,7 @@ export default class Advices extends Component {
           </View>
 
 
-          <View style={{ height: 100, width: -1, marginTop: 30, }}>
-            <Button size={30} title="Next" onPress={() => { this.props.navigation.navigate('Home') }}></Button>
-          </View>
+
         </View>
 
       </ScrollView>
