@@ -8,8 +8,10 @@ import {
     Image,
     KeyboardAvoidingView,
     Keyboard,
-    TouchableWithoutFeedback   
-
+    TouchableWithoutFeedback,
+    SafeAreaView,
+    StatusBar,
+    Platform
 } from 'react-native';
 import Input from '../components/Input';
 import RadioButton from '../components/RadioButton';
@@ -18,6 +20,7 @@ import axios from 'axios';
 import DataContext from '../components/DataContext';
 import deviceStorage from '../components/service/deviceStorage';
 import configAxios from '../components/service/configAxios';
+ 
 
 let {height,width}  = Dimensions.get('window');
 
@@ -42,62 +45,93 @@ export default class SignUpScreen extends React.Component{
     render(){
         const {checked} = this.state;
         return(
+          <DataContext.Consumer>{(data)=>(
             <TouchableWithoutFeedback onPress={()=>{Keyboard.dismiss()}}>
-             <View style={style.container}>
-                
+             <SafeAreaView style={style.container}>
+                  <KeyboardAvoidingView behavior="position" enabled style={{height:'90%',width:'100%'}}>
                     <View style={style.nalt}>
-                        <Image 
-                        source={require('../assets/images/pushupMan.jpg')}
-                        style={{height:'80%',width:'80%'}}
-                        />
+                          
+                        <Text style={{fontFamily:'bold',fontSize:25}}>
+                            Sign Up to 
+                        </Text>
+                        <Text style={{fontFamily:'bold',fontSize:50,color:'#FFE4C4'}}>
+                           Become a BEAST 
+                        </Text>
                     </View>
-                    <KeyboardAvoidingView behavior="padding" enabled>
                     <View style={style.posht}>
                         <Input
-                            style={{width:width*0.83,marginBottom:10}}
+                           name={Platform.OS==='ios'?'ios-contact':'md-contact'}                            
+                            styleView={{width:'100%'}}
                             placeholder="Name"
                             value={this.state.name}
                             onChangeText={(name)=>{this.setState({name,errorName:false})}}
-                        />
+                            />
                         <Text style={{color:'red'}}>{this.state.errorName?"Please fill out the fields !":null}</Text>
                         <Input 
-                        style={{width:width*0.83,marginBottom:10}}
-                        placeholder="Password"
-                        value={this.state.password}
-                        onChangeText={(password)=>{this.setState({password,errorPassword:false})}}
-                        secure={true}
+                            name={Platform.OS==='ios'?'ios-lock':'md-lock'}                            
+                            styleView={{width:'100%'}}
+                            placeholder="Password"
+                            value={this.state.password}
+                            onChangeText={(password)=>{this.setState({password,errorPassword:false})}}
+                            secure={true}
                         />
                         <Text style={{color:'red'}}>{this.state.errorPassword?"Please fill out the fields !":null}</Text>
                         <Input
-                            style={{width:width*0.83,marginBottom:10}}
+                            name={Platform.OS==='ios'?'ios-lock':'md-lock'}
+                            styleView={{width:'100%',marginBottom:10}}
                             placeholder="Kilogram"
                             keyboard="numeric"
                             value={this.state.kilogram}
+                            name={Platform.OS==='ios'?'ios-card':'md-card'}                            
                             onChangeText={(kilogram)=>{this.setState({kilogram,errorKg:false}) }}
                         />
                         <Text style={{color:'red'}}>{this.state.errorKg?"Please fill out the fields !":null}</Text>
-
-                        <RadioButton 
-                            gender="Male" 
-                            checked={checked==='Male'?true:false}          
-                            style={{width:width*0.83,marginBottom:5}}      
-                            onPress={()=>{this.setState({checked:'Male'})}}
-                        />
-                        <RadioButton 
-                            gender="Female"
-                            checked={checked==='Female'?true:false}
-                            style={{width:width*0.83,marginBottom:5}}      
-                            onPress={()=>{this.setState({checked:'Female'})}}
+                          <View style={{height:50,flexDirection:'row',width:'100%',marginBottom:10}}>
+                            <RadioButton 
+                                gender="Male" 
+                                checked={checked==='Male'?true:false}          
+                                style={{width:'50%',marginBottom:5}}      
+                                onPress={()=>{this.setState({checked:'Male'})}}
+                            />
+                            <RadioButton 
+                                gender="Female"
+                                checked={checked==='Female'?true:false}
+                                style={{width:'50%',marginBottom:5}}      
+                                onPress={()=>{this.setState({checked:'Female'})}}
+                            
+                            />
+                        </View>
                         
-                        />
-                        <DataContext.Consumer>{(data)=>(
                             <ButtonHome
                                     title="Continue"
                                     load={this.state.loadPost}
+                                    style={{marginBottom:10,borderRadius:7,backgroundColor:'black',height:50,width:'100%'}}                                    
                                     onPress={()=>{
                                         Keyboard.dismiss();
-                                    if(this.state.name.length>=1 && this.state.kilogram.length >=1 && this.state.password.length >=1){
-                                        this.setState({loadPost:true})
+                                        this.setState({loadPost:true});
+
+                                     if(this.state.name.length < 1 || this.state.password <1  || this.state.kilogram < 1){
+                                         this.setState({
+                                             errorName:this.state.name.length<1?true:false,
+                                             errorPassword:this.state.password.length<1?true:false,
+                                             errorKg:this.state.kilogram.length<1?true:false,
+
+                                         });
+                                        this.setState({loadPost:false});
+
+                                     } else if(this.state.name.length < 2){
+                                         alert("Please write your name correctly!");
+                                        this.setState({loadPost:false});
+
+                                     } else if (this.state.password.length<6){
+                                        alert("Password should be at least 6 characters!");
+                                        this.setState({loadPost:false});
+
+                                     }else if (this.state.kilogram < 19 || this.state.kilogram > 350){
+                                         alert("Please write your kilograms correctly!!");
+                                        this.setState({loadPost:false});
+
+                                     }else {
                                         axios({
                                             url:"/signup",
                                             method:'post',
@@ -108,8 +142,7 @@ export default class SignUpScreen extends React.Component{
                                                     password:this.state.password   
                                                 }
                                         }).then( response =>{
-                                                console.log("Tdhanat Suksese Signup");
-                                                console.log(response);
+                                                
                                                 let token = response.data.token;
                                                 deviceStorage.setItem('@token',token);
                                                 deviceStorage.setItem("id",response.data.createdUser._id);  
@@ -140,33 +173,34 @@ export default class SignUpScreen extends React.Component{
 
                                             }).catch( error=>{
 
-                                                console.log(JSON.stringify(error))
-                                                console.log(JSON.stringify(error.response.data.error))
+                                                // console.log(JSON.stringify(error))
+                                                // console.log(JSON.stringify(error.response.data.error))
 
-                                                alert(JSON.stringify(error.response));
+                                                alert(error.response.data.message?error.response.data.message:"This name is already taken ");
                                                 this.setState({loadPost:false});
 
                                             });
-                                        } else {
-                                            if(this.state.name.length<1){
-                                                this.setState({errorName:true});
-                                            }
-                                            if(this.state.kilogram.length<1){
-                                                this.setState({errorKg:true})
-                                            }
-                                            if(this.state.password.length<1){
-                                                this.setState({errorPassword:true})
-                                            }
-                                        }
+                                      
+
+
+                                     }
+
+
                                         
                                     }}
-                                    style={{marginBottom:10,width:width*0.8}}
                             />
-                        )}</DataContext.Consumer>
                     </View>
-                </KeyboardAvoidingView>
-             </View>
+                        </KeyboardAvoidingView>
+                    <View style={style.bottom}>
+                        <Text style={{justifyContent:'center',alignItems:'center',flexDirection:'row',fontSize:15,fontFamily:'regular',color:'black'}}onPress={()=>{
+                            this.props.navigation.navigate('Login');
+                        }}>
+                        Already have account? <Text style={{fontFamily:'bold',color:'black'}}>Log in</Text>
+                        </Text>
+              </View>
+             </SafeAreaView>
           </TouchableWithoutFeedback>
+        )}</DataContext.Consumer>
         );
     }
 }
@@ -174,22 +208,36 @@ const style = StyleSheet.create({
     container:{
         flex:1,
         justifyContent:'center',
-        alignItems:'center'
+        alignItems:'center',
+        paddingTop:StatusBar.currentHeight,
+
     },
     nalt:{
-        width:width,
-      height:height*0.30,
+      height:'40%',
+      width:'100%',
+      flexDirection:'column',
       justifyContent:'center',
-      alignItems:'center',
-      paddingTop:20,
+      alignItems:'flex-start',
+      padding:15
+    
+    
 
 
     },
     posht :{
-        width:width,
-        height:height*0.70,
+        height:'60%',
+        width:'100%',
         justifyContent:'center',
-        alignItems:'center',  
+        alignItems:'center', 
+        padding:15 
  
-    }
+    },
+    bottom:{
+        width:'100%',
+        justifyContent:'center',
+        alignItems:'center',
+        height:'10%',
+       
+   
+     }
 })

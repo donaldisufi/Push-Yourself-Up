@@ -6,7 +6,8 @@ import {
     Dimensions,
     ActivityIndicator
 } from 'react-native';
-import {Ionicons} from '@expo/vector-icons';
+
+import { Ionicons } from '@expo/vector-icons';
 import Colors from '../constants/Colors';
 
 let {height,width} = Dimensions.get('window');

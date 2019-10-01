@@ -93,9 +93,7 @@ export default class PractiseScreen extends React.Component{
           axios.put(`/users/record/${id}`,{
               record:this.state.number
           }).then((response)=>{
-             console.log("Successfully updated REcord");
-             console.log("Tdhanat e recordit");
-             console.log(response);
+           
              this.setState({
                 number:0,
                 modalVisible:false,
@@ -165,7 +163,7 @@ export default class PractiseScreen extends React.Component{
                                 {this.state.setgoalVisible? 
                                 <View style={{width:'25%',justifyContent:'center',alignItems:'center'}}>
                                  <FinishedBtn 
-                                        
+                                        styleText={{fontFamily:'thin',fontWeight:'600'}}
                                         title="-"
                                         style={{width:60,borderRadius:5,}}
                                         onPress={()=>{this.setState({default:this.state.default===0?0:this.state.default-1}) }}/>
@@ -174,6 +172,8 @@ export default class PractiseScreen extends React.Component{
                                  </View>
                                 {this.state.setgoalVisible?<View style={{justifyContent:'center',alignItems:'center',width:'25%'}} >
                                     <FinishedBtn 
+                                        styleText={{fontFamily:'thin',fontWeight:'600'}}
+
                                             title="+"
                                             style={{width:60,borderRadius:5}}
                                             onPress={()=>{this.setState({default:this.state.default+1})}}

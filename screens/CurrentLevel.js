@@ -5,7 +5,8 @@ import {
     Text,
     DeviceEventEmitter,
     ImageBackground,
-    Platform
+    Platform,
+    Dimensions
  } from 'react-native';
 
 import CircleBtn from '../components/CircleBtn';
@@ -18,7 +19,7 @@ import deviceStorage from '../components/service/deviceStorage';
 import configAxios from '../components/service/configAxios';
 //import * as RNEP from '@estimote/react-native-proximity';
 
-
+let {height,width } = Dimensions.get('window');
  export default  class CurrentLevel extends React.Component{
     static navigationOptions={
       
@@ -79,7 +80,7 @@ import configAxios from '../components/service/configAxios';
      componentWillMount =async ()=>{
        let id = await deviceStorage.getItem('id');
        axios.get(`/users/${id}`).then((value)=>{
-         console.log(value);
+        
          this.setState({
            level1: value.data.user.level1,
            level2: value.data.user.level2,
@@ -109,7 +110,7 @@ import configAxios from '../components/service/configAxios';
       // this.startDetection();
       this.ismounted=true;
       this.ismounted && this.setState({series:this.series},function(){
-        console.log(this.state.series);
+        
         this.setState({goal:this.state.series[this.state.currentSerie],lastIndex:this.state.series.length-1});
       })
      
@@ -142,7 +143,7 @@ import configAxios from '../components/service/configAxios';
         })
          .then((response)=>{
             console.log("Successfully updatet level");
-            console.log(response);
+           
           })
           .catch((error)=>{
               console.log("Error update");
@@ -200,105 +201,109 @@ import configAxios from '../components/service/configAxios';
                     {this.renderButtons(data.series[data.currentLevel-1])}
                   </View>
                   <View style={style.posht} >
-                   <View style={{flexDirection:'row'}}>
-                      <View style={{height:80,width:'25%'}}>
+                      <View style={{flexDirection:'row'}}>
+                          <View style={{height:60,width:'25%'}}>
+                            
+                        </View>
+                        <View style={{height:60,justifyContent:'center',alignItems:'center',width:'50%'}}>
+                              {this.state.restTime?<Text style={{fontSize:30,color:'white',fontFamily:'bold'}}>
+                              REST TIME 
+                              </Text>:null}
+                        </View>
+                        <View style={{height:60,width:'25%',justifyContent:'center',alignItems:'center'}} >
+                           
+                          </View>
+                        </View>
+                        <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
+                            
+                            this.state.shouldPlay && this.playSound();
+                            this.setState({
+                              goal:this.state.goal<=0?0:this.state.goal-1,
+                              finished:this.state.goal<=0?true:false,
+                              pompa:this.state.pompa+1
+                                },function(){
+                              if(this.state.goal<=0){
+                                if(this.state.currentSerie===this.state.lastIndex){
+                                      
+                                      this.setState({ 
+                                        currentSerie:0,
+                                        restTime:false,
+                                        timer:10,
+                                        finished:false,
+                                        goal:0,
+                                        disabledButton:false,
+                                        shouldPlay:true,
+                                        lastIndex:0,
+                                        lastIndex:this.state.series.length-1,
+                                      },function(){
+                                        
+                                        this.finishedLevel(data);
+                                        this.setState({ goal:this.state.series[this.state.currentSerie],});
+                                        this.props.navigation.navigate('Calories');
+                                      });
+                                    
+                                }else {
+                                  this.startTimer();
+                                  this.setState({restTime:true,finished:false,disabledButton:true})
+                                }
+
+                              }});
+
+                            
                         
-                    </View>
-                    <View style={{height:80,justifyContent:'center',alignItems:'center',width:'50%'}}>
-                          {this.state.restTime?<Text style={{fontSize:30,color:'white',fontFamily:'bold'}}>
-                          REST TIME 
-                          </Text>:null}
-                    </View>
-                    <View style={{height:80,width:'25%',justifyContent:'center',alignItems:'center'}} >
-                        <SoundBtn 
-                         name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
-                         onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
-                        />
-                      </View>
-                    </View>
-                    <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
-                        
-                        this.state.shouldPlay && this.playSound();
-                        this.setState({
-                          goal:this.state.goal<=0?0:this.state.goal-1,
-                          finished:this.state.goal<=0?true:false,
-                          pompa:this.state.pompa+1
-                        },function(){
-                          if(this.state.goal<=0){
-                             if(this.state.currentSerie===this.state.lastIndex){
-                                  
-                                  this.setState({ 
-                                    currentSerie:0,
-                                    restTime:false,
-                                    timer:10,
-                                    finished:false,
-                                    goal:0,
-                                    disabledButton:false,
-                                    shouldPlay:true,
-                                    lastIndex:0,
-                                    lastIndex:this.state.series.length-1,
-                                  },function(){
-                                     
+                        }}>
+                        {this.state.lastIndex===this.state.currentSerie && this.state.goal<=0? <Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>0</Text>:this.state.restTime?<Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>{this.state.goal}</Text>}
+                        </CircleBtn>
+                  </View> 
+                  <View style={{height:'18%',justifyContent:'center',alignItems:'center',width:'100%'}}>
+                    {this.state.restTime?
+                        <FinishedBtn 
+                          title="Continue"
+                          style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
+                          onPress={()=>{
+                            this.setState({restTime:false,finished:false,timer:10,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
+                              this.setState({goal:this.state.series[this.state.currentSerie]},function(){
+                              
+                              });
+                              
+                            });
+                          }}
+                        />: <FinishedBtn
+                            style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
+                            title="Finish"
+                            onPress={()=>{
+                              if(this.state.currentSerie===this.state.lastIndex){
+                              
+                                this.setState({ 
+                                  currentSerie:0,
+                                  restTime:false,
+                                  timer:10,
+                                  finished:false,
+                                  goal:0,
+                                  disabledButton:false,
+                                  shouldPlay:true,
+                                  lastIndex:0,
+                                  lastIndex:this.state.series.length-1},function(){
+                                    
                                     this.finishedLevel(data);
-                                    this.setState({ goal:this.state.series[this.state.currentSerie],});
+                                    this.setState({goal:this.state.series[this.state.currentSerie],})
                                     this.props.navigation.navigate('Calories');
-                                   });
-                                 
-                             }else {
+                                  });
+                              
+                            }else{
                               this.startTimer();
                               this.setState({restTime:true,finished:false,disabledButton:true})
-                             }
-
-                          }});
-
-                        
-                     
-                    }}>
-                    {this.state.lastIndex===this.state.currentSerie && this.state.goal<=0? <Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>0</Text>:this.state.restTime?<Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>{"00 : " + this.state.timer}</Text>:<Text style={{fontSize:35,color:'black',fontFamily:'bold'}}>{this.state.goal}</Text>}
-                    </CircleBtn>
-                  </View> 
-                  <View style={{height:'12%',justifyContent:'center',alignItems:'center',width:'100%'}}>
-                    {this.state.restTime?
-                     <FinishedBtn 
-                       title="Continue"
-                       style={{width:'100%'}}
-                       onPress={()=>{
-                        this.setState({restTime:false,finished:false,timer:10,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
-                          this.setState({goal:this.state.series[this.state.currentSerie]},function(){
-                            console.log(this.state.currentSerie);
-                            console.log(this.state.goal);
-                          });
-                           
-                        });
-                       }}
-                     />: <FinishedBtn
-                          style={{width:'100%'}}
-                          title="Finish"
-                          onPress={()=>{
-                            if(this.state.currentSerie===this.state.lastIndex){
-                            
-                              this.setState({ 
-                                currentSerie:0,
-                                restTime:false,
-                                timer:10,
-                                finished:false,
-                                goal:0,
-                                disabledButton:false,
-                                shouldPlay:true,
-                                lastIndex:0,
-                                lastIndex:this.state.series.length-1},function(){
-                                  
-                                  this.finishedLevel(data);
-                                  this.setState({goal:this.state.series[this.state.currentSerie],})
-                                  this.props.navigation.navigate('Calories');
-                                });
-                             
-                          }else{
-                            this.startTimer();
-                            this.setState({restTime:true,finished:false,disabledButton:true})
-                          }
-                        }}
-                      />}
+                            }
+                        }} />}
+                  </View>
+                  <View style={{height:'12%',width:'100%',flexDirection:'row',}}>
+                      <View style={{width:'30%',justifyContent:'center',alignItems:'center'}}>
+                        <SoundBtn 
+                              name={this.state.shouldPlay?'md-volume-high':'md-volume-off'}
+                              onPress={()=>{this.setState({shouldPlay:!this.state.shouldPlay})}}
+                            />
+                      </View>
+                      <View  style={{width:'70%'}}/>
                   </View>
            </View> )}</DataContext.Consumer>
            </ImageBackground>
@@ -319,9 +324,10 @@ import configAxios from '../components/service/configAxios';
        padding:5,
      },
      posht:{
-      height:'73%',
+      height:'55%',
        justifyContent:'center',
        alignItems:'center',
+     
      },
      renderButton:{
        height:'100%',

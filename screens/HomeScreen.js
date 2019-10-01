@@ -39,10 +39,9 @@ export default class HomeScreen extends React.Component{
     // deviceStorage.getItem("id").then(res=>{
         deviceStorage.getItem("id").then(res=>{
         id=res;
-        console.log(" ID : "+id);
+      ;
         axios.get(`/users/${id}`).then(value=>{
-          console.log("Tdhanat nga home screen ");
-          console.log(value);
+        
           this.setState({data:value.data.user});
            // level2 = value.data.user.level1.completed?false:true;
            // level3 = value.data.user.level2.completed?false:true;
@@ -51,13 +50,10 @@ export default class HomeScreen extends React.Component{
            // level6 = value.data.user.level6.completed?false:true;
            //DataContext._currentValue.setLevel(level2,2);
            
-       }).then(()=>{
-         console.log("Kontexttttt");
-         console.log(DataContext);
        })
        .catch(error=>{
          console.log(error);
-       })
+       });
 
       }).catch((err)=>{
            console.log("Error geting id from async storage");

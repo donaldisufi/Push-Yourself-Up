@@ -32,6 +32,8 @@ export default class App extends React.Component{
         require('./assets/images/SettGirl.png'),
         require('./assets/images/SettGirl2.png'),
         require('./assets/images/TrainBack2.png'),
+        require('./assets/images/welcome.jpg'),
+
 
 
 

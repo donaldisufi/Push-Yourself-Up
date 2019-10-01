@@ -10,16 +10,16 @@ export default class RadioButton extends React.Component{
     render(){
         return(
               <TouchableOpacity  onPress={this.props.onPress} style={[style.container,this.props.style]}>
+               <View style={style.viewRight}>
+                    <View style={{height:30,width:30,borderRadius:15,borderColor:'#C0C0C0',borderWidth:1,justifyContent:'center',alignItems:'center'}}>
+                      {this.props.checked?<View style={{height:26,width:26,borderColor:'#FEFEFE',borderWidth:2,borderRadius:13,backgroundColor:"black"}} />
+                      :<View style={{height:26,width:26,borderRadius:13,borderWidth:2,borderColor:'white'}} />}
+                    </View>
+               </View>
                <View style={style.viewLeft}>
                 <Text>
                     {this.props.gender}
                 </Text>
-               </View>
-               <View style={style.viewRight}>
-                    <View style={{height:30,width:30,borderRadius:15,borderColor:'#AFAEAE',borderWidth:1,justifyContent:'center',alignItems:'center'}}>
-                      {this.props.checked?<View style={{height:26,width:26,borderColor:'#FEFEFE',borderWidth:2,borderRadius:13,backgroundColor:"#2EA0D1"}} />
-                      :<View style={{height:26,width:26,borderRadius:13,borderWidth:2,borderColor:'white'}} />}
-                    </View>
                </View>
               </TouchableOpacity>
         );
@@ -38,7 +38,7 @@ const style  = StyleSheet.create({
     },
      viewLeft:{
        width:'75%',
-       justifyContent:'flex-start',
+       justifyContent:'center',
        alignItems:'flex-start',
        padding:10,
      },
