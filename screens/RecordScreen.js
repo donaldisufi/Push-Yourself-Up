@@ -14,7 +14,8 @@ export default class RecordScreen extends React.Component {
     super(props);
     this.state = {
       records: [],
-      users: ""
+      users: "",
+    
     }
   }
 
