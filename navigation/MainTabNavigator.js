@@ -19,6 +19,12 @@ import Advices from '../screens/AdviceScreen';
 import RecordScreen from '../screens/RecordScreen'
 import CaloriesScreen from '../screens/CaloriesScreen';
 import SettingsContainer from '../screens/SettingsContainer';
+import ChangePasswordScreen from '../screens/settings/ChangePasswordScreen';
+import EditKgScreen from '../screens/settings/EditKgScreen';
+import EditNameScreen from '../screens/settings/EditNameScreen';
+
+
+
 
 const config = Platform.select({
   web: {
@@ -95,6 +101,9 @@ HomeStack.path = '';
 
 const SettingsStack = createStackNavigator({
     Settings: SettingsContainer,
+    EditName:EditNameScreen,
+    ChangePassword:ChangePasswordScreen,
+    EditKg:EditKgScreen,
 
   },
   config

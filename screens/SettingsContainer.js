@@ -51,23 +51,25 @@ export default class SettingsContainer extends React.Component{
                     <View style={style.posht}>
                         <ScrollView style={{marginTop:-30,paddingTop:10,paddingBottom:20}}>
                             <ContainerSett style={{}}>
-                                <SettinsLine name={Platform.OS==='ios'?'ios-contact':'md-contact'} title="EDIT USERNAME" style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}} />
-                                <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
-                                <SettinsLine name={Platform.OS==='ios'?'ios-contact':'md-contact'}  title="EDIT KILOGRAMS" />
+                                <SettinsLine onPress={()=>{this.props.navigation.navigate('EditName')}} name={Platform.OS==='ios'?'ios-contact':'md-contact'} title="EDIT USERNAME" style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}} />
+                                <SettinsLine  onPress={()=>{this.props.navigation.navigate('ChangePassword')}}name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
+                                <SettinsLine  onPress={()=>{this.props.navigation.navigate('EditKg')}}name={Platform.OS==='ios'?'ios-contact':'md-contact'}  title="EDIT KILOGRAMS" />
 
                             </ContainerSett>
                             <ContainerSett style={{marginTop:20}}>
-                                <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
-                                <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
+                                <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="Reset Score"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
+                                <SettinsLine onPress={()=>{
+                                        deviceStorage.removeItem('@token').then(res=>{
+                                        this.props.navigation.navigate('Register');});}} name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="Log out" />
                                 
                             </ContainerSett>
-                            <ContainerSett style={{marginTop:20,marginBottom:100}}>
+                            {/* <ContainerSett style={{marginTop:20,marginBottom:100}}>
                                 <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
                                 <SettinsLine onPress={()=>{
                                         deviceStorage.removeItem('@token').then(res=>{
                                         this.props.navigation.navigate('Register');});}} name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="LOG OUT"/>
                                 
-                            </ContainerSett>
+                            </ContainerSett> */}
                        </ScrollView>
                     </View>
                 </View>   

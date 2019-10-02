@@ -121,7 +121,8 @@ export default class LoginScreen extends React.Component{
                                 data.setGender(response.config.data.gender);
                                 axios.get(`/users/${response.data.useri.id}`).then((value)=>{
                                   
-                                  
+                                  data.setUsername(value.data.useri.name);
+                                  data.setGender(value.data.useri.gender);
                                   data.setLevel(value.data.user.level1?false:true,2);
                                   data.setLevel(value.data.user.level2?false:true,3);
                                   data.setLevel(value.data.user.level3?false:true,4);
@@ -147,7 +148,7 @@ export default class LoginScreen extends React.Component{
                               }).catch(error =>{
                                 
                                 console.log("Error "); 
-                                alert(JSON.stringify(error.response.data.message));
+                                alert(error.response.data.message?error.response.data.message:"Username or password is incorrect");
                                 this.setState({loadPost:false});
                               })
                              }

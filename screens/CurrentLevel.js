@@ -6,7 +6,8 @@ import {
     DeviceEventEmitter,
     ImageBackground,
     Platform,
-    Dimensions
+    Dimensions,
+ 
  } from 'react-native';
 
 import CircleBtn from '../components/CircleBtn';
@@ -17,7 +18,7 @@ import DataContext from '../components/DataContext';
 import axios from 'axios';
 import deviceStorage from '../components/service/deviceStorage';
 import configAxios from '../components/service/configAxios';
-//import * as RNEP from '@estimote/react-native-proximity';
+
 
 let {height,width } = Dimensions.get('window');
  export default  class CurrentLevel extends React.Component{
@@ -78,6 +79,7 @@ let {height,width } = Dimensions.get('window');
     //    };
     //   }
      componentWillMount =async ()=>{
+       
        let id = await deviceStorage.getItem('id');
        axios.get(`/users/${id}`).then((value)=>{
         
@@ -104,9 +106,11 @@ let {height,width } = Dimensions.get('window');
      }
      componentWillUnmount=()=>{
         this.ismounted=false;
+      
      }
-
+     
      componentDidMount=()=>{
+     
       // this.startDetection();
       this.ismounted=true;
       this.ismounted && this.setState({series:this.series},function(){
