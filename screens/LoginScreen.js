@@ -10,9 +10,11 @@ import {
   Keyboard,
   TouchableWithoutFeedback,
   Platform,
-  StatusBar
+  StatusBar,
+  
 } from 'react-native';
 import axios from 'axios';
+import NetInfo from '@react-native-community/netinfo';
 
 let {height,width} = Dimensions.get('window');
 import Input from '../components/Input';
@@ -28,14 +30,28 @@ export default class LoginScreen extends React.Component{
    header:null
  }
   constructor(props){
+
     super(props);
     this.state={
       name:'',
       password:'',
       errorName:false,
       errorPassword:false,
-      loadPost:false
+      loadPost:false,
+      conected:false,
     }
+    this.mounted=false;
+  }
+  componentDidMount=()=>{
+    this.mounted=true;
+    NetInfo.fetch().then(status=>{
+      console.log("Is conected ?" , status.isConnected );
+      this.setState({conected:status.isConnected});
+
+    });
+  }
+  componentWillUnmount=()=>{
+    this.mounted = false;
   }
   render(){
     return(
@@ -81,14 +97,27 @@ export default class LoginScreen extends React.Component{
                           title="Login"
                           load={this.state.loadPost}
                           onPress={()=>{
-                            Keyboard.dismiss();
-                            this.setState({loadPost:true});
-                             if(this.state.name.length<1 || this.state.password.length <1){
+                           
+                            NetInfo.addEventListener(status=>{
+                              console.log("Is connected?", status.isConnected);
+                              this.setState({conected:status.isConnected});
+                            })
+
+                             Keyboard.dismiss();
+                             this.setState({loadPost:true}); 
+                             
+                             if(!this.state.conected)
+                             {
+                                  alert("Please Check your internet connection");
+                                  this.setState({loadPost:false})
+                             }
+                             else if(this.state.name.length<1 || this.state.password.length <1){
                               this.setState({
                                 errorPassword:this.state.password.length<1?true:false,
                                 errorName:this.state.name.length<1?true:false,loadPost:false
                               });
                               this.setState({loadPost:false});
+
                               
                              } else if(this.state.name.length<2){
                                alert("please write username correctly!");
@@ -98,65 +127,64 @@ export default class LoginScreen extends React.Component{
                                alert("Password should be at least 6 chars!");
                                this.setState({loadPost:false});
 
-                             } else {
+                             } else
+                              {
 
 
-                              axios({
+                             axios({
                                 url:'/login',
-                                method:'post',
+                                method:'POST',
                                 data:{
                                   name:this.state.name,
                                   password:this.state.password
                                 }
                                 
                               }).then(response=>{
-                                
-                                let token = response.data.useri.token;
-                                configAxios(token);
-                                deviceStorage.setItem('@token',token);
-                                deviceStorage.setItem("id",response.data.useri.id);
-                                deviceStorage.setItem("username",response.config.data.name);
-                                deviceStorage.setItem("password",response.config.data.name);
-                                data.setUsername(response.config.data.name);
-                                data.setGender(response.config.data.gender);
-                                axios.get(`/users/${response.data.useri.id}`).then((value)=>{
+                                    console.log("Successfully",response);
+                                    let token = response.data.useri.token;
+                                    configAxios(token);
+                                    deviceStorage.setItem('@token',token);
+                                    deviceStorage.setItem("id",response.data.useri.id);
+                                    this.setState({loadPost:false})
+                                    
                                   
-                                  data.setUsername(value.data.useri.name);
-                                  data.setGender(value.data.useri.gender);
-                                  data.setLevel(value.data.user.level1?false:true,2);
-                                  data.setLevel(value.data.user.level2?false:true,3);
-                                  data.setLevel(value.data.user.level3?false:true,4);
-                                  data.setLevel(value.data.user.level4?false:true,5);
-                                  data.setLevel(value.data.user.level5?false:true,6);
-                                  data.setLevel(value.data.user.level6?false:true,7);
-                                  data.setLevel(value.data.user.level7?false:true,8);
-                                  data.setLevel(value.data.user.level8?false:true,9);
-                                  data.setLevel(value.data.user.level9?false:true,10);
-                                  data.setLevel(value.data.user.level10?false:true,11);
-                                  data.setLevel(value.data.user.level11?false:true,12);
-                                  data.setRecord(value.data.useri.record);
-                                  
-                                }).catch((error)=>{
-                                  console.log("Error updating Data Context ", error);
-                                });
+                                    axios.get(`/users/${response.data.useri.id}`).then(rezult=>{
+                                      console.log("get tdhanat",rezult);
+
+                                      data.setUsername(rezult.data.user.name);
+                                      data.setGender(rezult.data.user.gender);
+                                      data.setKilogram(rezult.data.user.kg); 
+                                      data.setLevel(rezult.data.user.level1?false:true,2);
+                                      data.setLevel(rezult.data.user.level2?false:true,3);
+                                      data.setLevel(rezult.data.user.level3?false:true,4);
+                                      data.setLevel(rezult.data.user.level4?false:true,5);
+                                      data.setLevel(rezult.data.user.level5?false:true,6);
+                                      data.setLevel(rezult.data.user.level6?false:true,7);
+                                      data.setLevel(rezult.data.user.level7?false:true,8);
+                                      data.setLevel(rezult.data.user.level8?false:true,9);
+                                      data.setLevel(rezult.data.user.level9?false:true,10);
+                                      data.setLevel(rezult.data.user.level10?false:true,11);
+                                      data.setLevel(rezult.data.user.level11?false:true,12);
+                                      data.setRecord(rezult.data.user.record);
+                                      
+
+                                    })
+                                    .then(()=>{
+                                      this.mounted &&this.setState({loadPost:false});
+                                      this.props.navigation.navigate('Main');
+                                    })
+                                    .catch(err=>{
+                                      console.log("Error Get" , err);
+                                    })
                                 
-                                
-                                this.setState({loadPost:false});
-                                this.props.navigation.navigate('Main');
-                           
-                                
-                              }).catch(error =>{
-                                
-                                console.log("Error "); 
-                                alert(error.response.data.message?error.response.data.message:"Username or password is incorrect");
-                                this.setState({loadPost:false});
+                                })
+                                .catch(error =>{
+                                  console.log(JSON.stringify(error))
+                            
+                                  alert("Username or password is incorrect");
+                                  this.mounted && this.setState({loadPost:false});
                               })
-                             }
-                           
-                           
-                           
-                           
-                           
+                              }
                            
                           }}
                           />

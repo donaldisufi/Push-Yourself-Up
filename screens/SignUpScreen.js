@@ -20,6 +20,7 @@ import axios from 'axios';
 import DataContext from '../components/DataContext';
 import deviceStorage from '../components/service/deviceStorage';
 import configAxios from '../components/service/configAxios';
+import NetInfo from '@react-native-community/netinfo';
  
 
 let {height,width}  = Dimensions.get('window');
@@ -39,9 +40,23 @@ export default class SignUpScreen extends React.Component{
             errorKg:false,
             errorPassword:false,
             loadPost:false,
-        }
+            conected:false,
+
+        };
+        this.mounted=false;
+
     }
-   
+    componentDidMount=()=>{
+        this.mounted=true;
+        NetInfo.fetch().then(status=>{
+          console.log("Is conected ?" , status.isConnected );
+          this.setState({conected:status.isConnected});
+    
+        });
+    }
+    componentWillUnmount=()=>{
+          this.mounted=false;
+    }
     render(){
         const {checked} = this.state;
         return(
@@ -91,7 +106,7 @@ export default class SignUpScreen extends React.Component{
                                 gender="Male" 
                                 checked={checked==='Male'?true:false}          
                                 style={{width:'50%',marginBottom:5}}      
-                                onPress={()=>{this.setState({checked:'Male'})}}
+                                onPress={()=>{this.setState({checked:'Male'})}} 
                             />
                             <RadioButton 
                                 gender="Female"
@@ -110,7 +125,12 @@ export default class SignUpScreen extends React.Component{
                                         Keyboard.dismiss();
                                         this.setState({loadPost:true});
 
-                                     if(this.state.name.length < 1 || this.state.password <1  || this.state.kilogram < 1){
+                                      if(!this.state.conected)
+                                       {
+                                             alert("Please Check your internet connection");
+                                             this.setState({loadPost:false})
+                                       }
+                                       else if(this.state.name.length < 1 || this.state.password <1  || this.state.kilogram < 1){
                                          this.setState({
                                              errorName:this.state.name.length<1?true:false,
                                              errorPassword:this.state.password.length<1?true:false,
@@ -119,74 +139,72 @@ export default class SignUpScreen extends React.Component{
                                          });
                                         this.setState({loadPost:false});
 
-                                     } else if(this.state.name.length < 2){
-                                         alert("Please write your name correctly!");
-                                        this.setState({loadPost:false});
+                                       } else if(this.state.name.length < 2){
+                                          alert("Please write your name correctly!");
+                                          this.setState({loadPost:false});
 
-                                     } else if (this.state.password.length<6){
-                                        alert("Password should be at least 6 characters!");
-                                        this.setState({loadPost:false});
+                                        } else if (this.state.password.length<6){
+                                            alert("Password should be at least 6 characters!");
+                                            this.setState({loadPost:false});
 
-                                     }else if (this.state.kilogram < 19 || this.state.kilogram > 350){
-                                         alert("Please write your kilograms correctly!!");
-                                        this.setState({loadPost:false});
+                                        }else if (this.state.kilogram < 19 || this.state.kilogram > 350){
+                                            alert("Please write your kilograms correctly!!");
+                                            this.setState({loadPost:false});
 
-                                     }else {
-                                        axios({
-                                            url:"/signup",
-                                            method:'post',
-                                            data:{
+                                        }else {
+                                            axios({
+                                                url:"/signup",
+                                                method:'post',
+                                                data:{
                                                     name:this.state.name,
                                                     gender:this.state.checked,
                                                     kg:this.state.kilogram,    
                                                     password:this.state.password   
-                                                }
-                                        }).then( response =>{
-                                                
-                                                let token = response.data.token;
-                                                deviceStorage.setItem('@token',token);
-                                                deviceStorage.setItem("id",response.data.createdUser._id);  
-                                                deviceStorage.setItem("username",response.config.data.name);
-                                                deviceStorage.setItem("password",response.config.data.password);
-                                                deviceStorage.setItem("kg",response.config.data.kg);
-                                                deviceStorage.setItem("gender",response.config.data.gender);
-                                                configAxios(token);
-                                                this.setState({loadPost:false});
-                                                data.setGender(response.config.data.gender);
-                                                data.setUsername(response.data.createdUser.name);
-                                                data.setLevel(false,1);
-                                                data.setLevel(true,2);
-                                                data.setLevel(true,3);
-                                                data.setLevel(true,4);
-                                                data.setLevel(true,5);
-                                                data.setLevel(true,6);
-                                                data.setLevel(true,7);
-                                                data.setLevel(true,8);
-                                                data.setLevel(true,9);
-                                                data.setLevel(true,10);
-                                                data.setLevel(true,11);
-                                                data.setLevel(true,12);
-                                                data.setRecord(0);
+                                                        }
+                                                }).then( response =>{
+                                                        console.log("signup",response);
+                                                        let token = response.data.token;
+                                                        deviceStorage.setItem('@token',token);
+                                                        deviceStorage.setItem("id",response.data.createdUser._id);  
+                                                        deviceStorage.setItem("username",response.data.createdUser.name);
+                                                        deviceStorage.setItem("password",response.data.createdUser.password);
+                                                        deviceStorage.setItem("kg",response.data.createdUser.kg);
+                                                        deviceStorage.setItem("gender",response.data.createdUser.gender);
+                                                        configAxios(token);
+                                                        data.setKilogram(response.data.createdUser.kg);
+                                                        data.setGender(response.data.createdUser.gender);
+                                                        data.setUsername(response.data.createdUser.name);
+                                                        data.setLevel(false,1);
+                                                        data.setLevel(true,2);
+                                                        data.setLevel(true,3);
+                                                        data.setLevel(true,4);
+                                                        data.setLevel(true,5);
+                                                        data.setLevel(true,6);
+                                                        data.setLevel(true,7);
+                                                        data.setLevel(true,8);
+                                                        data.setLevel(true,9);
+                                                        data.setLevel(true,10);
+                                                        data.setLevel(true,11);
+                                                        data.setLevel(true,12);
+                                                        data.setRecord(0);
+                                                        
+                                                        
 
+                                                    }).then(()=>{
+                                                        this.setState({loadPost:false});
+                                                        this.props.navigation.navigate('Main');
 
-                                                this.props.navigation.navigate('Main');
+                                                    })
+                                                    .catch( error=>{
 
-                                            }).catch( error=>{
+                                                        // console.log(JSON.stringify(error))
+                                                        // console.log(JSON.stringify(error.response.data.error))
 
-                                                // console.log(JSON.stringify(error))
-                                                // console.log(JSON.stringify(error.response.data.error))
+                                                        alert(error.response.data.message?error.response.data.message:"This name is already taken ");
+                                                        this.setState({loadPost:false});
 
-                                                alert(error.response.data.message?error.response.data.message:"This name is already taken ");
-                                                this.setState({loadPost:false});
-
-                                            });
-                                      
-
-
-                                     }
-
-
-                                        
+                                                    });
+                                     }    
                                     }}
                             />
                     </View>

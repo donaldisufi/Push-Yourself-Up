@@ -88,16 +88,23 @@ export default class EditName extends React.Component {
                             } else {
                                 AsyncStorage.getItem("id").then(id=>{
                                     axios.put(`users/updateProfile/${id}`,{
-                                        name:this.state.username
+                                        name:this.state.username,
+                                        kg:data.kilogram
+
                                     }).then(res=>{
-                                        data.setUsername(res.config.data.name)
+                                        console.log("Successfully updated profile");
+                                        console.log(res);
+                                        console.log(JSON.parse(res.config.data).name);
+
+                                        data.setUsername(JSON.parse(res.config.data).name);
+                                        console.log(data.userName);
                                         this.setState({loading:false})
                                         this.props.navigation.navigate("Settings");
                                         
                                     }).catch(error=>{
                                         this.setState({loading:false})
                                         console.log(JSON.stringify(error));
-                                        alert("This name is already taken");
+                                        alert("Something went wrong");
                                     })
                                 })
                             }

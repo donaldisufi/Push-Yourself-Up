@@ -41,7 +41,7 @@ let {height,width } = Dimensions.get('window');
          this.state={
            currentSerie:0,
            restTime:false,
-           timer:10,
+           timer:30,
            finished:false,
            goal:0,
            disabledButton:false,
@@ -128,6 +128,14 @@ let {height,width } = Dimensions.get('window');
     
        let id = await deviceStorage.getItem("id");
        let level = data.currentLevel;
+      
+         
+       if(this.state.pompa>data.record){
+          data.setRecord(this.state.pompa);
+          axios.put(`/users/record/${id}`,{
+              record:this.state.pompa
+          })
+      }
       // var level = `level${data.currentLevel}`;
         axios.put(`/users/level/${id}`,{
           
@@ -163,7 +171,7 @@ let {height,width } = Dimensions.get('window');
           this.state.restTime &&  this.ismounted && this.setState({timer:this.state.timer-1})
           this.state.restTime &&  this.ismounted && this.startTimer();
         } else{
-          this.ismounted && this.setState({restTime:false,currentSerie:this.state.currentSerie+1,finished:false,timer:10,disabledButton:false},function(){
+          this.ismounted && this.setState({restTime:false,currentSerie:this.state.currentSerie+1,finished:false,timer:30,disabledButton:false},function(){
              this.setState({goal:this.state.series[this.state.currentSerie]});
           });
         }
@@ -232,7 +240,7 @@ let {height,width } = Dimensions.get('window');
                                       this.setState({ 
                                         currentSerie:0,
                                         restTime:false,
-                                        timer:10,
+                                        timer:30,
                                         finished:false,
                                         goal:0,
                                         disabledButton:false,
@@ -265,7 +273,7 @@ let {height,width } = Dimensions.get('window');
                           title="Continue"
                           style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
                           onPress={()=>{
-                            this.setState({restTime:false,finished:false,timer:10,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
+                            this.setState({restTime:false,finished:false,timer:30,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
                               this.setState({goal:this.state.series[this.state.currentSerie]},function(){
                               
                               });
@@ -281,7 +289,7 @@ let {height,width } = Dimensions.get('window');
                                 this.setState({ 
                                   currentSerie:0,
                                   restTime:false,
-                                  timer:10,
+                                  timer:30,
                                   finished:false,
                                   goal:0,
                                   disabledButton:false,

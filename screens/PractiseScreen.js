@@ -6,12 +6,13 @@ import {
     Text,
     ImageBackground,
     Modal,
-    Platform
+    Platform,
+    Keyboard
 } from 'react-native';
 
 import CircleBtn from '../components/CircleBtn';
 import FinishedBtn from '../components/FinishedBtn';
-import { TextInput } from 'react-native-gesture-handler';
+import { TextInput, TouchableWithoutFeedback } from 'react-native-gesture-handler';
 import DataContext from '../components/DataContext';
 import SoundBtn from '../components/SoundBtn';
 import { Audio } from 'expo-av';
@@ -139,7 +140,7 @@ export default class PractiseScreen extends React.Component{
             <ImageBackground source={require('../assets/images/TrainBack.png')} style={{flex:1, paddingTop: Platform.OS === 'ios' ? 60 : 80,}} >
                 <DataContext.Consumer>
                     {(data)=>(
-                <View style={style.container}>               
+                        <View style={style.container}>               
                     <Modal 
                         visible={this.state.modalVisible}
                         transparent={true}
@@ -173,11 +174,11 @@ export default class PractiseScreen extends React.Component{
                                 {this.state.setgoalVisible?<View style={{justifyContent:'center',alignItems:'center',width:'25%'}} >
                                     <FinishedBtn 
                                         styleText={{fontFamily:'thin',fontWeight:'600'}}
-
-                                            title="+"
-                                            style={{width:60,borderRadius:5}}
-                                            onPress={()=>{this.setState({default:this.state.default+1})}}
-                                    />
+                                        
+                                        title="+"
+                                        style={{width:60,borderRadius:5}}
+                                        onPress={()=>{this.setState({default:this.state.default+1})}}
+                                        />
                                     </View>:<Fragment />}
                             </View>
                             <View style={style.record}>
@@ -192,12 +193,12 @@ export default class PractiseScreen extends React.Component{
                             <CircleBtn disabled={this.state.disabled} style={{}}
                                     onPress={()=>{
                                         
-                                    this.state.shouldPlay && this.playSound();
+                                        this.state.shouldPlay && this.playSound();
                                         this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false,disabled:true});
                                         setTimeout(()=>{
-                                        this.setState({disabled:false})
+                                            this.setState({disabled:false})
                                         },1000)
-                                }}>
+                                    }}>
                                 <Text style={{fontSize:35,color:'black',fontWeight:'bold'}}>
                                     {this.state.number}
 
@@ -210,16 +211,16 @@ export default class PractiseScreen extends React.Component{
                     <View style={{width:'100%',height:'55%',justifyContent:'center',alignItems:'center',flexDirection:'row'}}>
                     {this.state.visible?
                                 <FinishedBtn 
-                                    style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
-                                    styleText={{color:'white'}}
-                                    title="Complete"
-                                    onPress={()=>{
-                                        this.setRecord(data);
-                                        
-                                        data.setPushUps(this.state.number);
-                                        this.props.navigation.navigate('Calories');
+                                style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
+                                styleText={{color:'white'}}
+                                title="Complete"
+                                onPress={()=>{
+                                    this.setRecord(data);
                                     
-                                    }}
+                                    data.setPushUps(this.state.number);
+                                    this.props.navigation.navigate('Calories');
+                                    
+                                }}
                                 />:<Fragment />}                                 
                     </View>
                     <View style={style.audio}>

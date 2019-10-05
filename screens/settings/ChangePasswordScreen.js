@@ -64,21 +64,7 @@ export default class ChangePasswordScreen extends React.Component{
             <KeyboardAvoidingView behavior={"height"} style={{height:'70%',width:'100%'}}  enabled>
                 <View style={style.posht}>
 
-                        <Input 
-                            name={Platform.OS==='ios'?'ios-lock':'md-lock'}
-                            styleView={{width:'100%'}}
-                            placeholder="Old Password"
-                            value={this.state.OldPassword}
-                            onChangeText={(OldPassword)=>{ 
-                                this.setState({OldPassword,oldError:false});
-                            
-                            }}
-                           secure={true}                            
-                           
-                           />
-                        <Text style={{color:'red'}}>
-                         {this.state.oldError?"Please fill out all fields !!":null}
-                        </Text>
+                      
                         <Input 
                             name={Platform.OS==='ios'?'ios-lock':'md-lock'}
                             styleView={{width:'100%'}}
@@ -97,35 +83,29 @@ export default class ChangePasswordScreen extends React.Component{
                            load={this.state.loading}
                            onPress={async ()=>{
                                this.setState({loading:true});
-                               let password = await deviceStorage.getItem('password');
-                               console.log(password,this.state.OldPassword)
-                               if(this.state.OldPassword.length <1 || this.state.NewPassword <1){
+                              
+                               if(this.state.NewPassword <1){
                                    this.setState({
-                                       oldError:this.state.OldPassword.length<1?true:false,
+                                       
                                        newError:this.state.NewPassword.length<1?true:false,
                                        loading:false,
                                     });
-                                } else if(this.state.OldPassword.length <6 || this.state.NewPassword.length <6){
+                                } else if(this.state.NewPassword.length <6){
                                     alert("Password must be at least 6 chars long!");
                                     this.setState({
                                         loading:false,
                                     });
-                                } else if (this.state.OldPassword !== password){
-                                    alert("Passwords Do not Match");
-                                    this.setState({loading:false})
+                               
                                 } else {
                                     let id = await deviceStorage.getItem('id');
                                     axios.put(`users/password/${id}`,{
                                         password : this.state.NewPassword
                                     }).then(success=>{
-                                        console.log(success)
-                                            deviceStorage.setItem("password",success.config.data.password).then(()=>{
-                                                this.setState({loading:false});
-                                                this.props.navigation.navigate('Settings');
-                                                console.log('Successully changed password');
-                                                alert("Password Changed successfully");
-                                                console.log("Tdhanat Password",success);
-                                            })
+                                         
+                                            alert("Password Changed successfully");
+                                            console.log("Tdhanat Password",success);
+                                            this.setState({loading:false});
+                                            this.props.navigation.navigate('Settings');
                                       
                                        
                                     }).catch(error=>{
@@ -151,7 +131,6 @@ const style = StyleSheet.create({
     container : {
         flex:1,
       
-        paddingTop:StatusBar.currentHeight,
     },
     header : {
         height:'30%',

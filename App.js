@@ -98,6 +98,7 @@ componentDidMount= async ()=>{
             level11:value.data.user.level10?false:true,
             level12:value.data.user.level11?false:true,
             record:value.data.user.record,
+            kilogram:value.data.user.kg
           });
           
            
@@ -108,6 +109,7 @@ componentDidMount= async ()=>{
   }
 }
 state ={
+    kilogram:"",
     gender:'',
     userName:"",
     record:0,
@@ -128,6 +130,9 @@ state ={
     series:[[5,5,6,6],[7,7,8,8],[10,10,11,11,],[13,13,14,14],[16,16,17,17],[19,19,20,20],[22,22,23,23],[24,24,25,25],[25,25,26,26],[28,28,29,29],[30,30,31,31],[32,32,33,33],[34,34,35,35]],
     setGender:(gender)=>{
        this.setState({gender});
+    },
+    setKilogram : (kilogram)=>{
+       this.setState({kilogram})
     },
     setUsername:(value)=>{
       this.setState({userName:value});
