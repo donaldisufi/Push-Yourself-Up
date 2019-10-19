@@ -4,7 +4,8 @@ import {
     Text,
     StyleSheet,
     Dimensions,
-    ActivityIndicator
+    ActivityIndicator,
+    Image
 } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
@@ -20,7 +21,11 @@ export default class ButtonHome extends React.Component{
          size={35}
          color={Colors.tabIconDefault}
          style={{marginRight:10}}
-        />:null}
+        />:
+        this.props.Image?
+        <Image source={require('../assets/images/push-up.png')} style={{ height: 40, width: 40}} />
+        :null
+        }
         {this.props.load?<ActivityIndicator />:<Text style={[style.text,this.props.styleText]}>
             {this.props.title}
         </Text>}

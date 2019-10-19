@@ -1,67 +1,187 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Text, Button, ScrollView, Image } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+import { MonoText } from '../components/StyledText';
 
 export default class Advices extends Component {
   static navigationOptions = {
+ 
+    title: "Tips",
+    headerTintColor: 'black',
+    headerTitleStyle: {
+      fontSize: 30,
+      fontFamily: 'bold',
+       
+      
+      
 
-    title: 'Advices'
+    },
+    
 
   }
+
+
   render() {
     return (
+
       <ScrollView>
+
         <View style={styles.container}>
-          <Image style={{ width: 200, height: 160, marginTop: 25, marginBottom: -35, borderRadius: 20, padding: 20 }}
+          <View style={{ marginTop: 40 }}>
+            <Text style={{
 
-            source={require('../assets/images/Pushup.jpg')} />
+              fontSize: 20,
+              textAlign: 'center',
+              color: 'rgba(0,0,0,0.4)',
+              fontSize: 20,
+              lineHeight: 24,
+              marginTop: -12
 
-          <View style={{ height: 'auto', marginTop: 50, width: -1, borderRadius: 20, backgroundColor: '#2EA0D1', marginRight: 7, marginLeft: 7, padding: 20 }}>
-            <Text style={{ fontSize: 19, marginLeft: 9, marginTop: 8, color: 'white' }}>
-              <Ionicons name="md-fitness" size={30} />
-              If you have eaten well, then the exercises are done after 30 minutes .
-                </Text>
+            }}>7 tips for amazing push ups..</Text>
+          </View>
+
+          <View style={styles.cc}>
+            <View>
+              <Image source={require('../assets/images/gripe.png')} style={{ height: 40, width: 40, marginRight: 300, marginTop: -25 }} />
+            </View>
+            <Text style={styles.tekstipare}> Have a strong grip on the floor .</Text>
+          </View>
+
+          <View style={styles.cc}>
+            <Image source={require('../assets/images/doingpush.png')} style={{ height: 40, width: 40, marginRight: 300, marginTop: -25 }} />
+
+            <Text style={styles.tekstidyt}> Make sure your neck and spine are aligned .</Text>
+          </View>
+
+          <View style={styles.cc}>
+            <Image source={require('../assets/images/push-up.png')} style={{ height: 40, width: 40, marginRight: 300, marginTop: -25 }} />
+
+            <Text style={styles.tekstitret}>Don’t shrug your shoulders .</Text>
+          </View>
+
+          <View style={styles.cc}>
+            <Image source={require('../assets/images/deep.png')} style={{ height: 40, width: 40, marginRight: 300, marginTop: -25 }} />
+
+            <Text style={styles.tekstikatert}> Remember to breathe .</Text>
           </View>
 
 
+          <View style={styles.cc}>
+            <Image source={require('../assets/images/gravity.png')} style={{ height: 40, width: 40, marginRight: 300, marginTop: -25 }} />
 
-          <View style={{ height: 'auto', marginTop: 50, width: -1, borderRadius: 20, backgroundColor: '#2EA0D1', marginRight: 7, marginLeft: 7, padding: 20 }}>
-            <Text style={{ fontSize: 19, marginLeft: 9, marginTop: 8, color: 'white' }}>
-              <Ionicons name="md-clock" size={30} />
-              If this is your first time doing only 2 series . </Text>
+            <Text style={styles.tekstipest}> Don’t let gravity do the work for you .</Text>
           </View>
 
+          <View style={styles.cc}>
+            <Image source={require('../assets/images/clech.png')} style={{ height: 40, width: 40, marginRight: 300, marginTop: -25 }} />
 
-          <View style={{ height: 'auto', marginTop: 50, width: -1, borderRadius: 20, backgroundColor: '#2EA0D1', marginRight: 7, marginLeft: 7, padding: 20 }}>
-            <Text style={{ fontSize: 19, marginLeft: 9, marginTop: 8, color: 'white' }}>
-              <Ionicons name="md-body" size={30} />
-              Bend your body down and your hands should be straight with your shoulders
-              </Text>
+            <Text style={styles.tekstigjasht}>Clench your backside . </Text>
           </View>
 
+          <View style={styles.cc}>
+            <Image source={require('../assets/images/posture.png')} style={{ height: 40, width: 40, marginRight: 300, marginTop: -25 }} />
 
-          <View style={{ height: 'auto', marginTop: 50, width: -1, borderRadius: 20, backgroundColor: '#2EA0D1', marginRight: 7, marginLeft: 7, padding: 20 }}>
-            <Text style={{ fontSize: 19, marginLeft: 9, marginTop: 3, color: 'white' }}>
-              <Ionicons name="md-stats" size={30} />
-              Salmon is a great choice for muscle building and overall health. Each 3-ounce (85-gram) serving of salmon contains about 17 grams of protein .
-            </Text>
+            <Text style={styles.tekstishtat}>Push the ground away from you .</Text>
           </View>
+
 
 
 
         </View>
-
       </ScrollView>
+
+
+
+
     )
   }
 }
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#f5f5f5'
+    backgroundColor: ' rgb(211,211,211)',
+    paddingBottom:20
   },
+  cc: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginTop: 25,
+    height: 100,
+    borderRadius: 10,
+    width: 350,
+    backgroundColor: 'rgb(240,240,240)',
+    shadowOpacity: 0.30,
+    shadowRadius: 10.00,
+    shadowColor: "#000",
+    elevation: 10,
+
+
+  },
+  tekstipare: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 20,
+    lineHeight: 24,
+    marginLeft: 50,
+    marginTop: -30
+  },
+  tekstidyt: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 20,
+    lineHeight: 24,
+    marginLeft: 50,
+    marginTop: -30
+  },
+  tekstitret: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 20,
+    lineHeight: 24,
+    marginLeft: 50,
+    marginTop: -30
+  },
+  tekstikatert: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 20,
+    lineHeight: 24,
+    marginLeft: 50,
+    marginTop: -30
+  },
+  tekstipest: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 20,
+    lineHeight: 24,
+    marginLeft: 50,
+    marginTop: -30
+  },
+  tekstigjasht: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 20,
+    lineHeight: 24,
+    marginLeft: 50,
+    marginTop: -30
+  },
+  tekstishtat: {
+    fontSize: 20,
+    textAlign: 'center',
+    color: 'rgba(0,0,0,0.4)',
+    fontSize: 20,
+    lineHeight: 24,
+    marginLeft: 50,
+    marginTop: -30
+  }
+
 
 });

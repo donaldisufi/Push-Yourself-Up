@@ -67,7 +67,7 @@ import CaloriesBtn from '../components/CaloriesBtn';
                       <CaloriesBtn 
                        title="Save"
                        onPress={()=>{
-                         alert("Your Calories are saved");
+                         
                         this.props.navigation.navigate(data.caloriesRender==='Train'?'Train':'Practise');
                        }}
                        style={{marginLeft:10}}
@@ -87,7 +87,8 @@ import CaloriesBtn from '../components/CaloriesBtn';
    container:{
        flex:1,
        justifyContent:'center',
-       alignItems:'center'
+       alignItems:'center',
+       backgroundColor:"black"
    },
    nalt:{
      height:'10%'
@@ -118,19 +119,20 @@ import CaloriesBtn from '../components/CaloriesBtn';
         
    },
    number:{ 
-       color:'black',
+       color:'white',
        fontWeight:'200',
        fontSize:35,
    },
    Text:{
        fontSize:20,
        fontWeight:'300',
-       color:'black'
+       color:'white'
    },
    UpperText:{
        fontSize:30,
        fontWeight:'400',
-       color:'#A9A9A9'
+       color:'white',
+       marginBottom:20
    },
    viewPush:{
        height:'25%',

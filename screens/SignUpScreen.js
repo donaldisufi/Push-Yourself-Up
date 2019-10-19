@@ -41,6 +41,10 @@ export default class SignUpScreen extends React.Component{
             errorPassword:false,
             loadPost:false,
             conected:false,
+            nameMessage:"",
+            kgMessage:"",
+            passwordMessage:""
+
 
         };
         this.mounted=false;
@@ -81,7 +85,7 @@ export default class SignUpScreen extends React.Component{
                             value={this.state.name}
                             onChangeText={(name)=>{this.setState({name,errorName:false})}}
                             />
-                        <Text style={{color:'red'}}>{this.state.errorName?"Please fill out the fields !":null}</Text>
+                        <Text style={{color:'red'}}>{this.state.errorName?this.state.nameMessage:null}</Text>
                         <Input 
                             name={Platform.OS==='ios'?'ios-lock':'md-lock'}                            
                             styleView={{width:'100%'}}
@@ -90,7 +94,7 @@ export default class SignUpScreen extends React.Component{
                             onChangeText={(password)=>{this.setState({password,errorPassword:false})}}
                             secure={true}
                         />
-                        <Text style={{color:'red'}}>{this.state.errorPassword?"Please fill out the fields !":null}</Text>
+                        <Text style={{color:'red'}}>{this.state.errorPassword?this.state.passwordMessage:null}</Text>
                         <Input
                             name={Platform.OS==='ios'?'ios-lock':'md-lock'}
                             styleView={{width:'100%',marginBottom:10}}
@@ -100,7 +104,7 @@ export default class SignUpScreen extends React.Component{
                             name={Platform.OS==='ios'?'ios-card':'md-card'}                            
                             onChangeText={(kilogram)=>{this.setState({kilogram,errorKg:false}) }}
                         />
-                        <Text style={{color:'red'}}>{this.state.errorKg?"Please fill out the fields !":null}</Text>
+                        <Text style={{color:'red'}}>{this.state.errorKg?this.state.kgMessage:null}</Text>
                           <View style={{height:50,flexDirection:'row',width:'100%',marginBottom:10}}>
                             <RadioButton 
                                 gender="Male" 
@@ -124,6 +128,10 @@ export default class SignUpScreen extends React.Component{
                                     onPress={()=>{
                                         Keyboard.dismiss();
                                         this.setState({loadPost:true});
+                                        this.setState({
+                                            name:this.state.name.trim(),
+                                            password:this.state.password.trim(),
+                                        },function(){
 
                                       if(!this.state.conected)
                                        {
@@ -135,21 +143,25 @@ export default class SignUpScreen extends React.Component{
                                              errorName:this.state.name.length<1?true:false,
                                              errorPassword:this.state.password.length<1?true:false,
                                              errorKg:this.state.kilogram.length<1?true:false,
-
-                                         });
-                                        this.setState({loadPost:false});
+                                             kgMessage:"Please fill out the fields!",
+                                             passwordMessage:"Please fill out the fields!",
+                                             nameMessage:"Please fill out the fields!",
+                                             loadPost:false
+                                            });
 
                                        } else if(this.state.name.length < 2){
-                                          alert("Please write your name correctly!");
-                                          this.setState({loadPost:false});
+                                          this.setState({loadPost:false,errorName:true,nameMessage:"Please write your name correctly!"});
 
                                         } else if (this.state.password.length<6){
-                                            alert("Password should be at least 6 characters!");
-                                            this.setState({loadPost:false});
+                                            this.setState({loadPost:false,errorPassword:true,passwordMessage:"Password should be at least 6 characters!"});
 
-                                        }else if (this.state.kilogram < 19 || this.state.kilogram > 350){
-                                            alert("Please write your kilograms correctly!!");
-                                            this.setState({loadPost:false});
+                                        }
+                                        else if (this.state.kilogram.length <2){
+
+                                            this.setState({loadPost:false,kgMessage:"Please write your kilograms correctly!",errorKg:true});
+                                        }
+                                        else if (this.state.kilogram < 19 || this.state.kilogram > 350){
+                                            this.setState({loadPost:false,kgMessage:"Please write your kilograms correctly!",errorKg:true});
 
                                         }else {
                                             axios({
@@ -192,7 +204,7 @@ export default class SignUpScreen extends React.Component{
 
                                                     }).then(()=>{
                                                         this.setState({loadPost:false});
-                                                        this.props.navigation.navigate('Main');
+                                                        this.props.navigation.navigate('VideoGif');
 
                                                     })
                                                     .catch( error=>{
@@ -200,11 +212,12 @@ export default class SignUpScreen extends React.Component{
                                                         // console.log(JSON.stringify(error))
                                                         // console.log(JSON.stringify(error.response.data.error))
 
-                                                        alert(error.response.data.message?error.response.data.message:"This name is already taken ");
-                                                        this.setState({loadPost:false});
+                                                        this.setState({loadPost:false,errorName:true,nameMessage:"This name is already taken"});
 
                                                     });
+                                       
                                      }    
+                                    });
                                     }}
                             />
                     </View>

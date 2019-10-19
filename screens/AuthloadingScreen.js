@@ -1,7 +1,8 @@
 import React from 'react';
 import {
     View,
-    ActivityIndicator
+    ActivityIndicator,
+    ImageBackground
 } from 'react-native';
 import deviceStorage from '../components/service/deviceStorage';
 
@@ -25,9 +26,9 @@ export default class AuthloadingScreen extends React.Component{
     }
     render(){
         return(
-            <View style={{justifyContent:'center',alignItems:'center',flex:1}}>
-                <ActivityIndicator />
-            </View>
+            <ImageBackground style={{flex:1}} resizeMode="stretch" source={require('../assets/images/LogoApp.png')}>
+               
+            </ImageBackground>
         )
     }
 }

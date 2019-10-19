@@ -7,6 +7,7 @@ import {
     ImageBackground,
     Platform,
     Dimensions,
+    Modal
  
  } from 'react-native';
 
@@ -22,6 +23,7 @@ import configAxios from '../components/service/configAxios';
 
 let {height,width } = Dimensions.get('window');
  export default  class CurrentLevel extends React.Component{
+    
     static navigationOptions={
       
     headerTransparent: true,
@@ -62,10 +64,14 @@ let {height,width } = Dimensions.get('window');
            level11:false,
            level12:false,
            record:0,
+           modalVisible:false
           
          },
          this.ismounted=false;
          this.series  = props.navigation.state.params.series[props.navigation.state.params.currentLevel-1];
+         this.sound = new Audio.Sound();
+         this.levelUpSound= new Audio.Sound();
+         
        
      }
     //  startDetection=()=>{
@@ -78,46 +84,58 @@ let {height,width } = Dimensions.get('window');
     //     console.log("zone1 onExit", context);
     //    };
     //   }
-     componentWillMount =async ()=>{
-       
-       let id = await deviceStorage.getItem('id');
-       axios.get(`/users/${id}`).then((value)=>{
-        
-         this.setState({
-           level1: value.data.user.level1,
-           level2: value.data.user.level2,
-           level3: value.data.user.level3,
-           level4: value.data.user.level4,
-           level5: value.data.user.level5,
-           level6: value.data.user.level6,
-           level7: value.data.user.level7,
-           level8: value.data.user.level8,
-           level9: value.data.user.level9,
-           level10: value.data.user.level10,
-           level11: value.data.user.level11,
-           level12: value.data.user.level12,
-           record:value.data.user.record
-         });  
-        
-       })
-       .catch((error)=>{
-         console.log("Error getting levels");
-       })
-     }
-     componentWillUnmount=()=>{
-        this.ismounted=false;
+    componentWillMount =async ()=>{
       
-     }
-     
-     componentDidMount=()=>{
-     
+      let id = await deviceStorage.getItem('id');
+      axios.get(`/users/${id}`).then((value)=>{
+        
+        this.setState({
+          level1: value.data.user.level1,
+          level2: value.data.user.level2,
+          level3: value.data.user.level3,
+          level4: value.data.user.level4,
+          level5: value.data.user.level5,
+          level6: value.data.user.level6,
+          level7: value.data.user.level7,
+          level8: value.data.user.level8,
+          level9: value.data.user.level9,
+          level10: value.data.user.level10,
+          level11: value.data.user.level11,
+          level12: value.data.user.level12,
+          record:value.data.user.record
+        });  
+        
+      })
+      .catch((error)=>{
+        console.log("Error getting levels");
+      })
+    }
+    componentWillUnmount=()=>{
+      this.ismounted=false;
+      this.sound.unloadAsync();
+      this.levelUpSound.unloadAsync();
+    }
+    
+    componentDidMount= async ()=>{
       // this.startDetection();
       this.ismounted=true;
+      await this.sound.loadAsync(require('../assets/sound/PushUpsSound.mp3')).then(()=>{
+        console.log(this.sound);
+      });
+      await this.levelUpSound.loadAsync(require('../assets/sound/LevelUp.mp3'));
       this.ismounted && this.setState({series:this.series},function(){
         
         this.setState({goal:this.state.series[this.state.currentSerie],lastIndex:this.state.series.length-1});
-      })
+        })
      
+    }
+    levelUpPLaySound=()=>{
+
+      try{
+        this.ismounted && this.levelUpSound.playAsync();
+      } catch(error){
+        console.log(error);
+      }
     }
  
     finishedLevel= async (data)=>{
@@ -179,16 +197,24 @@ let {height,width } = Dimensions.get('window');
      }
 
      playSound = async ()=>{
-     
-      const sound = new Audio.Sound();
+       
       try {
-        this.ismounted && await sound.loadAsync(require('../assets/sound/PushUpsSound.mp3'),{shouldPlay:this.state.shouldPlay});
+       this.ismounted &&  this.sound.replayAsync();
         
       }catch(error) {
        console.log(error);
       }
+
      }
 
+     modalVisible=()=>{
+      this.setState({modalVisible:true});
+      setTimeout(()=>{
+        this.setState({modalVisible:false});
+
+      },3000)
+      
+  }
      
    
     renderButtons=(array)=>{
@@ -208,7 +234,23 @@ let {height,width } = Dimensions.get('window');
        return(
         <ImageBackground source={require('../assets/images/TrainBack2.png')} style={{flex:1, paddingTop: Platform.OS === 'ios' ? 60 : 80,}} >
         <DataContext.Consumer>{(data)=>(
+          
            <View style={style.container}>
+              <Modal 
+                        visible={this.state.modalVisible}
+                        transparent={false}
+                        animated={true}
+                        animationType="fade"    
+                       
+                    >
+                        <View style={{justifyContent:'center',alignItems:'center',height:"100%",width:'100%'}}>
+                            <ImageBackground style={{height:200,width:340,justifyContent:'center',alignItems:'center',borderRadius:5}} source={require('../assets/images/SettingsBack.png')}>
+                                    <Text style={{fontSize:26,color:'white'}}>
+                                    Congrat's. You Level Up.
+                                    </Text>
+                            </ImageBackground>
+                        </View>
+                    </Modal>
                   <View style={style.nalt}>
                     {this.renderButtons(data.series[data.currentLevel-1])}
                   </View>
@@ -248,14 +290,15 @@ let {height,width } = Dimensions.get('window');
                                         lastIndex:0,
                                         lastIndex:this.state.series.length-1,
                                       },function(){
-                                        
+                                        this.levelUpPLaySound();
+                                        this.modalVisible();
                                         this.finishedLevel(data);
                                         this.setState({ goal:this.state.series[this.state.currentSerie],});
                                         this.props.navigation.navigate('Calories');
                                       });
                                     
                                 }else {
-                                  this.startTimer();
+                                   this.startTimer();
                                   this.setState({restTime:true,finished:false,disabledButton:true})
                                 }
 
@@ -280,33 +323,36 @@ let {height,width } = Dimensions.get('window');
                               
                             });
                           }}
-                        />: <FinishedBtn
-                            style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
-                            title="Finish"
-                            onPress={()=>{
-                              if(this.state.currentSerie===this.state.lastIndex){
+                        />: null
+                        // <FinishedBtn
+                        //     style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
+                        //     title="Finish"
+                        //     onPress={()=>{
+                        //       if(this.state.currentSerie===this.state.lastIndex){
                               
-                                this.setState({ 
-                                  currentSerie:0,
-                                  restTime:false,
-                                  timer:30,
-                                  finished:false,
-                                  goal:0,
-                                  disabledButton:false,
-                                  shouldPlay:true,
-                                  lastIndex:0,
-                                  lastIndex:this.state.series.length-1},function(){
+                        //         this.setState({ 
+                        //           currentSerie:0,
+                        //           restTime:false,
+                        //           timer:30,
+                        //           finished:false,
+                        //           goal:0,
+                        //           disabledButton:false,
+                        //           shouldPlay:true,
+                        //           lastIndex:0,
+                        //           lastIndex:this.state.series.length-1},function(){
+                        //             this.modalVisible();
                                     
-                                    this.finishedLevel(data);
-                                    this.setState({goal:this.state.series[this.state.currentSerie],})
-                                    this.props.navigation.navigate('Calories');
-                                  });
+                        //             this.finishedLevel(data);
+                        //             this.setState({goal:this.state.series[this.state.currentSerie],})
+                        //             this.props.navigation.navigate('Calories');
+                        //           });
                               
-                            }else{
-                              this.startTimer();
-                              this.setState({restTime:true,finished:false,disabledButton:true})
-                            }
-                        }} />}
+                        //     }else{
+                        //      this.startTimer();
+                        //       this.setState({restTime:true,finished:false,disabledButton:true})
+                        //     }
+                        // }} />
+                        }
                   </View>
                   <View style={{height:'12%',width:'100%',flexDirection:'row',}}>
                       <View style={{width:'30%',justifyContent:'center',alignItems:'center'}}>

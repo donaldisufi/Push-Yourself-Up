@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
+
 export default class RecordeItem extends Component {
 
     render() {
@@ -9,38 +10,27 @@ export default class RecordeItem extends Component {
             <View style={styles.container}>
 
 
-                <View style={styles.blloki}>
 
-                    <View style={{
-                        marginRight: 250, marginLeft: 10, borderRadius: 20, height: 'auto', marginTop: 5
+                <View style={styles.blloki} >
 
-                    }}>
-
-
-                        <Ionicons name="md-trophy" size={32} color="gold" />
+                    <View>
+                        <Ionicons Ionicons={this.props.Ionicons} name="md-trophy" size={60} color={this.props.color} style={{ marginRight: 250, marginTop: -10 }} />
+                        <Text style={styles.tekstipare} Color={this.props.color}>{this.props.rank}</Text>
 
                     </View>
 
-                    <View style={{ paddingLeft: 40, paddingRight: 40, height: 'auto' }}>
-                        <Text style={{
-                            fontSize: 17, marginTop: -25, justifyContent: 'center', alignItems: 'center', color: 'white'
-                        }}> {this.props.name} </Text>
-                    </View>
 
-                    <View style={{ marginLeft: 250, height: 'auto' }}>
-                        <Text style={{
-                            fontSize: 17, marginTop: -25, color: 'white'
-                        }}> {this.props.record} </Text>
-                    </View>
+                    <Text style={styles.tekstidyt}> {this.props.name} </Text>
 
-                    <View style={{ marginLeft: 40, height: 'auto' }}>
-                        <Text style={{
-                            fontSize: 50, marginTop: -1735, marginLeft: 70, color: 'white'
-                        }}> {this.props.myRank} </Text>
+
+                    <Text style={styles.tekstitret}> {this.props.record} </Text>
+                    <View>
+                        <Text>{this.props.myRank}</Text>
                     </View>
 
                 </View>
-            </View >
+
+            </View>
 
         )
     }
@@ -55,18 +45,49 @@ const styles = StyleSheet.create({
 
     },
     blloki: {
+
         justifyContent: 'center',
         alignItems: 'center',
-        flex: 1,
-        marginTop: 50,
-        height: 50,
-        backgroundColor: '#2EA0D1',
-        borderRadius: 20,
-        width: 300,
-
+        marginTop: 25,
+        height: 80,
+        borderRadius: 100,
+        width: 350,
+        backgroundColor: 'rgb(240,240,240)',
+        shadowOpacity: 0.30,
+        shadowRadius: 10.00,
+        shadowColor: "#000",
+        elevation: 10,
 
 
     },
+    tekstipare: {
+        fontSize: 20,
+        textAlign: 'center',
+        fontSize: 20,
+        lineHeight: 24,
+        marginRight: 250,
+        marginTop: -50,
+        color: 'black',
+    },
+    tekstidyt: {
+        fontSize: 20,
+        textAlign: 'center',
+        fontSize: 20,
+        lineHeight: 28,
+        marginLeft: 30,
+        marginTop: -20,
+        color: 'rgba(0,0,0,0.4)',
+    },
+    tekstitret: {
+        fontSize: 20,
+        textAlign: 'center',
+        fontSize: 20,
+        lineHeight: 20,
+        marginLeft: 250,
+        marginTop: -20,
+        color: 'rgba(0,0,0,0.4)',
+    },
+
 
 
 

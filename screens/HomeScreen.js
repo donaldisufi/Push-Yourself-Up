@@ -135,14 +135,14 @@ export default class HomeScreen extends React.Component{
                   data.setCaloriesRender("Train");
 
                 }}
-                name="md-clock"
                 title="BECOME A BEAST"
-                
+                name={Platform.OS==='ios'?"ios-fitness" :"md-fitness"} 
+
                 />
               <View style={{padding:10,marginTop:10,flexDirection:'row',justifyContent:'space-between',alignItems:'center'}}>
               <ButtonHome 
                 title="TRAIN"
-                name="md-fitness" 
+                
                 onPress={()=>{
                   this.props.navigation.navigate('Practise');
                   data.setCaloriesRender("Practise");
@@ -151,7 +151,7 @@ export default class HomeScreen extends React.Component{
                 />
               <ButtonHome 
                 title="TIPS"
-                name="md-clipboard" 
+                name={Platform.OS==='ios'?'ios-clipboard' :'md-clipboard'} 
                 onPress={()=>{this.props.navigation.navigate('Advices')}}
                 style={{backgroundColor:'tranparent'}}
                 />

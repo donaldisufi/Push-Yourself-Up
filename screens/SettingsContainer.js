@@ -53,14 +53,14 @@ export default class SettingsContainer extends React.Component{
                             <ContainerSett style={{}}>
                                 <SettinsLine onPress={()=>{this.props.navigation.navigate('EditName')}} name={Platform.OS==='ios'?'ios-contact':'md-contact'} title="EDIT USERNAME" style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}} />
                                 <SettinsLine  onPress={()=>{this.props.navigation.navigate('ChangePassword')}}name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="CHANGE PASSWORD"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
-                                <SettinsLine  onPress={()=>{this.props.navigation.navigate('EditKg')}}name={Platform.OS==='ios'?'ios-contact':'md-contact'}  title="EDIT KILOGRAMS" />
+                                <SettinsLine  onPress={()=>{this.props.navigation.navigate('EditKg')}}name={Platform.OS==='ios'?'ios-wallet':'md-wallet'}  title="EDIT KILOGRAMS" />
 
                             </ContainerSett>
                             <ContainerSett style={{marginTop:20}}>
                                 <SettinsLine name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="Reset Score"style={{borderBottomColor:'#D3D3D3',borderBottomWidth:1,borderRadius:5}}/>
                                 <SettinsLine onPress={()=>{
                                         deviceStorage.removeItem('@token').then(res=>{
-                                        this.props.navigation.navigate('Register');});}} name={Platform.OS==='ios'?'ios-lock':'md-lock'} title="Log out" />
+                                        this.props.navigation.navigate('Register');});}} name={Platform.OS==='ios'?'ios-log-out':'md-log-out'} title="Log out" />
                                 
                             </ContainerSett>
                             {/* <ContainerSett style={{marginTop:20,marginBottom:100}}>

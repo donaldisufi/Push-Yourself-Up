@@ -19,6 +19,8 @@ import ButtonHome from '../../components/ButtonHome';
 import axios from 'axios';
 import Input from '../../components/Input';
 import deviceStorage from '../../components/service/deviceStorage';
+import NetInfo from '@react-native-community/netinfo';
+
 export default class ChangePasswordScreen extends React.Component{
     static navigationOptions = {
         headerTransparent: true,
@@ -49,7 +51,16 @@ export default class ChangePasswordScreen extends React.Component{
             loading:false,
             oldError:false,
             newError:false,
+            message:"",
+            conected:false
         }
+    }
+    componentDidMount=()=>{
+        NetInfo.fetch().then(status=>{
+            console.log("Is conected ?" , status.isConnected );
+            this.setState({conected:status.isConnected});
+      
+          });
     }
     render(){
         return(
@@ -75,25 +86,35 @@ export default class ChangePasswordScreen extends React.Component{
                             
                             />
                          <Text style={{color:'red'}}>
-                             {this.state.newError?"Please fill out all fields":null}
+                             {this.state.newError?this.state.message:null}
                          </Text>
                          <ButtonHome 
                            title="Done"
                            style={{borderRadius:7,backgroundColor:'black',height:50,width:'100%'}}
                            load={this.state.loading}
                            onPress={async ()=>{
+                               Keyboard.dismiss();
                                this.setState({loading:true});
                               
-                               if(this.state.NewPassword <1){
+                             if(!this.state.conected)
+                             {
+                                    this.setState({loading:false,newError:true,message:"Please check your internet Connection!"});
+
+                              }else if(this.state.NewPassword <1){
                                    this.setState({
                                        
                                        newError:this.state.NewPassword.length<1?true:false,
                                        loading:false,
+                                       message:"Please fill out the field!"
+
                                     });
                                 } else if(this.state.NewPassword.length <6){
-                                    alert("Password must be at least 6 chars long!");
                                     this.setState({
                                         loading:false,
+                                       newError:true,
+                                       message:"Password must be at least 6 chars long !"
+
+
                                     });
                                
                                 } else {
@@ -109,9 +130,8 @@ export default class ChangePasswordScreen extends React.Component{
                                       
                                        
                                     }).catch(error=>{
-                                        this.setState({loading:false})
+                                        this.setState({loading:false,newError:true,message:"Something went Wrong"})
                                         
-                                        alert("Something went wrong");
                                         console.log(error);
                                     })
                                 }

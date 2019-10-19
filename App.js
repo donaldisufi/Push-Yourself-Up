@@ -2,7 +2,7 @@ import { AppLoading } from 'expo';
 import { Asset } from 'expo-asset';
 import * as Font from 'expo-font';
 import React, { useState } from 'react';
-import { Platform, StatusBar, StyleSheet, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, View ,ImageBackground} from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
 import DataContext from './components/DataContext';
@@ -33,6 +33,22 @@ export default class App extends React.Component{
         require('./assets/images/SettGirl2.png'),
         require('./assets/images/TrainBack2.png'),
         require('./assets/images/welcome.jpg'),
+        require('./assets/images/LogoApp.png'),
+        require('./assets/videos/GifVideo.mp4'),
+        require('./assets/images/clech.png'),
+        require('./assets/images/deep.png'),
+        require('./assets/images/doingpush.png'),
+        require('./assets/images/gravity.png'),
+        require('./assets/images/gripe.png'),
+        require('./assets/images/LogoApp.png'),
+        require('./assets/images/posture.png'),
+        require('./assets/images/push-up.png'),
+        require('./assets/images/pushup.png'),
+
+         
+
+
+
 
 
 
@@ -57,8 +73,10 @@ export default class App extends React.Component{
     ]);
   }
 
-componentWillMount=()=>{
-  this.loadResourcesAsync();
+componentWillMount= async ()=>{
+  await this.loadResourcesAsync();
+  this.setState({isReady:true})
+
     deviceStorage.getJWT().then(res=>{
     configAxios(res);
     if(res){
@@ -109,6 +127,7 @@ componentDidMount= async ()=>{
   }
 }
 state ={
+  isReady:false,
     kilogram:"",
     gender:'',
     userName:"",
@@ -208,6 +227,11 @@ render(){
   //     />
   //   );
   // } else {
+
+  if(!this.state.isReady){
+    return <AppLoading />
+  }
+
     return (
       <View style={styles.container}>
         <DataContext.Provider value={this.state}>
@@ -233,7 +257,7 @@ async function loadResourcesAsync() {
       require('./assets/images/Pushup.jpg'),
       require('./assets/images/pushupMan.jpg'),
       require('./assets/images/pushupMan.jpg'),
-
+      require('./assets/videos/GifVideo.mp4')
 
 
     ]),
@@ -245,6 +269,8 @@ async function loadResourcesAsync() {
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       'regular': require('./assets/fonts/Roboto-Regular.ttf')
     }),
+    
+
   ]);
 }
 

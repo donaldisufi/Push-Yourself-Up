@@ -39,6 +39,9 @@ export default class LoginScreen extends React.Component{
       errorPassword:false,
       loadPost:false,
       conected:false,
+      nameMessage:"",
+      passwordMessage:"",
+      
     }
     this.mounted=false;
   }
@@ -80,7 +83,7 @@ export default class LoginScreen extends React.Component{
                     value={this.state.name}
                     onChangeText={(name)=>{this.setState({name,errorName:false})}}
                     />
-                    <Text style={{color:'red'}}>{this.state.errorName?"Please fill out all fields !":null}</Text>
+                    <Text style={{color:'red'}}>{this.state.errorName?this.state.nameMessage:null}</Text>
                   <Input 
                     name={Platform.OS==='ios'?'ios-lock':'md-lock'}
                     
@@ -91,7 +94,7 @@ export default class LoginScreen extends React.Component{
                     secure={true}
                     
                     />
-                    <Text style={{color:'red'}}>{this.state.errorPassword?"Please fill out all fields !":null}</Text>
+                    <Text style={{color:'red'}}>{this.state.errorPassword?this.state.passwordMessage:null}</Text>
                   <ButtonHome 
                           style={{marginBottom:10,borderRadius:7,backgroundColor:'black',height:50,width:'100%'}}
                           title="Login"
@@ -105,27 +108,31 @@ export default class LoginScreen extends React.Component{
 
                              Keyboard.dismiss();
                              this.setState({loadPost:true}); 
+                             this.setState({
+                               name:this.state.name.trim(),
+                               password:this.state.name.trim()
+                             },function(){
                              
                              if(!this.state.conected)
                              {
                                   alert("Please Check your internet connection");
-                                  this.setState({loadPost:false})
+                                  this.setState({loadPost:false,errorPassword:true,passwordMessage:"Please check your internet Connection!"})
                              }
                              else if(this.state.name.length<1 || this.state.password.length <1){
                               this.setState({
                                 errorPassword:this.state.password.length<1?true:false,
-                                errorName:this.state.name.length<1?true:false,loadPost:false
+                                errorName:this.state.name.length<1?true:false,loadPost:false,
+                                nameMessage:"Please fill out the field ! ",
+                                passwordMessage:"Please fill out the field !",
+                                loadPost:false
                               });
-                              this.setState({loadPost:false});
 
                               
                              } else if(this.state.name.length<2){
-                               alert("please write username correctly!");
-                               this.setState({loadPost:false});
+                               this.setState({loadPost:false,errorName:true,nameMessage:"please write username correctly!"});
 
                              } else if (this.state.password.length<6){
-                               alert("Password should be at least 6 chars!");
-                               this.setState({loadPost:false});
+                               this.setState({loadPost:false,errorPassword:true,passwordMessage:"Password should be at least 6 chars!"});
 
                              } else
                               {
@@ -181,10 +188,9 @@ export default class LoginScreen extends React.Component{
                                 .catch(error =>{
                                   console.log(JSON.stringify(error))
                             
-                                  alert("Username or password is incorrect");
-                                  this.mounted && this.setState({loadPost:false});
+                                  this.mounted && this.setState({loadPost:false,errorPassword:true,passwordMessage:"Username or password is incorrect"});
                               })
-                              }
+                              }})
                            
                           }}
                           />

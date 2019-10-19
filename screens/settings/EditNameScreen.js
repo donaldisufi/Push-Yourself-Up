@@ -16,6 +16,8 @@ import DataContext from '../../components/DataContext';
 import Input from '../../components/Input';
 import ButtonHome from '../../components/ButtonHome';
 import axios from 'axios';
+import NetInfo from '@react-native-community/netinfo';
+
 
 export default class EditName extends React.Component {
     static navigationOptions = {
@@ -44,8 +46,17 @@ export default class EditName extends React.Component {
         this.state={
             username:"",
             loading:false,
-            error:false
+            error:false,
+            message:"",
+            conected:false
         }
+    }
+    componentDidMount=()=>{
+        NetInfo.fetch().then(status=>{
+            console.log("Is conected ?" , status.isConnected );
+            this.setState({conected:status.isConnected});
+      
+          });
     }
     render(){
         return(
@@ -66,11 +77,11 @@ export default class EditName extends React.Component {
                             styleView={{width:'100%'}}
                             placeholder="Username"
                             value={this.state.username}
-                            onChangeText={(username)=>{this.setState({username})}}
+                            onChangeText={(username)=>{this.setState({username,error:false})}}
 
                         />
                         <Text style={{color:'red'}}>
-                            {this.state.error?"Please fill out the field!!":null}
+                            {this.state.error?this.state.message:null}
                         </Text>
                         <ButtonHome 
                         title="Done"
@@ -79,12 +90,15 @@ export default class EditName extends React.Component {
                         onPress={()=>{
                             Keyboard.dismiss();
                             this.setState({loading:true});
-                            if(this.state.username.length<1){
-                                this.setState({error:true,loading:false});
+                            if(!this.state.conected)
+                            {
+                                 this.setState({loading:false,error:true,message:"Please check your internet Connection!"});
+
+                            }  else  if(this.state.username.length<1){
+                                this.setState({error:true,loading:false,message:"Please fill out the field!!"});
 
                             } else if (this.state.username.length <2){
-                                alert("Username must be at least 2 characters!");
-                                this.setState({loading:false})
+                                this.setState({loading:false,error:true,message:"Username must be at least 2 characters"});
                             } else {
                                 AsyncStorage.getItem("id").then(id=>{
                                     axios.put(`users/updateProfile/${id}`,{
@@ -102,9 +116,8 @@ export default class EditName extends React.Component {
                                         this.props.navigation.navigate("Settings");
                                         
                                     }).catch(error=>{
-                                        this.setState({loading:false})
+                                        this.setState({loading:false,message:"This name is already taken!",error:true})
                                         console.log(JSON.stringify(error));
-                                        alert("Something went wrong");
                                     })
                                 })
                             }
