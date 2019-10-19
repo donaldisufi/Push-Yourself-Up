@@ -2,8 +2,8 @@
   "expoServerPort": 19000,
   "expoServerNgrokUrl": "https://yd-mu7.donald-isufi.push-ups.exp.direct",
   "packagerNgrokUrl": "https://packager.yd-mu7.donald-isufi.push-ups.exp.direct",
-  "ngrokPid": 15468,
+  "ngrokPid": 4508,
   "devToolsPort": 19002,
-  "packagerPort": 19001,
-  "packagerPid": 3848
+  "packagerPort": null,
+  "packagerPid": null
 }

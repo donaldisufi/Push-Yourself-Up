@@ -89,32 +89,36 @@ export default class RecordScreen extends Component {
                         lineHeight: 24,
                         justifyContent: 'center',
                         alignItems: 'center',
+                        textAlign:'center',
                         marginTop: -5,
                         height: 200,
-                        borderBottomRightRadius: 70,
-                        borderBottomLeftRadius: 70,
+                        borderBottomRightRadius: 100,
+                        borderBottomLeftRadius: 100,
 
                         width: 400,
-                        backgroundColor: '#a9a9a9',
+                        backgroundColor: 'rgb(240,240,240)',
                         shadowOpacity: 0.30,
                         shadowRadius: 10.00,
                         shadowColor: "#000",
-                        elevation: 10,
+                        elevation: 20,
                     }}>
                         <Text style={{
-                            fontSize: 40,
+                            fontSize: 30,
                             textAlign: 'center',
-                            fontSize: 20,
-                            lineHeight: 24,
-                            marginRight: 150,
-                            marginTop: -20,
-                            color: 'white',
-                            fontFamily: 'bold',
+                            lineHeight: 30,
+                            marginTop: 20,
+                            color: 'rgba(0,0,0,0.4)',
+                            fontFamily: 'thin',
 
 
 
 
-                        }}> MY RANK IS  :{this.state.records.length !== 0 ? this.state.records[this.state.records.length-1].myRank:null}</Text>
+
+
+
+
+
+                        }}> MY RANK </Text><Text style={{fontFamily:'bold',fontSize:50,marginRight:20,padding:20,color:'rgba(0,0,0,0.4)'}}> {this.state.records.length !== 0 ? this.state.records[this.state.records.length-1].myRank:null}</Text>
 
                     </View >
 

@@ -25,7 +25,7 @@ export default class RecordeItem extends Component {
 
                     <Text style={styles.tekstitret}> {this.props.record} </Text>
                     <View>
-                        <Text>{this.props.myRank}</Text>
+                        <Text style={{fontFamily:'bold'}}>{this.props.myRank}</Text>
                     </View>
 
                 </View>
