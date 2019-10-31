@@ -7,7 +7,6 @@ import {
     Text,
     ActivityIndicator
 } from 'react-native';
-import VideoPlayer from 'expo-video-player';
 let {width,height } = Dimensions.get('window');
 
 export default class VideoGif extends React.Component{
@@ -50,17 +49,7 @@ static navigationOptions= {
 
         return(
                
-                //     videoProps={{
-                    //         shouldPlay:true,
-                    //         resizeMode:Video.RESIZE_MODE_STRETCH,
-                //         source:{
-                    //             localUri:"../assets/videos/GifVideo.mp4"
-                    //         },
-                        
-                    //     }}
-                    //     inFullscreen={true}
-                //  />
-                // ref={this._handleVideoRef}
+        
            <View style={{flex:1,paddingTop:StatusBar.currentHeight}}>
               <View style={{width,height:'15%',justifyContent:'center',alignItems:"flex-start",padding:20,backgroundColor:'#2F3B61'}}>
                   <Text style={{color:'#F5F5F5',fontFamily:'bold',fontSize:25}}>

@@ -26,7 +26,11 @@
     "ios": {
       "supportsTablet": true
     },
-    "description": ""
-   
+    "description": "",
+    "android": {
+      "package": "com.push_ups.push_ups",
+      "versionCode": 2 
+    },
+    "scheme": "expd9dc7d75f88c4644b7cfc27af499b267"
   }
 }

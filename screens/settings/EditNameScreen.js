@@ -53,7 +53,6 @@ export default class EditName extends React.Component {
     }
     componentDidMount=()=>{
         NetInfo.fetch().then(status=>{
-            console.log("Is conected ?" , status.isConnected );
             this.setState({conected:status.isConnected});
       
           });
@@ -90,6 +89,11 @@ export default class EditName extends React.Component {
                         onPress={()=>{
                             Keyboard.dismiss();
                             this.setState({loading:true});
+                            this.setState({
+                                username:this.state.username.trim()
+                            },function(){
+
+                            
                             if(!this.state.conected)
                             {
                                  this.setState({loading:false,error:true,message:"Please check your internet Connection!"});
@@ -106,12 +110,8 @@ export default class EditName extends React.Component {
                                         kg:data.kilogram
 
                                     }).then(res=>{
-                                        console.log("Successfully updated profile");
-                                        console.log(res);
-                                        console.log(JSON.parse(res.config.data).name);
 
                                         data.setUsername(JSON.parse(res.config.data).name);
-                                        console.log(data.userName);
                                         this.setState({loading:false})
                                         this.props.navigation.navigate("Settings");
                                         
@@ -121,6 +121,7 @@ export default class EditName extends React.Component {
                                     })
                                 })
                             }
+                        })
                             }}
                         />
                     </View>

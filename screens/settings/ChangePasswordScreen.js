@@ -57,7 +57,6 @@ export default class ChangePasswordScreen extends React.Component{
     }
     componentDidMount=()=>{
         NetInfo.fetch().then(status=>{
-            console.log("Is conected ?" , status.isConnected );
             this.setState({conected:status.isConnected});
       
           });
@@ -92,15 +91,31 @@ export default class ChangePasswordScreen extends React.Component{
                            title="Done"
                            style={{borderRadius:7,backgroundColor:'black',height:50,width:'100%'}}
                            load={this.state.loading}
-                           onPress={async ()=>{
+                           onPress={ async ()=>{
                                Keyboard.dismiss();
                                this.setState({loading:true});
+
+                              this.setState({
+                                  NewPassword : this.state.NewPassword.trim()
+                              },function(){
+                                  if(this.state.NewPassword.length <1){
+                                    this.setState({
+                                       
+                                        newError:this.state.NewPassword.length<1?true:false,
+                                        loading:false,
+                                        message:"Please fill out the field!"
+ 
+                                     });
+                                  }
+                               });
+
+                             
                               
                              if(!this.state.conected)
                              {
                                     this.setState({loading:false,newError:true,message:"Please check your internet Connection!"});
 
-                              }else if(this.state.NewPassword <1){
+                              }else if(this.state.NewPassword.length <1){
                                    this.setState({
                                        
                                        newError:this.state.NewPassword.length<1?true:false,
@@ -124,7 +139,6 @@ export default class ChangePasswordScreen extends React.Component{
                                     }).then(success=>{
                                          
                                             alert("Password Changed successfully");
-                                            console.log("Tdhanat Password",success);
                                             this.setState({loading:false});
                                             this.props.navigation.navigate('Settings');
                                       
@@ -135,6 +149,7 @@ export default class ChangePasswordScreen extends React.Component{
                                         console.log(error);
                                     })
                                 }
+                          
                                 
                             }}
                             />

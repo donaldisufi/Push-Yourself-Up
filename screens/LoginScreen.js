@@ -48,7 +48,6 @@ export default class LoginScreen extends React.Component{
   componentDidMount=()=>{
     this.mounted=true;
     NetInfo.fetch().then(status=>{
-      console.log("Is conected ?" , status.isConnected );
       this.setState({conected:status.isConnected});
 
     });
@@ -63,10 +62,7 @@ export default class LoginScreen extends React.Component{
            <SafeAreaView style={style.container} >
                  <KeyboardAvoidingView behavior="position" enabled style={{height:'90%',width:'100%'}}>
                <View style={style.nalt} >
-                  {/* <Image 
-                      source={require('../assets/images/pushupMan.jpg')}
-                      style={{height:'80%',width:'80%'}}
-                    /> */}
+              
                   <Image style={{height:120,width:120,borderRadius:60}} source={require('../assets/images/welcome.jpg')} />
                   
                   <Text style={{fontFamily:'bold',fontSize:30,marginTop:20}}>
@@ -102,7 +98,6 @@ export default class LoginScreen extends React.Component{
                           onPress={()=>{
                            
                             NetInfo.addEventListener(status=>{
-                              console.log("Is connected?", status.isConnected);
                               this.setState({conected:status.isConnected});
                             })
 
@@ -110,7 +105,7 @@ export default class LoginScreen extends React.Component{
                              this.setState({loadPost:true}); 
                              this.setState({
                                name:this.state.name.trim(),
-                               password:this.state.name.trim()
+                               password:this.state.password.trim()
                              },function(){
                              
                              if(!this.state.conected)
@@ -147,8 +142,8 @@ export default class LoginScreen extends React.Component{
                                 }
                                 
                               }).then(response=>{
-                                    console.log("Successfully",response);
-                                    let token = response.data.useri.token;
+
+                                let token = response.data.useri.token;
                                     configAxios(token);
                                     deviceStorage.setItem('@token',token);
                                     deviceStorage.setItem("id",response.data.useri.id);
@@ -156,7 +151,6 @@ export default class LoginScreen extends React.Component{
                                     
                                   
                                     axios.get(`/users/${response.data.useri.id}`).then(rezult=>{
-                                      console.log("get tdhanat",rezult);
 
                                       data.setUsername(rezult.data.user.name);
                                       data.setGender(rezult.data.user.gender);

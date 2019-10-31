@@ -35,8 +35,6 @@ export default class RecordScreen extends Component {
                 const user = response.data;
 
                 this.setState({ records: user },function(){
-                    console.log("Tdhanaet e state : ")
-                    console.log(this.state.records[0].name);
                     this.setState({loading:false})
 
                 })

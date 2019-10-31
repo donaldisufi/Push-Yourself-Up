@@ -66,7 +66,6 @@ export default class PractiseScreen extends React.Component{
    componentDidMount= async ()=>{
           this.ismounted=true;
           await this.sound.loadAsync(require('../assets/sound/PushUpsSound.mp3')).then(()=>{
-            console.log(this.sound);
           });
           await this.soundNewRecord.loadAsync(require('../assets/sound/LevelUp.mp3'));
 
@@ -173,7 +172,7 @@ export default class PractiseScreen extends React.Component{
                        <View style={{justifyContent:'center',alignItems:'center',height:"100%",width:'100%'}}>
                             <ImageBackground style={{height:200,width:340,justifyContent:'center',alignItems:'center',borderRadius:5}} source={require('../assets/images/SettingsBack.png')}>
                                     <Text style={{fontSize:26,color:'white'}}>
-                                    Congrat's. You Level Up.
+                                     Congrats , New Record !
                                     </Text>
                             </ImageBackground>
                         </View>
@@ -226,7 +225,7 @@ export default class PractiseScreen extends React.Component{
                                         this.ismounted && this.setState({number:this.state.number+1,default:this.state.default<=0?0:this.state.default-1,visible:true,setgoalVisible:false,disabled:true});
                                         setTimeout(()=>{
                                             this.setState({disabled:false})
-                                        },1000)
+                                        },100)
                                     }}>
                                 <Text style={{fontSize:35,color:'black',fontWeight:'bold'}}>
                                     {this.state.number}

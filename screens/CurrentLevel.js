@@ -43,7 +43,7 @@ let {height,width } = Dimensions.get('window');
          this.state={
            currentSerie:0,
            restTime:false,
-           timer:30,
+           timer:50,
            finished:false,
            goal:0,
            disabledButton:false,
@@ -74,16 +74,7 @@ let {height,width } = Dimensions.get('window');
          
        
      }
-    //  startDetection=()=>{
-    //    const zone1 = new RNEP.ProximityZone(10,'Sample1');
-    //    zone1.onEnterAction = context =>{
-    //        console.log("U afru ", context);
-
-    //    };
-    //    zone1.onExitAction = context => {
-    //     console.log("zone1 onExit", context);
-    //    };
-    //   }
+    
     componentWillMount =async ()=>{
       
       let id = await deviceStorage.getItem('id');
@@ -117,10 +108,8 @@ let {height,width } = Dimensions.get('window');
     }
     
     componentDidMount= async ()=>{
-      // this.startDetection();
       this.ismounted=true;
       await this.sound.loadAsync(require('../assets/sound/PushUpsSound.mp3')).then(()=>{
-        console.log(this.sound);
       });
       await this.levelUpSound.loadAsync(require('../assets/sound/LevelUp.mp3'));
       this.ismounted && this.setState({series:this.series},function(){
@@ -154,7 +143,6 @@ let {height,width } = Dimensions.get('window');
               record:this.state.pompa
           })
       }
-      // var level = `level${data.currentLevel}`;
         axios.put(`/users/level/${id}`,{
           
             level1:1===level?true:this.state.level1,
@@ -172,7 +160,6 @@ let {height,width } = Dimensions.get('window');
 
         })
          .then((response)=>{
-            console.log("Successfully updatet level");
            
           })
           .catch((error)=>{
@@ -189,7 +176,7 @@ let {height,width } = Dimensions.get('window');
           this.state.restTime &&  this.ismounted && this.setState({timer:this.state.timer-1})
           this.state.restTime &&  this.ismounted && this.startTimer();
         } else{
-          this.ismounted && this.setState({restTime:false,currentSerie:this.state.currentSerie+1,finished:false,timer:30,disabledButton:false},function(){
+          this.ismounted && this.setState({restTime:false,currentSerie:this.state.currentSerie+1,finished:false,timer:50,disabledButton:false},function(){
              this.setState({goal:this.state.series[this.state.currentSerie]});
           });
         }
@@ -269,7 +256,7 @@ let {height,width } = Dimensions.get('window');
                           </View>
                         </View>
                         <CircleBtn disabled={this.state.disabledButton} onPress={()=>{
-                            
+                           
                             this.state.shouldPlay && this.playSound();
                             this.setState({
                               goal:this.state.goal<=0?0:this.state.goal-1,
@@ -282,7 +269,7 @@ let {height,width } = Dimensions.get('window');
                                       this.setState({ 
                                         currentSerie:0,
                                         restTime:false,
-                                        timer:30,
+                                        timer:50,
                                         finished:false,
                                         goal:0,
                                         disabledButton:false,
@@ -316,7 +303,7 @@ let {height,width } = Dimensions.get('window');
                           title="Continue"
                           style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
                           onPress={()=>{
-                            this.setState({restTime:false,finished:false,timer:30,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
+                            this.setState({restTime:false,finished:false,timer:50,disabledButton:false,currentSerie:this.state.currentSerie+1,},function(){
                               this.setState({goal:this.state.series[this.state.currentSerie]},function(){
                               
                               });
@@ -324,34 +311,7 @@ let {height,width } = Dimensions.get('window');
                             });
                           }}
                         />: null
-                        // <FinishedBtn
-                        //     style={{width:width*0.83,marginBottom:5,borderRadius:5,backgroundColor:'transparent',borderColor:'white'}}
-                        //     title="Finish"
-                        //     onPress={()=>{
-                        //       if(this.state.currentSerie===this.state.lastIndex){
-                              
-                        //         this.setState({ 
-                        //           currentSerie:0,
-                        //           restTime:false,
-                        //           timer:30,
-                        //           finished:false,
-                        //           goal:0,
-                        //           disabledButton:false,
-                        //           shouldPlay:true,
-                        //           lastIndex:0,
-                        //           lastIndex:this.state.series.length-1},function(){
-                        //             this.modalVisible();
-                                    
-                        //             this.finishedLevel(data);
-                        //             this.setState({goal:this.state.series[this.state.currentSerie],})
-                        //             this.props.navigation.navigate('Calories');
-                        //           });
-                              
-                        //     }else{
-                        //      this.startTimer();
-                        //       this.setState({restTime:true,finished:false,disabledButton:true})
-                        //     }
-                        // }} />
+                        
                         }
                   </View>
                   <View style={{height:'12%',width:'100%',flexDirection:'row',}}>

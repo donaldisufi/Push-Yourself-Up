@@ -41,32 +41,7 @@ export default class TrainingScreen extends React.Component {
     }
    }
    componentWillMount=()=>{
-//     console.log(DataContext);
-//     console.log("Propsat");
-//     console.log(this.props);
-//     let lvl2=this.props.navigation.state.params.level1?false:true;
-//     let lvl3 = this.props.navigation.state.params.level2?false:true;
-//     let lvl4 = this.props.navigation.state.params.level3?false:true;
-//     let lvl5 = this.props.navigation.state.params.level4?false:true;
-//     let lvl6 = this.props.navigation.state.params.level5?false:true;
-//     let lvl7 = this.props.navigation.state.params.level6?false:true;
-//     let lvl8 = this.props.navigation.state.params.level7?false:true;
-//     let lvl9 = this.props.navigation.state.params.level8?false:true;
-//     let lvl10 = this.props.navigation.state.params.level9?false:true;
-//     let lvl11 = this.props.navigation.state.params.level10?false:true;
-//     let lvl12 = this.props.navigation.state.params.level11?false:true;
-//     console.log(lvl2 , lvl3 ,lvl4);
-//     DataContext._currentValue.setLevel(lvl2,2);
-//     DataContext._currentValue.setLevel(lvl3,3);
-//     DataContext._currentValue.setLevel(lvl4,4);
-//     DataContext._currentValue.setLevel(lvl5,5);
-//     DataContext._currentValue.setLevel(lvl6,6);
-//     DataContext._currentValue.setLevel(lvl7,7);
-//     DataContext._currentValue.setLevel(lvl8,8);
-//     DataContext._currentValue.setLevel(lvl9,9);
-//     DataContext._currentValue.setLevel(lvl10,10);
-//     DataContext._currentValue.setLevel(lvl11,11);
-//     DataContext._currentValue.setLevel(lvl12,12);
+
 
 
 

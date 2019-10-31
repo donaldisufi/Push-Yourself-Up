@@ -44,7 +44,6 @@ export default class EditKgScreen extends React.Component{
     }
     componentDidMount=()=>{
         NetInfo.fetch().then(status=>{
-            console.log("Is conected ?" , status.isConnected );
             this.setState({conected:status.isConnected});
       
           });
@@ -52,10 +51,11 @@ export default class EditKgScreen extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            kg:null,
+            kg:"",
             loading:false,
             error:false,
-            conected:false
+            conected:false,
+            message:""
         }
     }
     render(){
@@ -83,7 +83,7 @@ export default class EditKgScreen extends React.Component{
                             
                             />
                          <Text style={{color:'red'}}>
-                             {this.state.error?"Please fill out all fields":null}
+                             {this.state.error?this.state.message:null}
                          </Text>
                          <ButtonHome 
                            title="Done"
@@ -92,34 +92,32 @@ export default class EditKgScreen extends React.Component{
                            onPress={()=>{
                                Keyboard.dismiss();
                                NetInfo.addEventListener(status=>{
-                                console.log("Is connected?", status.isConnected);
                                 this.setState({conected:status.isConnected});
                                 });
 
                                if(!this.state.conected)
                                {
-                                    alert("Please Check your internet connection");
-                                    this.setState({loadPost:false});
+                                    
+                                    this.setState({loadPost:false,error:true,message:"Please Check Your internet Connection!"});
 
                                }  else  if(this.state.kg.length <1){
                                    this.setState({
                                       error:true,
-                                      loading:false
+                                      loading:false,
+                                      message:"Please Fill out the field!"
                                    })
-                               } else if (this.state.kg < 19 || this.state.kg > 350 ){
-                                   this.setState({loading:false});
-                                   alert("Please Write your kg correctly");
+                               } else if (this.state.kg < 19 || this.state.kg > 350  || this.state.kg.length <2){
+                                   this.setState({loading:false,error:true,message:"Please Write your kg correctly"});
                                } else {
+                                   
                                    deviceStorage.getItem("id").then(id=>{
                                      axios.put(`users/updateProfile/${id}`,{
                                         name:data.userName,
-                                        kg:this.state.kg
+                                        kg:parseInt(this.state.kg)
 
                                      }).then(response=>{
                                          data.setKilogram(JSON.parse(response.config.data).kg);
-                                         console.log("Successfully Updated KG",JSON.parse(response.config.data));
                                      }).then(()=>{
-                                         alert("Successfully updated KG.")
                                          this.setState({
                                              loading:false
                                          });

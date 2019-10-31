@@ -53,7 +53,6 @@ export default class SignUpScreen extends React.Component{
     componentDidMount=()=>{
         this.mounted=true;
         NetInfo.fetch().then(status=>{
-          console.log("Is conected ?" , status.isConnected );
           this.setState({conected:status.isConnected});
     
         });
@@ -174,7 +173,6 @@ export default class SignUpScreen extends React.Component{
                                                     password:this.state.password   
                                                         }
                                                 }).then( response =>{
-                                                        console.log("signup",response);
                                                         let token = response.data.token;
                                                         deviceStorage.setItem('@token',token);
                                                         deviceStorage.setItem("id",response.data.createdUser._id);  

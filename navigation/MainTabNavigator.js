@@ -9,7 +9,6 @@ import {
 
 import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
-import SettingsScreen from '../screens/SettingsScreen';
 
 import PractiseScreen from '../screens/PractiseScreen';
 import TrainingScreen from '../screens/TrainingScreen';

@@ -32,7 +32,7 @@ import CaloriesBtn from '../components/CaloriesBtn';
 
                </View>
                <View style={style.mid}>
-                   <Text style={style.UpperText}>
+                   <Text style={[style.UpperText,{marginBottom:20}]}>
                      CALORIES BURNED
                    </Text>
                   <View style={style.rrethi}>
@@ -124,7 +124,7 @@ import CaloriesBtn from '../components/CaloriesBtn';
        fontSize:35,
    },
    Text:{
-       fontSize:20,
+       fontSize:30,
        fontWeight:'300',
        color:'white'
    },
@@ -132,7 +132,7 @@ import CaloriesBtn from '../components/CaloriesBtn';
        fontSize:30,
        fontWeight:'400',
        color:'white',
-       marginBottom:20
+       marginBottom:5
    },
    viewPush:{
        height:'25%',

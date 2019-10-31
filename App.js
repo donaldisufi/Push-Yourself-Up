@@ -10,7 +10,6 @@ import AppNavigator from './navigation/AppNavigator';
 import deviceStorage from './components/service/deviceStorage';
 import configAxios from './components/service/configAxios';
 import axios from 'axios';
-//const [isLoadingComplete, setLoadingComplete] = useState(false);
 
 
 
@@ -18,19 +17,11 @@ export default class App extends React.Component{
   loadResourcesAsync  = async()=> {
     await Promise.all([
       Asset.loadAsync([
-        require('./assets/images/robot-dev.png'),
-        require('./assets/images/robot-prod.png'),
-        require('./assets/images/calories.jpg'),
         require('./assets/images/HomeBack.png'),
-        require('./assets/images/icon.png'),
-        require('./assets/images/Pushup.jpg'),
-        require('./assets/images/pushupMan.jpg'),
-        require('./assets/images/pushupMan.jpg'),
         require('./assets/images/TrainBack.png'),
         require('./assets/images/SettingsBack.png'),
         require('./assets/images/FittnesBack.png'),
         require('./assets/images/SettGirl.png'),
-        require('./assets/images/SettGirl2.png'),
         require('./assets/images/TrainBack2.png'),
         require('./assets/images/welcome.jpg'),
         require('./assets/images/LogoApp.png'),
@@ -40,11 +31,11 @@ export default class App extends React.Component{
         require('./assets/images/doingpush.png'),
         require('./assets/images/gravity.png'),
         require('./assets/images/gripe.png'),
-        require('./assets/images/LogoApp.png'),
         require('./assets/images/posture.png'),
         require('./assets/images/push-up.png'),
-        require('./assets/images/pushup.png'),
+        require('./assets/images/icon.png'),
 
+     
          
 
 
@@ -59,11 +50,8 @@ export default class App extends React.Component{
   
       ]),
       Font.loadAsync({
-        // This is the font that we are using for our tab bar
         ...Ionicons.font,
-        // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-        // remove this if you are not using it in your app
-        // 'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
+       
         'regular': require('./assets/fonts/Roboto-Regular.ttf'),
         'thin':require('./assets/fonts/Roboto-Thin.ttf'),
         'bold':require('./assets/fonts/Roboto-Bold.ttf'),
@@ -83,8 +71,6 @@ componentWillMount= async ()=>{
       deviceStorage.getItem('id').then(id=>{
         axios.get(`users/${id}`).then((value)=>{
 
-          console.log("Tdhanat prej Component Willl mout ==================================");
-          console.log(value);
         })
       })
     }
@@ -98,8 +84,7 @@ componentDidMount= async ()=>{
     let id = await deviceStorage.getItem("id");
 
     axios.get(`/users/${id}`).then(value=>{
-          console.log("Tdhanat e userit");  
-         console.log(value);
+        
            
           this.setState({
             gender:value.data.user.gender,
@@ -146,7 +131,7 @@ state ={
     level12:true,
     caloriesRender:'',
     PushUpsCalories:0,
-    series:[[5,5,6,6],[7,7,8,8],[10,10,11,11,],[13,13,14,14],[16,16,17,17],[19,19,20,20],[22,22,23,23],[24,24,25,25],[25,25,26,26],[28,28,29,29],[30,30,31,31],[32,32,33,33],[34,34,35,35]],
+    series:[[4,5,5,4],[8,9,9,8],[12,12,14,14],[15,15,17,15],[19,19,22,20],[22,22,24,24],[25,25,29,29],[33,33,35,35],[40,40,40,40],[43,43,46,46],[47,47,49,49],[50,50,50,50],[60,60,60,60]],
     setGender:(gender)=>{
        this.setState({gender});
     },
@@ -249,23 +234,15 @@ render(){
 async function loadResourcesAsync() {
   await Promise.all([
     Asset.loadAsync([
-      require('./assets/images/robot-dev.png'),
-      require('./assets/images/robot-prod.png'),
-      require('./assets/images/calories.jpg'),
       require('./assets/images/HomeBack.png'),
+      require('./assets/videos/GifVideo.mp4'),
       require('./assets/images/icon.png'),
-      require('./assets/images/Pushup.jpg'),
-      require('./assets/images/pushupMan.jpg'),
-      require('./assets/images/pushupMan.jpg'),
-      require('./assets/videos/GifVideo.mp4')
+
 
 
     ]),
     Font.loadAsync({
-      // This is the font that we are using for our tab bar
       ...Ionicons.font,
-      // We include SpaceMono because we use it in HomeScreen.js. Feel free to
-      // remove this if you are not using it in your app
       'space-mono': require('./assets/fonts/SpaceMono-Regular.ttf'),
       'regular': require('./assets/fonts/Roboto-Regular.ttf')
     }),
@@ -275,8 +252,6 @@ async function loadResourcesAsync() {
 }
 
 function handleLoadingError(error) {
-  // In this case, you might want to report the error to your error reporting
-  // service, for example Sentry
   console.warn(error);
 }
 
